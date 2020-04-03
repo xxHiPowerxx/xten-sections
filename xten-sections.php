@@ -1,16 +1,19 @@
 <?php
 /**
- * File Used as Functions File for Xten Sections
- * Will be moved to a plugin in future
+ * Plugin Name: XTen Sections
+ * Plugin URI: https://github.com/xxHiPowerxx/xten-sections
+ * Description: Plugin used to render templates using Wordpress Gutenberg Blocks and Advanced Custom Fields to generate a form in the back-end and render a styled template on the front-end.
+ * Version: 1.0
+ * Author: Ricky Adams
+ * Author URI: https://rickyradams.com
+ * Text Domain: xten-sections
+ * Pugin Used as Functions File for Xten Sections
  *
- * @link https://developer.wordpress.org/plugins/plugin-basics/
- *
- * @package xten
  */
 
 
-$GLOBALS['xten-sections-dir'] = get_template_directory() . '/xten-sections';
-$GLOBALS['xten-sections-uri'] = get_theme_file_uri() . '/xten-sections';
+$GLOBALS['xten-sections-dir'] = plugin_dir_path( __FILE__ );
+$GLOBALS['xten-sections-uri'] = plugin_dir_path( __FILE__ );
 $dir_path = $GLOBALS['xten-sections-dir'];
 $uri_path = $GLOBALS['xten-sections-uri'];
 
@@ -21,17 +24,17 @@ function xten_section_assets() {
 	// Bootstrap.
 	$handle = 'xten-vendor-bootstrap-css';
 	if ( ! wp_style_is( $handle, 'registered' ) ) {
-		wp_register_style( $handle, get_theme_file_uri( '/assets/vendor/bootstrap/css/bootstrap.min.css' ), array(), '4.0.0' );
+		wp_register_style( $handle, $dir_path . '/assets/vendor/bootstrap/css/bootstrap.min.css', array(), '4.0.0' );
 	}
 	$handle = 'xten-vendor-bootstrap-js';
 	if ( ! wp_script_is( $handle, 'registered' ) ) {
-		wp_register_script( $handle, get_theme_file_uri( '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' ), array( 'jquery' ), '4.0.0', true );
+		wp_register_script( $handle, $dir_path . '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js', array( 'jquery' ), '4.0.0', true );
 	}
 
 	// Fontawesome.
 	$handle = 'xten-vendor-fontawesome-css';
 	if ( ! wp_style_is( $handle, 'registered' ) ) {
-		wp_register_style( $handle, get_theme_file_uri( '/assets/vendor/fontawesome/css/all.min.css' ), array(), ' 5.7.1', 'all' );
+		wp_register_style( $handle, $dir_path . '/assets/vendor/fontawesome/css/all.min.css', array(), ' 5.7.1', 'all' );
 	}
 
 	// Register component styles that are printed as needed.

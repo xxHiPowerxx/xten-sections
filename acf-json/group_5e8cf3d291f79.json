@@ -1,0 +1,50 @@
+{
+    "key": "group_5e8cf3d291f79",
+    "title": "XTen Sections Site Settings",
+    "fields": [
+        {
+            "key": "field_5e8cf3e6f5e5a",
+            "label": "Select where to Save ACF Field Groups.",
+            "name": "select_where_to_save_acf_field_groups",
+            "type": "select",
+            "instructions": "Select Whether to save ACF Field Groups to Parent Theme, Child Theme, or XTen Sections Plugin.\r\nNote: this overrides the Child Theme Setting - <b>Save ACF Field Groups to Child Theme?<\/b>.\r\nLeave Null to let Child Theme Choose.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "parent": "Parent Theme",
+                "child": "Child Theme",
+                "plugin": "Plugin"
+            },
+            "default_value": [],
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "value",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "site-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1586298468
+}

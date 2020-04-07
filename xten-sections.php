@@ -68,3 +68,36 @@ function xten_block_category( $categories, $post ) {
 	);
 }
 add_filter( 'block_categories', 'xten_block_category', 10, 2);
+
+/**
+ * Load ACF Fields
+ */
+add_filter( 'acf/settings/load_json', 'xten_sections_json_load_point' );
+function xten_sections_json_load_point( $paths ) {
+
+	// remove original path (optional).
+	unset( $paths[0] );
+
+	// append path.
+	$paths[] = $GLOBALS['xten-sections-dir'] . '/acf-json';
+
+	// return.
+	return $paths;
+}
+
+/**
+ * Get Option from Site Settings Page and save ACF to Child if Set.
+ * Check to see if xten Save fields file exsists and adds save point if it does.
+ * 
+ */
+function select_where_to_save_acf_field_groups() {
+	$save_acf_fields = $GLOBALS['xten-sections-dir'] . 'inc/save-acf-fields.php';
+	$select_where_to_save_acf_field_groups = get_field('select_where_to_save_acf_field_groups', 'options');
+	$select_where_to_save_acf_field_groups = $select_where_to_save_acf_field_groups !== null ? $select_where_to_save_acf_field_groups : 'plugin';
+	if ( $select_where_to_save_acf_field_groups === 'plugin' ) :
+		if ( file_exists( $save_acf_fields ) ) :
+			require $save_acf_fields;
+		endif;
+	endif;
+}
+add_action( 'acf/init', 'select_where_to_save_acf_field_groups' );

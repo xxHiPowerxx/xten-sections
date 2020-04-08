@@ -96,7 +96,7 @@ endif; // endif ( $background_color ) :
 // /Background
 
 // Content
-$content = wp_kses_post( get_field( 'content' ) );
+$content = wp_kses_post( get_field( 'content' , false, false ) );
 if ( $content ) :
 	$content_color     = esc_attr( get_field( 'content_color' ) ); // ! DV
 	$styles .= xten_add_inline_style(

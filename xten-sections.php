@@ -101,3 +101,12 @@ function select_where_to_save_acf_field_groups() {
 	endif;
 }
 add_action( 'acf/init', 'select_where_to_save_acf_field_groups' );
+
+/**
+ * Add Styles that normally get stripped from WYSIWYG file
+ */
+function add_to_wysiwyg_whitelist( $styles ) {
+	$styles[] = 'display';
+	return $styles;
+}
+add_filter( 'safe_style_css', 'add_to_wysiwyg_whitelist' );

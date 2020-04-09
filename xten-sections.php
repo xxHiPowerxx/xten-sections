@@ -48,6 +48,15 @@ function xten_section_assets() {
 							 ),
 		)
 	);
+	register_section_assets(
+		'section-post-archive',
+		array(
+			'css' => null,
+			'js'  => array(
+								'jquery'
+							 ),
+		)
+	);
 }
 add_action( 'wp_enqueue_scripts', 'xten_section_assets' );
 

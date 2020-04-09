@@ -1,0 +1,72 @@
+@import './import/variables';
+
+
+@function calculateFlexBasis($max-posts) {
+	$percentage: 100% / $max-posts;
+	@return #{$percentage};
+}
+.xten-section-post-archive {
+	.post-archive {
+		display: flex;
+	}
+	@for $i from 1 through 6 {
+		&[data-max-posts-per-row="#{$i}"] {
+			.listed-post {
+				flex-basis: calculateFlexBasis($i);
+			}
+		}
+	}
+	.listed-post {
+		display: flex;
+		justify-content: center;
+		padding-top: 1.5rem;
+		padding-bottom: 1.5rem;
+		.entry-title {
+			margin-bottom: 0;
+		}
+	}
+	.listed-post-inner {
+		width: 100%;
+		max-width: 42.6rem;
+		margin-left: 1.5rem;
+		margin-right: 1.5rem;
+	}
+	.post-link {
+		display: inline-block;
+	}
+	.entry-content {
+		font-size: 2rem;
+		line-height: 1.25;
+		hyphens: auto;
+	}
+	.post-body {
+		padding: 1.5rem;
+		> :not(:first-child) {
+			margin-top: 1.5rem;
+		}
+		> * {
+			margin-bottom: 0;
+		}
+	}
+	.featured-image {
+		margin-bottom: 0;
+		overflow: hidden;
+		.post-link {
+			img {
+				transition: $smooth-transition;
+				transform: scale(1) translateZ(0);
+				backface-visibility: hidden;
+			}
+			#{$active} {
+				img {
+					transform: scale(1.05) translateZ(0);
+				}
+			}
+		}
+	}
+	.entry-footer {
+		padding-bottom: 0;
+		text-align: right;
+		padding-top: 1.5rem;
+	}
+}

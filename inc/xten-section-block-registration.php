@@ -13,7 +13,7 @@ function xten_acf_blocks_init() {
 	// Check function exists.
 	if( function_exists('acf_register_block_type') ) {
 		
-		// Register a testimonial block.
+		// Hero Section - xten-section-hero.
 		global $section_name;
 		$section_name = 'section-hero';
 		$section_name = 'xten-' . $section_name;
@@ -41,12 +41,39 @@ function xten_acf_blocks_init() {
 																'main'
 															),
 				'category'          => 'xten-sections',
-				'enqueue_assets'    => function () {
-						global $section_name;
-						xten_enqueue_assets( $section_name );
-					}
+				'enqueue_assets'    => function ($block) {
+																	$section_name = str_replace( 'acf/', '', $block['name'] );
+																	xten_enqueue_assets( $section_name );
+																}
 			)
 		);
+
+		// Post Archive - xten-section-post-archive.
+		$section_name = 'section-post-archive';
+		$section_name = 'xten-' . $section_name;
+		acf_register_block_type(
+			array(
+				'name'              => $section_name,
+				'title'             => __('Post Archive'),
+				'description'       => __('Post Archive - A collection of posts. Choose from type of post, category of post, or cherry-pick.'),
+				'icon'              => $icon,
+				'render_template'   => $GLOBALS['xten-sections-dir'] . 'render-templates/' . $section_name . '.php',
+				'keywords'          => array(
+																'xten',
+																'section',
+																'post',
+																'archive',
+																'collection',
+																'blog'
+															),
+				'category'          => 'xten-sections',
+				'enqueue_assets'    => function ($block) {
+																	$section_name = str_replace( 'acf/', '', $block['name'] );
+																	xten_enqueue_assets( $section_name );
+																}
+			)
+		);
+
 	}
 }
 add_action('acf/init', 'xten_acf_blocks_init');

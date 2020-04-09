@@ -1,0 +1,258 @@
+{
+    "key": "group_5e8dfa6ba5600",
+    "title": "Post-Archive Section Configuration",
+    "fields": [
+        {
+            "key": "field_5e8e05033c9c7",
+            "label": "Type of Archive",
+            "name": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 1,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_5e8dfe597692a",
+            "label": "Type of Archive",
+            "name": "type_of_archive",
+            "type": "radio",
+            "instructions": "Select the type of Archive Shown in this Section: Posts (post, custom-post-type, etc...), or Categories.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "posts": "Posts",
+                "categories": "Categories"
+            },
+            "allow_null": 0,
+            "other_choice": 0,
+            "default_value": "",
+            "layout": "vertical",
+            "return_format": "value",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_5e8e00537692b",
+            "label": "Choose Post Type",
+            "name": "choose_post_type",
+            "type": "radio",
+            "instructions": "Enter Post-Type.\r\nUse Plural-Noun for Post-Type. EG: Products, Events, Projects.\r\nNote: Only posts, and custom-post-types work. No Media, no Pages.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5e8dfe597692a",
+                        "operator": "==",
+                        "value": "posts"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "posts": "Posts"
+            },
+            "allow_null": 0,
+            "other_choice": 1,
+            "save_other_choice": 1,
+            "default_value": "posts",
+            "layout": "vertical",
+            "return_format": "value"
+        },
+        {
+            "key": "field_5e8f542417324",
+            "label": "Choose Categories",
+            "name": "choose_categories",
+            "type": "taxonomy",
+            "instructions": "Do Not Check to get all categories",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5e8dfe597692a",
+                        "operator": "==",
+                        "value": "categories"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "taxonomy": "category",
+            "field_type": "checkbox",
+            "add_term": 0,
+            "save_terms": 0,
+            "load_terms": 0,
+            "return_format": "object",
+            "multiple": 0,
+            "allow_null": 0
+        },
+        {
+            "key": "field_5e8e05203c9c8",
+            "label": "Type of Archive Accordion Endpoint",
+            "name": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 1
+        },
+        {
+            "key": "field_5e8e053816aba",
+            "label": "Archive Section Layout",
+            "name": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_5e8e08f894ce2",
+            "label": "Section Container",
+            "name": "section_container",
+            "type": "true_false",
+            "instructions": "Select Whether Content is bound by global \"container\" or not.\r\nFull-Width = No Container, Fixed Width = Container.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "Fixed Width",
+            "ui_off_text": "Full Width"
+        },
+        {
+            "key": "field_5e8e057916abc",
+            "label": "Max Number of Posts",
+            "name": "max_number_of_posts",
+            "type": "number",
+            "instructions": "Leave Blank for infinite.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 0,
+            "max": "",
+            "step": 1
+        },
+        {
+            "key": "field_5e8e05d816abd",
+            "label": "Max Posts Per Row",
+            "name": "max_posts_per_row",
+            "type": "range",
+            "instructions": "Eventually, the Posts will either get too big for the number chosen, or the viewport will not allow the amount of posts you've chosen to fit based on your <b>Minimum Width of Posts<\/b>.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 3,
+            "min": 0,
+            "max": 6,
+            "step": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_5e8e07b816abe",
+            "label": "Minimum Width of Posts",
+            "name": "minimum_width_of_posts",
+            "type": "number",
+            "instructions": "Minimum width the posts should be allowed to shrink before wrapping the next post underneath it.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 426,
+            "placeholder": "",
+            "prepend": "",
+            "append": "px",
+            "min": 0,
+            "max": 426,
+            "step": 1
+        },
+        {
+            "key": "field_5e8e056516abb",
+            "label": "Archive Section Layout Accordion Endpoint",
+            "name": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/xten-section-post-archive"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1586452273
+}

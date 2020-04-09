@@ -41,27 +41,29 @@ if ( ! function_exists( 'register_section_assets' ) ) :
 		if (! $dependencies['js'] ) :
 			$dependencies['js'] = array();
 		endif;
-		function register_asset($section_name, $dependencies, $file_type) {
-			$section_name       = 'xten-' . $section_name;
-			$section_asset_file = xten_section_asset_file($section_name, $file_type);
-			if ( $file_type === 'css' ) :
-				wp_register_style(
-					$section_name . '-' . $file_type,
-					$GLOBALS['xten-sections-uri'] . $section_asset_file,
-					$dependencies[$file_type],
-					xten_filemtime( $GLOBALS['xten-sections-dir'] . $section_asset_file )
-				);
-			endif;
-			if ( $file_type === 'js' ) :
-				wp_register_script(
-					$section_name . '-' . $file_type,
-					$GLOBALS['xten-sections-uri'] . $section_asset_file,
-					$dependencies[$file_type],
-					xten_filemtime( $GLOBALS['xten-sections-dir'] . $section_asset_file ),
-					true
-				);
-			endif;
-		}
+		if ( ! function_exists( 'register_asset' ) ) :
+			function register_asset($section_name, $dependencies, $file_type) {
+				$section_name       = 'xten-' . $section_name;
+				$section_asset_file = xten_section_asset_file($section_name, $file_type);
+				if ( $file_type === 'css' ) :
+					wp_register_style(
+						$section_name . '-' . $file_type,
+						$GLOBALS['xten-sections-uri'] . $section_asset_file,
+						$dependencies[$file_type],
+						xten_filemtime( $GLOBALS['xten-sections-dir'] . $section_asset_file )
+					);
+				endif;
+				if ( $file_type === 'js' ) :
+					wp_register_script(
+						$section_name . '-' . $file_type,
+						$GLOBALS['xten-sections-uri'] . $section_asset_file,
+						$dependencies[$file_type],
+						xten_filemtime( $GLOBALS['xten-sections-dir'] . $section_asset_file ),
+						true
+					);
+				endif;
+			}
+		endif; // endif ( ! function_exists( 'register_asset' ) ) :
 		register_asset($section_name, $dependencies, 'css');
 		register_asset($section_name, $dependencies, 'js');
 	}

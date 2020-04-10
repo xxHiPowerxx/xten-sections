@@ -6,8 +6,9 @@
 	@return #{$percentage};
 }
 .xten-section-post-archive {
-	.post-archive {
+	.posts-list {
 		display: flex;
+		flex-wrap: wrap;
 	}
 	@for $i from 1 through 6 {
 		&[data-max-posts-per-row="#{$i}"] {
@@ -34,13 +35,10 @@
 	.post-link {
 		display: inline-block;
 	}
-	.entry-content {
-		font-size: 2rem;
-		line-height: 1.25;
-		hyphens: auto;
-	}
 	.post-body {
 		padding: 1.5rem;
+		flex: 1 0 auto; 
+		justify-content: flex-end;
 		> :not(:first-child) {
 			margin-top: 1.5rem;
 		}
@@ -63,6 +61,12 @@
 				}
 			}
 		}
+	}
+	.entry-content {
+		font-size: 2rem;
+		line-height: 1.25;
+		hyphens: auto;
+		flex: 1 0 auto;
 	}
 	.entry-footer {
 		padding-bottom: 0;

@@ -108,6 +108,22 @@ if ( $content ) :
 	);
 	$content_container = get_field( 'content_container' ); // DV = true (Fixed Width).
 	$container_class   = $content_container ? esc_attr( 'container container-ext' ) : esc_attr( 'container-fluid' );
+	// Content Minimum Width
+	$content_minimum_width_group = get_field( 'content_minimum_width_group' );
+	$content_minimum_width       = esc_attr( $content_minimum_width_group['minimum_width'] ); // !DV
+	$content_minimum_width_rem   = null;
+	if ( $content_minimum_width ) :
+		$content_minimum_width_rem = ( $content_minimum_width * .10 ) . 'rem';
+		$styles .= xten_add_inline_style(
+			'#' . $id . '.' . $section_name . ' .xten-content-inner',
+			array(
+				'min-width' => $content_minimum_width_rem
+			),
+			true,
+			'min-width:' . $content_minimum_width_rem
+		);
+	endif; // endif ( $content_minimum_width ) :
+	// /Content Minimum Width
 	// Content Maximum Width
 	$content_maximum_width_group = get_field( 'content_maximum_width_group' );
 	$content_maximum_width       = esc_attr( $content_maximum_width_group['maximum_width'] ); // !DV
@@ -118,7 +134,9 @@ if ( $content ) :
 			'#' . $id . '.' . $section_name . ' .xten-content-inner',
 			array(
 				'max-width' => $content_maximum_width_val
-			)
+			),
+			true,
+			'min-width:' . $content_minimum_width_rem
 		);
 	endif; // endif ( $content_maximum_width ) :
 	// /Content Maximum Width

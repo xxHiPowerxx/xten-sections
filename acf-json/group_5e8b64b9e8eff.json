@@ -337,11 +337,49 @@
             "ui_off_text": "Full Width"
         },
         {
+            "key": "field_5e8fcc5b62fe5",
+            "label": "Content Minimum Width",
+            "name": "content_minimum_width_group",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_5e8fcc5b62fe6",
+                    "label": "Minimum Width",
+                    "name": "minimum_width",
+                    "type": "number",
+                    "instructions": "The Minimum Width of the Content (Leave Blank for Auto). Must be in px",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "75",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "px",
+                    "min": 0,
+                    "max": "",
+                    "step": ""
+                }
+            ]
+        },
+        {
             "key": "field_5e8cbf3f77b94",
             "label": "Content Maximum Width",
             "name": "content_maximum_width_group",
             "type": "group",
-            "instructions": "",
+            "instructions": "Note: Minimum Width takes president over Maximum Width.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -584,5 +622,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1586298417
+    "modified": 1586482564
 }

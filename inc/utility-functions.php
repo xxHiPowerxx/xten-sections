@@ -135,14 +135,72 @@ endif; // endif ( ! function_exists( 'convert_hex_to_rgb' ) ) :
  * 
  */
 if ( ! function_exists( 'xten_add_inline_style' ) ) :
-	function xten_add_inline_style($selector, $rule_array, $validator = true) {
+	function xten_add_inline_style(
+		$selector,
+		$rule_array,
+		$validator = true,
+		$media_query = null
+	) {
 		if ( $validator ) :
 			$rule = $selector . '{';
 			foreach ( $rule_array as $property => $value ) :
 				$rule .=	$property . ':' . $value . ';';
 			endforeach;
 			$rule .= '}';
+			if ( $media_query ) :
+				$rule = '@media (' . $media_query . '){' .
+									$rule .
+								'}';
+			endif;
 			return $rule;
 		endif;
 	}
 endif; // endif ( ! function_exists( 'xten_add_inline_style' ) ) :
+
+/**
+ * Prints HTML with meta information for the current post-date/time.
+ */
+if ( ! function_exists( 'xten_posted_on' ) ) :
+	function xten_posted_on( $post = null ) {
+		$post = get_post( $post );
+		if ( ! $post ) {
+				return false;
+		}
+		$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
+		if ( get_the_time( 'U', $post ) !== get_the_modified_time( 'U', $post ) ) :
+			$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
+		endif;
+
+		$time_string = sprintf(
+			$time_string,
+			esc_attr( get_the_date( 'c', $post ) ),
+			esc_html( get_the_date( '', $post) ),
+			esc_attr( get_the_modified_date( 'c', $post ) ),
+			esc_html( get_the_modified_date('', $post) )
+		);
+
+		$posted_on = sprintf(
+			/* translators: %s: post date. */
+			esc_html( '%1$s', 'post date', 'xten' ),
+			'<a href="' . esc_url( get_permalink($post) ) . '" rel="bookmark">' . $time_string . '</a>'
+		);
+
+		return '<span class="posted-on">' . $posted_on . ' </span>'; // WPCS: XSS OK.
+
+	}
+endif; // endif ( ! function_exists( 'xten_posted_on' ) ) :
+
+/**
+ * Trim String and use Excerpt apply ellipsis on end.
+ *
+ * @param string $string String to be trimmed.
+ * @param int $max_words Number of words before string is trimmed.
+ */
+if ( ! function_exists( 'xten_trim_string' ) ) :
+	function xten_trim_string($string, $max_words) {
+		$stripped_content                = strip_tags( $string );
+		$excerpt_length                  = apply_filters( 'excerpt_length', $max_words );
+		$excerpt_more                    = apply_filters( 'excerpt_more', ' [...]' );
+		return wp_trim_words( $stripped_content, $excerpt_length, $excerpt_more );
+	}
+endif; // endif ( ! function_exists( 'xten_trim_string' ) ) :

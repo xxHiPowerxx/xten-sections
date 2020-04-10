@@ -23,6 +23,8 @@ endif;
 $block_attrs = '';
 $styles       = '';
 
+$posts_list_id = $id . '-posts-list';
+
 // Type Of Archive
 $type_of_archive = esc_attr( get_field( 'type_of_archive' ) ); // DV = posts.
 switch ( $type_of_archive ) :
@@ -36,46 +38,88 @@ endswitch; //endswitch ( $type_of_archive ) :
 // /Type Of Archive
 
 // Section Layout
-$section_container      = get_field( 'section_container' ); // DV = true (Fixed Width).
-$container_class        = $section_container ?
-													esc_attr( 'container container-ext' ) :
-													esc_attr( 'container-fluid' );
-$max_number_of_posts    = get_field( 'max_number_of_posts' ); // ! DV.
-$max_posts_per_row      = get_field( 'max_posts_per_row' ); // ! DV.
-$block_attrs           .= xten_add_block_attr( 'max-posts-per-row', $max_posts_per_row );
-$minimum_width_of_posts = get_field( 'minimum_width_of_posts' ); // DV = 426.
+$section_container          = get_field( 'section_container' ); // DV = true (Fixed Width).
+$container_class            = $section_container ?
+															esc_attr( 'container container-ext' ) :
+															esc_attr( 'container-fluid' );
+$max_number_of_posts        = get_field( 'max_number_of_posts' ); // ! DV.
+$max_posts_per_row          = get_field( 'max_posts_per_row' ); // ! DV.
+$block_attrs               .= xten_add_block_attr( 'max-posts-per-row', $max_posts_per_row );
+$minimum_width_of_posts     = get_field( 'minimum_width_of_posts' ); // DV = 426.
 $minimum_width_of_posts_rem = ( $minimum_width_of_posts * .10 ) . 'rem';
-$styles .= xten_add_inline_style(
-						'#' . $id . '.' . $section_name . ' .listed-post',
-						array(
-							'min-width'  => $minimum_width_of_posts_rem,
-						)
-					);
+$styles                    .= xten_add_inline_style(
+																'#' . $id . '.' . $section_name . ' .listed-post',
+																array(
+																	'min-width'  => $minimum_width_of_posts_rem,
+																),
+																true,
+																'min-width:' . $minimum_width_of_posts_rem
+															);
+$max_description_length     = get_field( 'max_description_length' ); // ! DV.
 // /Section Layout
 
-// Start Query.
+// Type of Archive = Posts
 if ( $type_of_archive === 'posts' ) :
-	query_posts(
+
+	$posts_to_get = $posts_to_get === 'posts' ?
+									substr($posts_to_get, 0, -1) :
+									$posts_to_get;
+	$posts = query_posts(
 		array(
+			'post_type' => $posts_to_get,
+			'showposts' => $max_number_of_posts,
 			'orderby' => 'date',
 			'order' => 'DESC' ,
-			'showposts' => $posts_to_get
 			)
 	);
-	ob_start();
-	if ( have_posts() ) :
-		
-		while ( have_posts() ):
-			the_post();
-			get_template_part( 'template-parts/content-archive', get_post_type() );
-		
-		endwhile;
-	endif;
+	$posts_list = array();
+	foreach ( $posts as $post ) :
+		$listed_post                     = array();
+		$post_id                         = $post->ID;
+		$listed_post['post_uid']         = $id . '-post-' .  $post_id;
+		$listed_post['post_link']        = esc_url( get_permalink( $post_id ) );
+		$listed_post['post_title']       = esc_html( $post->post_title );
+		$listed_post['post_date']        = xten_posted_on( $post_id );
+		$post_excerpt                    = $post->post_excerpt;
+		// If no excerpt Look for Yoast or theme excerpts.
+		if ( ! $post_excerpt ) :
+			$yoast_meta = get_post_meta($post_id, '_yoast_wpseo_metadesc', true); 
+			setup_postdata( $post );
+			$meta_id = 'metadescription_17587';
+			$xten_seo_description = get_post_meta( $post_id, $meta_id, true );
+			if ( $yoast_meta ) :
+				$post_excerpt = $yoast_meta;
+			elseif (
+				$xten_seo_description !== '' &&
+				$xten_seo_description !== null
+			) : // else check theme's meta description field.
+				$post_excerpt = $xten_seo_description;
+			else : // else trim the content.
+				$post_excerpt = xten_trim_string(
+													$post->post_content,
+													30
+												);
+			endif; // endif ( $yoast_meta ) :
+		endif; // endif ( ! $post_excerpt ) :
+		$listed_post['post_description'] = $post_excerpt;
+		$listed_post['thumbnail_img']    = null;
+		if ( has_post_thumbnail( $post_id ) ) :
+			$listed_post['thumbnail_img'] = get_the_post_thumbnail(
+																				$post_id, 'archive-thumbnail',
+																				array(
+																					'title' => $listed_post['post_title']
+																				)
+																			);
+		endif;// endif ( $category_thumbnail ) :
 
+		// Assign Listed Post to Posts List with key of post uid.
+		$posts_list[$listed_post['post_uid']] = $listed_post;
+	endforeach; // endforeach ( $posts as $category ) :
 	wp_reset_query();
-	$render =  ob_get_clean();
 endif; // endif ( $type_of_archive === 'posts' ) :
+// /Type of Archive = Posts
 
+// Type of Archive = Categories
 if ( $type_of_archive === 'categories' ) :
 	if ( $posts_to_get ) :
 		$categories = $posts_to_get;
@@ -87,76 +131,34 @@ if ( $type_of_archive === 'categories' ) :
 										)
 									);
 	endif; // endif ( $posts_to_get ) :
-	$category_archive_id = $id . '-category-archive';
-	ob_start();
-	?>
-	<div id="<?php echo $category_archive_id; ?>" class="post-archive posts-list">
-		<?php
-		foreach ( $categories as $category ) :
-			$category_id        = $category->term_id;
-			$category_uid       = $category_archive_id . '-cat-' .  $category_id;
-			$category_link = esc_url( get_category_link( $category_id ) );
-			$category_title = esc_html( $category->name );
-			$category_description = esc_html( $category->description );
-			$category_thumbnail = get_field( 'category_thumbnail', $category );
-			$thumbnail_img = null;
-			if ( $category_thumbnail ) :
-				$thumbnail_id  = $category_thumbnail['ID'];
-				$thumbnail_img = wp_get_attachment_image( 
-													$thumbnail_id,
-													'archive-thumbnail',
-													false,
-													array(
-														'title' => $category_title
-													)
-												);
-			endif;// endif ( $category_thumbnail ) :
-			
-			?>
-			<div id="<?php echo $category_uid; ?>" class="listed-post">
-				<div class="card-style display-flex flex-column listed-post-inner">
-					<?php if ( $thumbnail_img ) : ?>
-						<div class="featured-image">
-							<a href="<?php echo $category_link; ?>" class="post-link" rel="bookmark">
-								<?php echo $thumbnail_img; ?>
-							</a>
-						</div>
-					<?php endif; ?>
-					<div class="post-body display-flex flex-column">
-						<header class="entry-header">
-							<a class="post-link" href="<?php echo $category_link; ?>" rel="bookmark">
-								<h5 class="entry-title"><?php echo $category_title; ?></h5>
-							</a>
-							<?php if ( $type_of_archive === 'posts' ) : ?>
-								<div class="post-date">
-									<?php
-									// TODO: ensure this function exists in xten-sections.
-									xten_posted_on();
-									?>
-								</div>
-							<?php endif; // endif ( $type_of_archive === 'posts' ) : ?>
-						</header><!-- /.entry-header -->
-						<?php if ( $category_description ) : ?>
-							<div class="entry-content">
-								<?php echo $category_description; ?>
-							</div>
-						<?php endif; // if ( $category_description ) : ?>
-						<footer class="entry-footer xten-highlight-font">
-							<a href="<?php echo $category_link; ?>" class="post-link" title="<?php echo $category_title; ?>">
-								<button class="btn btn-theme-style theme-style-dark" type="button">Read More</button>
-							</a>
-						</footer>
-					</div><!-- /.post-body -->
-				</div><!-- /.listed-post-inner -->
-			</div><!-- /#<?php echo $category_uid; ?> -->
-			<?php
-			// var_dump($category);
-		endforeach;
-		?>
-	</div><!-- /#<?php echo $category_archive_id; ?> -->
-	<?php
-	$content = ob_get_clean();
+	$posts_list = array();
+	foreach ( $categories as $category ) :
+		$listed_post                     = array();
+		$category_id                     = $category->term_id;
+		$listed_post['post_uid']         = $id . '-post-' .  $category_id;
+		$listed_post['post_link']        = esc_url( get_category_link( $category_id ) );
+		$listed_post['post_title']       = esc_html( $category->name );
+		$listed_post['post_description'] = esc_html( $category->description );
+	
+		$category_thumbnail              = get_field( 'category_thumbnail', $category );
+		$listed_post['thumbnail_img']    = null;
+		if ( $category_thumbnail ) :
+			$thumbnail_id                 = $category_thumbnail['ID'];
+			$listed_post['thumbnail_img'] = wp_get_attachment_image( 
+																				$thumbnail_id,
+																				'archive-thumbnail',
+																				false,
+																				array(
+																					'title' => $listed_post['post_title']
+																				)
+																			);
+		endif;// endif ( $category_thumbnail ) :
+
+		// Assign Listed Post to Posts List with key of post uid.
+		$posts_list[$listed_post['post_uid']] = $listed_post;
+	endforeach; // endforeach ( $categories as $category ) :
 endif; // endif ( $type_of_archive === 'categories' ) :
+// /Type of Archive = Categories
 
 // Render Section
 $id          = esc_attr( $id );
@@ -164,10 +166,72 @@ $className   = esc_attr( $className );
 $block_attrs = esc_attr( $block_attrs );
 ?>
 <section id="<?php echo $id; ?>" class="xten-section <?php echo $className; ?>" <?php echo $block_attrs; ?>>
-	<?php if ( $content ) : ?>
+	<?php if ( $posts_list ) : ?>
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?>">
 			<div class="xten-content">
-				<?php echo $content; ?>
+
+
+				<!------------------ Here! --------------->
+
+				<div id="<?php echo $posts_list_id; ?>" class="post-archive posts-list">
+					<?php
+					foreach ( $posts_list as $listed_post ) :
+						$listed_post['post_uid'];
+						$listed_post['post_link'];
+						$listed_post['post_title'];
+						$listed_post['post_description'];
+						$listed_post['thumbnail_img'];
+						
+						?>
+						<div id="<?php echo $listed_post['post_uid']; ?>" class="listed-post">
+							<div class="card-style display-flex flex-column listed-post-inner">
+								<?php if ( $listed_post['thumbnail_img'] ) : ?>
+									<div class="featured-image">
+										<a href="<?php echo $listed_post['post_link']; ?>" class="post-link" rel="bookmark">
+											<?php echo $listed_post['thumbnail_img']; ?>
+										</a>
+									</div>
+								<?php endif; ?>
+								<div class="post-body display-flex flex-column">
+									<header class="entry-header">
+										<a class="post-link" href="<?php echo $listed_post['post_link']; ?>" rel="bookmark">
+											<h5 class="entry-title"><?php echo $listed_post['post_title']; ?></h5>
+										</a>
+										<?php if ( $listed_post['post_date'] ) : ?>
+											<div class="post-date">
+												<?php echo $listed_post['post_date'] ?>
+											</div>
+										<?php endif; // endif ( $type_of_archive === 'posts' ) : ?>
+									</header><!-- /.entry-header -->
+									<?php 
+									if ( $listed_post['post_description'] ) : 
+										if ( $max_description_length ) :
+											$listed_post['post_description'] = xten_trim_string(
+																													$listed_post['post_description'],
+																													$max_description_length
+																												);
+										endif; // endif ( $max_description_length ) :
+										?>
+										<div class="entry-content">
+											<?php echo $listed_post['post_description']; ?>
+										</div>
+									<?php endif; // if ( $listed_post['post_description'] ) : ?>
+									<footer class="entry-footer xten-highlight-font">
+										<a href="<?php echo $listed_post['post_link']; ?>" class="post-link" title="<?php echo $listed_post['post_title']; ?>">
+											<button class="btn btn-theme-style theme-style-dark" type="button">Read More</button>
+										</a>
+									</footer>
+								</div><!-- /.post-body -->
+							</div><!-- /.listed-post-inner -->
+						</div><!-- /#<?php echo $listed_post['post_uid']; ?> -->
+						<?php
+						// var_dump($category);
+					endforeach;
+					?>
+				</div><!-- /#<?php echo $posts_list_id; ?> -->
+				<!------------------ Here! --------------->
+
+
 			</div>
 		</div>
 	<?php endif; // endif ( $content ) : ?>

@@ -41,7 +41,16 @@ function xten_section_assets() {
 		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fontawesome/css/all.min.css', array(), ' 5.7.1', 'all' );
 	}
 
-	
+	register_section_assets(
+		'sections-common',
+		array(
+			'css' => null,
+			'js'  => array(
+								'jquery'
+							 ),
+		)
+	);
+	wp_enqueue_style( 'xten-sections-common-css' );
 	register_section_assets(
 		'section-hero',
 		array(

@@ -14,6 +14,9 @@
 $GLOBALS['xten-sections-dir'] = plugin_dir_path( __FILE__ );
 $GLOBALS['xten-sections-uri'] = plugin_dir_url( __FILE__ );
 
+// Include Icons.
+require_once $GLOBALS['xten-sections-dir'] . '/inc/xten-sections-svgs.php';
+
 // Include Utility Functions.
 require_once $GLOBALS['xten-sections-dir'] . '/inc/utility-functions.php';
 
@@ -57,6 +60,15 @@ function xten_section_assets() {
 							 ),
 		)
 	);
+	register_section_assets(
+		'section-wysiwyg',
+		array(
+			'css' => null,
+			'js'  => array(
+								'jquery'
+							 ),
+		)
+	);
 }
 add_action( 'wp_enqueue_scripts', 'xten_section_assets' );
 
@@ -69,8 +81,9 @@ function xten_block_category( $categories, $post ) {
 	return array_merge(
 		array(
 			array(
-				'slug' => 'xten-sections',
+				'slug'  => 'xten-sections',
 				'title' => __( 'XTen Sections', 'xten-sections' ),
+				'icon'  => $GLOBALS['xten-section-icon']['xten-sections'],
 			),
 		),
 		$categories
@@ -119,3 +132,5 @@ function add_to_wysiwyg_whitelist( $styles ) {
 	return $styles;
 }
 add_filter( 'safe_style_css', 'add_to_wysiwyg_whitelist' );
+
+// require $GLOBALS['xten-sections-dir'] . '/inc/add-acf-block-location-rules.php';

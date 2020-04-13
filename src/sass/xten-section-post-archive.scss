@@ -1,6 +1,5 @@
 @import './import/variables';
 
-
 @function calculateFlexBasis($max-posts) {
 	$percentage: 100% / $max-posts;
 	@return #{$percentage};
@@ -9,6 +8,8 @@
 	.posts-list {
 		display: flex;
 		flex-wrap: wrap;
+		margin-left: -$pad-xs;
+		margin-right: -$pad-xs;
 	}
 	@for $i from 1 through 6 {
 		&[data-max-posts-per-row="#{$i}"] {
@@ -19,9 +20,10 @@
 	}
 	.listed-post {
 		display: flex;
-		justify-content: center;
-		padding-top: 1.5rem;
-		padding-bottom: 1.5rem;
+		padding-top: $pad-xs;
+		padding-bottom: $pad-xs;
+		flex-grow: 1;
+		min-width: 100%;
 		.entry-title {
 			margin-bottom: 0;
 		}
@@ -29,18 +31,18 @@
 	.listed-post-inner {
 		width: 100%;
 		max-width: 42.6rem;
-		margin-left: 1.5rem;
-		margin-right: 1.5rem;
+		margin-left: $pad-xs;
+		margin-right: $pad-xs;
 	}
 	.post-link {
 		display: inline-block;
 	}
 	.post-body {
-		padding: 1.5rem;
+		padding: $pad-xs;
 		flex: 1 0 auto; 
 		justify-content: flex-end;
 		> :not(:first-child) {
-			margin-top: 1.5rem;
+			margin-top: $pad-xs;
 		}
 		> * {
 			margin-bottom: 0;
@@ -71,6 +73,6 @@
 	.entry-footer {
 		padding-bottom: 0;
 		text-align: right;
-		padding-top: 1.5rem;
+		padding-top: $pad-xs;
 	}
 }

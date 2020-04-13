@@ -99,13 +99,13 @@ endif; // endif ( $background_color ) :
 $content = wp_kses_post( get_field( 'content' , false, false ) );
 if ( $content ) :
 	$content_color     = esc_attr( get_field( 'content_color' ) ); // ! DV
-	$styles .= xten_add_inline_style(
-		'#' . $id . '.' . $section_name . ' .xten-content-inner',
-		array(
-			'color' => $content_color
-		),
-		$content_color
-	);
+	$styles           .= xten_add_inline_style(
+											 	'#' . $id . '.' . $section_name . ' .xten-content',
+											 	array(
+											 		'color' => $content_color
+											 	),
+											 	$content_color
+											 );
 	$section_container = get_field( 'section_container' ); // DV = true (Fixed Width).
 	$container_class   = $section_container ? esc_attr( 'container container-ext' ) : esc_attr( 'container-fluid' );
 	// Content Minimum Width
@@ -115,7 +115,7 @@ if ( $content ) :
 	if ( $content_minimum_width ) :
 		$content_minimum_width_px = ( $content_minimum_width ) . 'px';
 		$styles .= xten_add_inline_style(
-			'#' . $id . '.' . $section_name . ' .xten-content-inner',
+			'#' . $id . '.' . $section_name . ' .xten-content',
 			array(
 				'min-width' => $content_minimum_width_px
 			),
@@ -131,7 +131,7 @@ if ( $content ) :
 		$content_maximum_width_unit = esc_attr( $content_maximum_width_group['maximum_width_unit'] ); // DV = '%'
 		$content_maximum_width_val  = $content_maximum_width . $content_maximum_width_unit;
 		$styles .= xten_add_inline_style(
-			'#' . $id . '.' . $section_name . ' .xten-content-inner',
+			'#' . $id . '.' . $section_name . ' .xten-content',
 			array(
 				'max-width' => $content_maximum_width_val
 			),
@@ -151,7 +151,7 @@ if ( $content ) :
 																		 	)
 																		 );
 		$styles .= xten_add_inline_style(
-								'#' . $id . '.' . $section_name . ' .xten-content-inner',
+								'#' . $id . '.' . $section_name . ' .xten-content',
 								array(
 									'background-color' => $content_background_color_rgba
 								)
@@ -173,8 +173,8 @@ $block_attrs = esc_attr( $block_attrs );
 <section id="<?php echo $id; ?>" class="xten-section <?php echo $className; ?>" <?php echo $block_attrs; ?>>
 	<?php if ( $content ) : ?>
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?> <?php echo $sizeHero; ?>">
-			<div class="xten-content">
-				<div class="xten-content-inner">
+			<div class="xten-content-outer">
+				<div class="xten-content">
 					<?php echo $content; ?>
 				</div>
 			</div>

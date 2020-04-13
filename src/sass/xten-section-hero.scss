@@ -16,7 +16,7 @@
 		width: 100%;
 		height: 100%;
 	}
-	.xten-content {
+	.xten-content-outer {
 		display: flex;
 		width: 100%;
 	}
@@ -39,28 +39,25 @@
 	/*   /Vertical Location   */
 	/*   Horizontal Location   */
 	&[data-content-horizontal-location='left'] {
-		.xten-content {
+		.xten-content-outer {
 			justify-content: flex-start;
 		}
 	}
 	&[data-content-horizontal-location='middle'] {
-		.xten-content {
+		.xten-content-outer {
 			justify-content: center;
 		}
 	}
 	&[data-content-horizontal-location='right'] {
-		.xten-content {
+		.xten-content-outer {
 			justify-content: flex-end;
 		}
 	}
 	/*   /Horizontal Location   */
-	.xten-content-inner {
+	.xten-content {
 		padding: 1.5rem;
 		@media (min-width: $vp_xs) {
 			padding: 3rem;
-		}
-		> :last-child {
-			margin-bottom: 0;
 		}
 	}
 }

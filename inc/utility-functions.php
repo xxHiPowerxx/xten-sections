@@ -231,7 +231,7 @@ endif; // endif ( ! function_exists( 'xten_get_icon' ) ) :
  * @return string
  */
 if ( ! function_exists( 'xten_section_block_config' ) ) :
-	function xten_section_block_config( $id, $section_name, $styles = null ) {
+	function xten_section_block_config( $id, $section_name ) {
 		$selector = '#' . $id . '.' . $section_name;
 		$groups = array();
 		$groups['margins_group']          = get_field( 'margins_group' );
@@ -265,8 +265,8 @@ if ( ! function_exists( 'xten_section_block_config' ) ) :
 			endforeach; // /endforeach ( $group as $rule => $value ) :
 		endforeach; // /endforeach ( $groups as $group ) :
 
-		$styles .= xten_add_inline_style($selector, $style_array);
-		return $styles;
+		$global_styles = xten_add_inline_style($selector, $style_array);
+		return $global_styles;
 	}
 endif; // endif ( ! function_exists( 'xten_section_block_config' ) ) :
 
@@ -280,8 +280,7 @@ endif; // endif ( ! function_exists( 'xten_section_block_config' ) ) :
  */
 if ( ! function_exists( 'xten_section_boilerplate' ) ) :
 	function xten_section_boilerplate( $id, $section_name, $styles = null ) {
-		$styles .= xten_section_block_config( $id, $section_name, $styles);
-
+		$styles .= xten_section_block_config( $id, $section_name );
 		wp_register_style( $id, false );
 		wp_enqueue_style( $id );
 		wp_add_inline_style( $id, $styles );

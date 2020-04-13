@@ -8,7 +8,7 @@
  */
 
 // Create id attribute allowing for custom "anchor" value.
-$section_name = 'xten-section-post-archive';
+$section_name = str_replace( 'acf/', '', $block['name'] );
 $id = $section_name . '-' . $block['id'];
 if ( !empty($block['anchor']) ) :
 	$id = $block['anchor'];
@@ -46,14 +46,32 @@ $max_number_of_posts        = get_field( 'max_number_of_posts' ); // ! DV.
 $max_posts_per_row          = get_field( 'max_posts_per_row' ); // ! DV.
 $block_attrs               .= xten_add_block_attr( 'max-posts-per-row', $max_posts_per_row );
 $minimum_width_of_posts     = get_field( 'minimum_width_of_posts' ); // DV = 426.
-$minimum_width_of_posts_rem = ( $minimum_width_of_posts * .10 ) . 'rem';
+$minimum_width_of_posts_px  = ( $minimum_width_of_posts ) . 'px';
+$listed_post_selector       = '#' . $id . '.' . $section_name . ' .listed-post';
 $styles                    .= xten_add_inline_style(
-																'#' . $id . '.' . $section_name . ' .listed-post',
+																$listed_post_selector,
 																array(
-																	'min-width'  => $minimum_width_of_posts_rem,
+																	'min-width'  => $minimum_width_of_posts_px,
 																),
 																true,
-																'min-width:' . $minimum_width_of_posts_rem
+																'min-width:' . $minimum_width_of_posts_px
+															);
+$styles                    .= xten_add_inline_style(
+																$listed_post_selector,
+																array(
+																	'-ms-flex-pack'    => 'center',
+																	'justify-content'  => 'center',
+																),
+																true
+															);
+$styles                    .= xten_add_inline_style(
+																$listed_post_selector,
+																array(
+																	'-ms-flex-pack'    => 'start',
+																	'justify-content'  => 'flex-start',
+																),
+																true,
+																'min-width:' . $minimum_width_of_posts * 2 . 'px'
 															);
 $max_description_length     = get_field( 'max_description_length' ); // ! DV.
 // /Section Layout
@@ -74,13 +92,13 @@ if ( $type_of_archive === 'posts' ) :
 	);
 	$posts_list = array();
 	foreach ( $posts as $post ) :
-		$listed_post                     = array();
-		$post_id                         = $post->ID;
-		$listed_post['post_uid']         = $id . '-post-' .  $post_id;
-		$listed_post['post_link']        = esc_url( get_permalink( $post_id ) );
-		$listed_post['post_title']       = esc_html( $post->post_title );
-		$listed_post['post_date']        = xten_posted_on( $post_id );
-		$post_excerpt                    = $post->post_excerpt;
+		$listed_post               = array();
+		$post_id                   = $post->ID;
+		$listed_post['post_uid']   = $id . '-post-' .  $post_id;
+		$listed_post['post_link']  = esc_url( get_permalink( $post_id ) );
+		$listed_post['post_title'] = esc_html( $post->post_title );
+		$listed_post['post_date']  = xten_posted_on( $post_id );
+		$post_excerpt              = $post->post_excerpt;
 		// If no excerpt Look for Yoast or theme excerpts.
 		if ( ! $post_excerpt ) :
 			$yoast_meta = get_post_meta($post_id, '_yoast_wpseo_metadesc', true); 
@@ -170,9 +188,6 @@ $block_attrs = esc_attr( $block_attrs );
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?>">
 			<div class="xten-content">
 
-
-				<!------------------ Here! --------------->
-
 				<div id="<?php echo $posts_list_id; ?>" class="post-archive posts-list">
 					<?php
 					foreach ( $posts_list as $listed_post ) :
@@ -181,7 +196,6 @@ $block_attrs = esc_attr( $block_attrs );
 						$listed_post['post_title'];
 						$listed_post['post_description'];
 						$listed_post['thumbnail_img'];
-						
 						?>
 						<div id="<?php echo $listed_post['post_uid']; ?>" class="listed-post">
 							<div class="card-style display-flex flex-column listed-post-inner">
@@ -229,50 +243,11 @@ $block_attrs = esc_attr( $block_attrs );
 					endforeach;
 					?>
 				</div><!-- /#<?php echo $posts_list_id; ?> -->
-				<!------------------ Here! --------------->
 
-
-			</div>
-		</div>
+			</div><!-- /.xten-content -->
+		</div><!-- /.container-<?php echo esc_attr( $section_name ); ?> -->
 	<?php endif; // endif ( $content ) : ?>
 </section><!-- /#<?php echo esc_attr($id); ?> -->
 
 <?php
-
-wp_register_style( $id, false );
-wp_enqueue_style( $id );
-wp_add_inline_style( $id, $styles );
-
-if ( is_admin() ) :
-	$section_asset_css_file =  xten_section_asset_file($section_name, 'css');
-	$section_asset_js_file  =  xten_section_asset_file($section_name, 'js');
-	
-	$link_tag_id = $section_name . '-css-css';
-	$style_tag_id = $id . '-inline-css';
-	$style_tag = '<style id="' . $style_tag_id . '" type="text/css">' . $styles . '</style>';
-	$script_tag_id = $section_name . '-js-js';
-	echo $style_tag;
-	?>
-	<script type="text/javascript">
-		(function($) {
-			var linkID = '<?php echo $link_tag_id; ?>'.replace('-',''),
-			linkTag = window.linkID ? window.linkID : false,
-			scriptID = '<?php echo $script_tag_id; ?>'.replace('-',''),
-			scriptTag = window.scriptID ? window.scriptID : false;
-			if ( ! linkTag ) {
-				$('<link>').attr({
-					rel:  "stylesheet",
-					type: "text/css",
-					href: '<?php echo $GLOBALS['xten-sections-uri'] . $section_asset_css_file; ?>'
-				}).appendTo('head');
-				window.linkID = true;
-			}
-			$('<?php echo $style_tag_id; ?>').remove();
-			if ( ! scriptTag ) {
-				$.getScript( '<?php echo $GLOBALS['xten-sections-uri'] . $section_asset_js_file; ?>');
-				window.scriptID = true;
-			}
-		})(jQuery);
-	</script>
-	<?php
-endif;
+xten_section_boilerplate( $id, $section_name, $styles );

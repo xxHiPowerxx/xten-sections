@@ -122,6 +122,22 @@ if ( $content ) :
 			true,
 			'min-width:' . $content_minimum_width_px
 		);
+		$styles .= xten_add_inline_style(
+			'#' . $id . '.' . $section_name . ' .container-' . $section_name,
+			array(
+				'padding-left' => '0',
+				'padding-right' => '0',
+			)
+		);
+		$styles .= xten_add_inline_style(
+			'#' . $id . '.' . $section_name . ' .container-' . $section_name,
+			array(
+				'padding-left' => '15px',
+				'padding-right' => '15px',
+			),
+			true,
+			'min-width:' . $content_minimum_width_px
+		);
 	endif; // endif ( $content_minimum_width ) :
 	// /Content Minimum Width
 	// Content Maximum Width

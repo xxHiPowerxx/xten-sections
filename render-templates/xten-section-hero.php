@@ -8,7 +8,7 @@
  */
 
 // Create id attribute allowing for custom "anchor" value.
-$section_name = 'xten-section-hero';
+$section_name = str_replace( 'acf/', '', $block['name'] );
 $id = $section_name . '-' . $block['id'];
 if ( !empty($block['anchor']) ) :
 	$id = $block['anchor'];
@@ -106,21 +106,21 @@ if ( $content ) :
 		),
 		$content_color
 	);
-	$content_container = get_field( 'content_container' ); // DV = true (Fixed Width).
-	$container_class   = $content_container ? esc_attr( 'container container-ext' ) : esc_attr( 'container-fluid' );
+	$section_container = get_field( 'section_container' ); // DV = true (Fixed Width).
+	$container_class   = $section_container ? esc_attr( 'container container-ext' ) : esc_attr( 'container-fluid' );
 	// Content Minimum Width
 	$content_minimum_width_group = get_field( 'content_minimum_width_group' );
 	$content_minimum_width       = esc_attr( $content_minimum_width_group['minimum_width'] ); // !DV
-	$content_minimum_width_rem   = null;
+	$content_minimum_width_px   = null;
 	if ( $content_minimum_width ) :
-		$content_minimum_width_rem = ( $content_minimum_width * .10 ) . 'rem';
+		$content_minimum_width_px = ( $content_minimum_width ) . 'px';
 		$styles .= xten_add_inline_style(
 			'#' . $id . '.' . $section_name . ' .xten-content-inner',
 			array(
-				'min-width' => $content_minimum_width_rem
+				'min-width' => $content_minimum_width_px
 			),
 			true,
-			'min-width:' . $content_minimum_width_rem
+			'min-width:' . $content_minimum_width_px
 		);
 	endif; // endif ( $content_minimum_width ) :
 	// /Content Minimum Width
@@ -136,7 +136,7 @@ if ( $content ) :
 				'max-width' => $content_maximum_width_val
 			),
 			true,
-			'min-width:' . $content_minimum_width_rem
+			'min-width:' . $content_minimum_width_px
 		);
 	endif; // endif ( $content_maximum_width ) :
 	// /Content Maximum Width
@@ -184,40 +184,4 @@ $block_attrs = esc_attr( $block_attrs );
 
 <?php
 
-wp_register_style( $id, false );
-wp_enqueue_style( $id );
-wp_add_inline_style( $id, $styles );
-
-if ( is_admin() ) :
-	$section_asset_css_file =  xten_section_asset_file($section_name, 'css');
-	$section_asset_js_file  =  xten_section_asset_file($section_name, 'js');
-	
-	$link_tag_id = $section_name . '-css-css';
-	$style_tag_id = $id . '-inline-css';
-	$style_tag = '<style id="' . $style_tag_id . '" type="text/css">' . $styles . '</style>';
-	$script_tag_id = $section_name . '-js-js';
-	echo $style_tag;
-	?>
-	<script type="text/javascript">
-		(function($) {
-			var linkID = '<?php echo $link_tag_id; ?>'.replace('-',''),
-			linkTag = window.linkID ? window.linkID : false,
-			scriptID = '<?php echo $script_tag_id; ?>'.replace('-',''),
-			scriptTag = window.scriptID ? window.scriptID : false;
-			if ( ! linkTag ) {
-				$('<link>').attr({
-					rel:  "stylesheet",
-					type: "text/css",
-					href: '<?php echo $GLOBALS['xten-sections-uri'] . $section_asset_css_file; ?>'
-				}).appendTo('head');
-				window.linkID = true;
-			}
-			$('<?php echo $style_tag_id; ?>').remove();
-			if ( ! scriptTag ) {
-				$.getScript( '<?php echo $GLOBALS['xten-sections-uri'] . $section_asset_js_file; ?>');
-				window.scriptID = true;
-			}
-		})(jQuery);
-	</script>
-	<?php
-endif;
+xten_section_boilerplate( $id, $section_name, $styles );

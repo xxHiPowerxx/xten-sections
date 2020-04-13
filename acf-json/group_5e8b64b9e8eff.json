@@ -318,25 +318,6 @@
             "delay": 0
         },
         {
-            "key": "field_5e8ba6b2338a7",
-            "label": "Content Container",
-            "name": "content_container",
-            "type": "true_false",
-            "instructions": "Select Whether Content is bound by global \"container\" or not.\r\nFull-Width = No Container, Fixed Width = Container.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "default_value": 0,
-            "ui": 1,
-            "ui_on_text": "Fixed Width",
-            "ui_off_text": "Full Width"
-        },
-        {
             "key": "field_5e8fcc5b62fe5",
             "label": "Content Minimum Width",
             "name": "content_minimum_width_group",
@@ -622,5 +603,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1586482564
+    "modified": 1586798155
 }

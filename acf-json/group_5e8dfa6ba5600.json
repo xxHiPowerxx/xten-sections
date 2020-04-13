@@ -139,25 +139,6 @@
             "endpoint": 0
         },
         {
-            "key": "field_5e8e08f894ce2",
-            "label": "Section Container",
-            "name": "section_container",
-            "type": "true_false",
-            "instructions": "Select Whether Content is bound by global \"container\" or not.\r\nFull-Width = No Container, Fixed Width = Container.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "default_value": 0,
-            "ui": 1,
-            "ui_on_text": "Fixed Width",
-            "ui_off_text": "Full Width"
-        },
-        {
             "key": "field_5e8e057916abc",
             "label": "Max Number of Posts",
             "name": "max_number_of_posts",
@@ -275,5 +256,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1586473107
+    "modified": 1586798178
 }

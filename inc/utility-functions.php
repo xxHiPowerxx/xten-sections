@@ -45,23 +45,26 @@ if ( ! function_exists( 'register_section_assets' ) ) :
 			function register_asset($section_name, $dependencies, $file_type) {
 				$section_name       = 'xten-' . $section_name;
 				$section_asset_file = xten_section_asset_file($section_name, $file_type);
-				if ( $file_type === 'css' ) :
-					wp_register_style(
-						$section_name . '-' . $file_type,
-						$GLOBALS['xten-sections-uri'] . $section_asset_file,
-						$dependencies[$file_type],
-						xten_filemtime( $GLOBALS['xten-sections-dir'] . $section_asset_file )
-					);
-				endif;
-				if ( $file_type === 'js' ) :
-					wp_register_script(
-						$section_name . '-' . $file_type,
-						$GLOBALS['xten-sections-uri'] . $section_asset_file,
-						$dependencies[$file_type],
-						xten_filemtime( $GLOBALS['xten-sections-dir'] . $section_asset_file ),
-						true
-					);
-				endif;
+				$dir_location       = $GLOBALS['xten-sections-dir'] . $section_asset_file;
+				if ( file_exists( $dir_location ) ) :
+					if ( $file_type === 'css' ) :
+						wp_register_style(
+							$section_name . '-' . $file_type,
+							$GLOBALS['xten-sections-uri'] . $section_asset_file,
+							$dependencies[$file_type],
+							xten_filemtime( $dir_location )
+						);
+					endif;
+					if ( $file_type === 'js' ) :
+						wp_register_script(
+							$section_name . '-' . $file_type,
+							$GLOBALS['xten-sections-uri'] . $section_asset_file,
+							$dependencies[$file_type],
+							xten_filemtime( $dir_location ),
+							true
+						);
+					endif;
+				endif; // endif ( file_exists( $dir_location ) ) :
 			}
 		endif; // endif ( ! function_exists( 'register_asset' ) ) :
 		register_asset($section_name, $dependencies, 'css');
@@ -129,9 +132,10 @@ endif; // endif ( ! function_exists( 'convert_hex_to_rgb' ) ) :
 /**
  * Add Inline Style
  *
- * @param string $selector Selector for Style Rule
- * @param array $rule_array opacity value from customizer.
- * @param string $validator optional value for validation checking.
+ * @param string $selector - Selector for Style Rule
+ * @param array $rule_array - opacity value from customizer.
+ * @param string $validator - optional value for validation checking.
+ * @param string $media_query - optional value for Media Query Breakpoint.
  * 
  */
 if ( ! function_exists( 'xten_add_inline_style' ) ) :
@@ -193,8 +197,8 @@ endif; // endif ( ! function_exists( 'xten_posted_on' ) ) :
 /**
  * Trim String and use Excerpt apply ellipsis on end.
  *
- * @param string $string String to be trimmed.
- * @param int $max_words Number of words before string is trimmed.
+ * @param string $string - String to be trimmed.
+ * @param int $max_words - Number of words before string is trimmed.
  */
 if ( ! function_exists( 'xten_trim_string' ) ) :
 	function xten_trim_string($string, $max_words) {
@@ -204,3 +208,117 @@ if ( ! function_exists( 'xten_trim_string' ) ) :
 		return wp_trim_words( $stripped_content, $excerpt_length, $excerpt_more );
 	}
 endif; // endif ( ! function_exists( 'xten_trim_string' ) ) :
+
+/**
+ * Get Icon from Global Variable
+ *
+ * @param string $section_name - Section Name .
+ * @return string
+ */
+if ( ! function_exists( 'xten_get_icon' ) ) :
+	function xten_get_icon( $section_name ) {
+		$placeholder_icon = $GLOBALS['xten-section-icon']['xten-sections'];
+		return $GLOBALS['xten-section-icon'][$section_name] ?: $placeholder_icon;
+	}
+endif; // endif ( ! function_exists( 'xten_get_icon' ) ) :
+
+/**
+ * Global Block Configuration
+ * 
+ * This function uses the global field group XTen Section Block Configuration
+ *
+ * @param string $section_name - Section Name .
+ * @return string
+ */
+if ( ! function_exists( 'xten_section_block_config' ) ) :
+	function xten_section_block_config( $id, $section_name, $styles = null ) {
+		$selector = '#' . $id . '.' . $section_name;
+		$groups = array();
+		$groups['margins_group']          = get_field( 'margins_group' );
+		$groups['borders_group']          = get_field( 'borders_group' );
+		$groups['paddings_group']         = get_field( 'paddings_group' );
+		$groups['background_color_group'] = get_field( 'background_color_group' );
+		$groups['text_color_group']       = get_field( 'text_color_group' );
+
+		$style_array   = array();
+		foreach ( $groups as $group ) :
+			foreach ( $group as $rule => $value ) :
+				if ( $value ):
+					$is_color   = strpos( $rule, 'color' );
+					$is_opacity = strpos( $rule, 'opacity' );
+					$is_border  = strpos( $rule, 'border' );
+					if ( ! $is_color ) :
+						$_rule = str_replace('_', '-', $rule );
+						$style_array[$_rule] = $value;
+					elseif ( false !== $is_color && ! $is_opacity ) :
+						$rule_singular = str_replace( 'color', '', $rule );
+						$rule_plural   = $rule_singular . 's';
+						$rule_color_opacity_value = $groups[ $rule_plural . '_group' ][ $rule_singular . '_color_opacity' ];
+						// Remove 'text_' from text_color.
+						$__rule = str_replace('text_', '', $rule );
+						// Change '_' to '-'.
+						$_rule = str_replace('_', '-', $__rule );
+						$rule_color_rgba = convert_hex_to_rgb($value, $rule_color_opacity_value);
+						$style_array[$_rule] = $rule_color_rgba;
+					endif;
+				endif;
+			endforeach; // /endforeach ( $group as $rule => $value ) :
+		endforeach; // /endforeach ( $groups as $group ) :
+
+		$styles .= xten_add_inline_style($selector, $style_array);
+		return $styles;
+	}
+endif; // endif ( ! function_exists( 'xten_section_block_config' ) ) :
+
+/**
+ * XTen Section Block BoilerPlate.
+ * 
+ * This function will be called at the end of every Render Template
+ *
+ * @param string $section_name - Section Name .
+ * @return string
+ */
+if ( ! function_exists( 'xten_section_boilerplate' ) ) :
+	function xten_section_boilerplate( $id, $section_name, $styles = null ) {
+		$styles .= xten_section_block_config( $id, $section_name, $styles);
+
+		wp_register_style( $id, false );
+		wp_enqueue_style( $id );
+		wp_add_inline_style( $id, $styles );
+
+		if ( is_admin() ) :
+			$section_asset_css_file = xten_section_asset_file($section_name, 'css');
+			$section_asset_js_file  = xten_section_asset_file($section_name, 'js');
+			
+			$link_tag_id = $section_name . '-css-css';
+			$style_tag_id = $id . '-inline-css';
+			$style_tag = '<style id="' . $style_tag_id . '" type="text/css">' . $styles . '</style>';
+			$script_tag_id = $section_name . '-js-js';
+			echo $style_tag;
+			?>
+			<script type="text/javascript">
+				(function($) {
+					var linkID = '<?php echo $link_tag_id; ?>'.replace('-',''),
+					linkTag = window.linkID ? window.linkID : false,
+					scriptID = '<?php echo $script_tag_id; ?>'.replace('-',''),
+					scriptTag = window.scriptID ? window.scriptID : false;
+					if ( ! linkTag ) {
+						$('<link>').attr({
+							rel:  "stylesheet",
+							type: "text/css",
+							href: '<?php echo $GLOBALS['xten-sections-uri'] . $section_asset_css_file; ?>'
+						}).appendTo('head');
+						window.linkID = true;
+					}
+					$('<?php echo $style_tag_id; ?>').remove();
+					if ( ! scriptTag ) {
+						$.getScript( '<?php echo $GLOBALS['xten-sections-uri'] . $section_asset_js_file; ?>');
+						window.scriptID = true;
+					}
+				})(jQuery);
+			</script>
+			<?php
+		endif;
+		return;
+	}
+endif; // endif ( ! function_exists( 'xten_section_boilerplate' ) ) :

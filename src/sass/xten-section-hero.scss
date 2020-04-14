@@ -18,6 +18,13 @@
 		top: 0;
 		left: 0;
 	}
+	.container-xten-section-hero {
+		padding-top: 3rem;
+		padding-bottom: 3rem;
+	}
+	.sizeHero {
+		transition: $smooth-transition;
+	}
 	.xten-content-outer {
 		display: flex;
 		width: 100%;

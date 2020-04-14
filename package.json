@@ -3,7 +3,8 @@
 	"description": "XTen Sections Module",
 	"main": "index.js",
 	"scripts": {
-		"watch": "gulp watch"
+		"watch": "gulp watch",
+		"build": "gulp build"
 	},
 	"author": "Ricky Adams",
 	"license": "MIT",
@@ -23,6 +24,7 @@
 		"IE 10"
 	],
 	"dependencies": {
-		"bootstrap": "^4.4.1"
+		"bootstrap": "^4.4.1",
+		"del": "^5.1.0"
 	}
 }

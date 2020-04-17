@@ -1,20 +1,24 @@
 @import './import/variables';
 
-@function calculateFlexBasis($max-posts) {
+@function calculatePercentage($max-posts) {
 	$percentage: 100% / $max-posts;
 	@return #{$percentage};
 }
 .xten-section-post-archive {
+	.xten-content {
+		margin-left: -$pad-xs;
+		margin-right: -$pad-xs;
+	}
 	.posts-list {
 		display: flex;
 		flex-wrap: wrap;
-		margin-left: -$pad-xs;
-		margin-right: -$pad-xs;
+		margin-left: auto;
+		margin-right: auto;
 	}
 	@for $i from 1 through 6 {
 		&[data-max-posts-per-row="#{$i}"] {
 			.listed-post {
-				flex-basis: calculateFlexBasis($i);
+				max-width: calculatePercentage($i);
 			}
 		}
 	}

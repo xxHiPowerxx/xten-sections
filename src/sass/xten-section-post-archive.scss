@@ -18,7 +18,7 @@
 	@for $i from 1 through 6 {
 		&[data-max-posts-per-row="#{$i}"] {
 			.listed-post {
-				max-width: calculatePercentage($i);
+				width: calculatePercentage($i);
 			}
 		}
 	}
@@ -26,8 +26,8 @@
 		display: flex;
 		padding-top: $pad-xs;
 		padding-bottom: $pad-xs;
-		flex-grow: 1;
 		min-width: 100%;
+		max-width: 100%;
 		.entry-title {
 			margin-bottom: 0;
 		}
@@ -60,6 +60,9 @@
 				transition: $smooth-transition;
 				transform: scale(1) translateZ(0);
 				backface-visibility: hidden;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
 			}
 			#{$active} {
 				img {

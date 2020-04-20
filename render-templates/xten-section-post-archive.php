@@ -94,7 +94,7 @@ if ( $type_of_archive === 'posts' ) :
 	foreach ( $posts as $post ) :
 		$listed_post               = array();
 		$post_id                   = $post->ID;
-		$listed_post['post_uid']   = $id . '-post-' .  $post_id;
+		$listed_post['post_uid']   = $id . '-' . $posts_to_get . '-' .  $post_id;
 		$listed_post['post_link']  = esc_url( get_permalink( $post_id ) );
 		$listed_post['post_title'] = esc_html( $post->post_title );
 		$listed_post['post_date']  = xten_posted_on( $post_id );
@@ -153,7 +153,7 @@ if ( $type_of_archive === 'categories' ) :
 	foreach ( $categories as $category ) :
 		$listed_post                     = array();
 		$category_id                     = $category->term_id;
-		$listed_post['post_uid']         = $id . '-post-' .  $category_id;
+		$listed_post['post_uid']         = $id . '-category-' . $category_id;
 		$listed_post['post_link']        = esc_url( get_category_link( $category_id ) );
 		$listed_post['post_title']       = esc_html( $category->name );
 		$listed_post['post_description'] = esc_html( $category->description );

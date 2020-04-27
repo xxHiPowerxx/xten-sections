@@ -156,7 +156,7 @@ if ( $type_of_archive === 'categories' ) :
 		$listed_post['post_uid']         = $id . '-category-' . $category_id;
 		$listed_post['post_link']        = esc_url( get_category_link( $category_id ) );
 		$listed_post['post_title']       = esc_html( $category->name );
-		$listed_post['post_description'] = esc_html( $category->description );
+		$listed_post['post_description'] = $category->description;
 	
 		$category_thumbnail              = get_field( 'category_thumbnail', $category );
 		$listed_post['thumbnail_img']    = null;

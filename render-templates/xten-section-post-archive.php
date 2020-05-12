@@ -64,15 +64,6 @@ $styles                    .= xten_add_inline_style(
 																),
 																true
 															);
-$styles                    .= xten_add_inline_style(
-																$listed_post_selector,
-																array(
-																	'-ms-flex-pack'    => 'start',
-																	'justify-content'  => 'flex-start',
-																),
-																true,
-																'min-width:' . $minimum_width_of_posts * 2 . 'px'
-															);
 $max_description_length     = get_field( 'max_description_length' ); // ! DV.
 // /Section Layout
 

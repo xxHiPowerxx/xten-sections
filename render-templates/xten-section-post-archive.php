@@ -223,7 +223,7 @@ $block_attrs = esc_attr( $block_attrs );
 									<?php endif; // if ( $listed_post['post_description'] ) : ?>
 									<footer class="entry-footer xten-highlight-font">
 										<a href="<?php echo $listed_post['post_link']; ?>" class="post-link" title="<?php echo $listed_post['post_title']; ?>">
-											<button class="btn btn-theme-style theme-style-dark" type="button">Read More</button>
+											<button class="btn btn-theme-style xten-btn theme-style-dark" type="button">Read More</button>
 										</a>
 									</footer>
 								</div><!-- /.post-body -->

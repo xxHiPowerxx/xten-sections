@@ -129,16 +129,17 @@ if ( ! function_exists( 'convert_hex_to_rgb' ) ) :
 	}
 endif; // endif ( ! function_exists( 'convert_hex_to_rgb' ) ) :
 
-/**
- * Add Inline Style
- *
- * @param string $selector - Selector for Style Rule
- * @param array $rule_array - opacity value from customizer.
- * @param string $validator - optional value for validation checking.
- * @param string $media_query - optional value for Media Query Breakpoint.
- * 
- */
 if ( ! function_exists( 'xten_add_inline_style' ) ) :
+	/**
+	 * Add Inline Style
+	 *
+	 * @param string $selector - Selector for Style Rule
+	 * @param array $rule_array - opacity value from customizer.
+	 * @param string $validator - optional value for validation checking.
+	 * @param string|array $media_query - optional value for Media Query Breakpoint.
+	 * @return string $rule - The completed Style Rule.
+	 * 
+	 */
 	function xten_add_inline_style(
 		$selector,
 		$rule_array,
@@ -152,9 +153,27 @@ if ( ! function_exists( 'xten_add_inline_style' ) ) :
 			endforeach;
 			$rule .= '}';
 			if ( $media_query ) :
+				// Check if $media_query is string or array.
+				if ( is_array( $media_query ) ) :
+					$media_string = '@media ';
+					foreach ( $media_query as $single_media_query ) :
+						// Check if first $single_media_query.
+						if ( $single_media_query === reset( $media_query ) ) :
+							$media_string .= '(' . $single_media_query . ')';
+						else :
+							$media_string .= ' and (' . $single_media_query . ')';
+						endif;
+					endforeach;
+					$media_string .= '){' .
+						$rule .
+					'}';
+					$rule = $media_string;
+				endif;
+				if ( is_string( $media_query ) ) :
 				$rule = '@media (' . $media_query . '){' .
 									$rule .
 								'}';
+				endif;
 			endif;
 			return $rule;
 		endif;

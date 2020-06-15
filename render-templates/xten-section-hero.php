@@ -152,7 +152,7 @@ if ( $content ) :
 				'max-width' => $content_maximum_width_val
 			),
 			true,
-			'min-width:' . $content_minimum_width_px
+			'min-width: 992px'
 		);
 	endif; // endif ( $content_maximum_width ) :
 	// /Content Maximum Width

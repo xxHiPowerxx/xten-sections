@@ -1,12 +1,13 @@
 (function ($) {
 	$(document).on("ready", function () {
+		var $body = $('body');
 		function startWork(elem) {
 			window.workStarted = window.workStarted || {};
 			window.workStarted[elem] = true;
 		}
 		function finishWork(elem) {
-			delete window.workStarted[elem];
 			window.dispatchEvent(new CustomEvent('finishWork'));
+			delete window.workStarted[elem];
 		}
 		function sizeHero() {
 			$('.sizeHero').each(function () {
@@ -25,6 +26,10 @@
 					minHeightPercent = minHeightNum / 100,
 					calculatedHeight = spaceAvailable * minHeightPercent;
 				$(this).css('min-height', calculatedHeight + 'px');
+				// Depenendancy: Xten Theme
+				if ($body.is('.browser-ie')) {
+					$(this).css('height', calculatedHeight + 'px');
+				}
 				finishWork(this);
 			});
 		}

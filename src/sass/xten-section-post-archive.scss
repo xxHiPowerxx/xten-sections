@@ -61,11 +61,11 @@
 				transition: $smooth-transition;
 				transform: scale(1) translate3d(-50%, -50%, 0);
 				backface-visibility: hidden;
-				transform-origin: 0 0;
+				transform-origin: 50% 50%;
 			}
 			#{$active} {
 				img {
-					transform: scale(1.05)translate3d(-50%, -50%, 0);
+					transform: translate3d(-50%, -50%, 0) scale(1.05);
 				}
 			}
 		}

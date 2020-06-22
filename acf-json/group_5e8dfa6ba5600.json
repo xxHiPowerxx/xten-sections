@@ -184,7 +184,7 @@
             "label": "Minimum Width of Posts",
             "name": "minimum_width_of_posts",
             "type": "number",
-            "instructions": "Minimum width the posts should be allowed to shrink before wrapping the next post underneath it.",
+            "instructions": "Minimum width the posts should be allowed to shrink before wrapping the next post underneath it. Max 450px.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -192,13 +192,18 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": 426,
+            "default_value": 450,
             "placeholder": "",
             "prepend": "",
             "append": "px",
             "min": 0,
-            "max": "",
-            "step": 1
+            "max": 450,
+            "step": 1,
+            "show_column": 0,
+            "show_column_sortable": 0,
+            "show_column_weight": 1000,
+            "allow_quickedit": 0,
+            "allow_bulkedit": 0
         },
         {
             "key": "field_5e8f9ca7cad25",
@@ -256,5 +261,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1588883893
+    "modified": 1592528913
 }

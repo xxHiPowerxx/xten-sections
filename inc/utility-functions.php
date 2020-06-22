@@ -340,3 +340,122 @@ if ( ! function_exists( 'xten_section_boilerplate' ) ) :
 		return;
 	}
 endif; // endif ( ! function_exists( 'xten_section_boilerplate' ) ) :
+if ( ! function_exists( 'xten_wide_tall_image' ) ) :
+	/**
+	 * Determine if image is wider than tall or vice-versa.
+	 * @param int|array $arg - Can be image ID or Size array(width,height).
+	 * @return string 'object-fit-cover ' . 'wide' || 'tall' || 'square'.
+	 */
+	function xten_wide_tall_image( $arg ) {
+		if ( ! $arg ) :
+			return;
+		endif;
+		$return_result = 'object-fit-cover ';
+		$image_id;
+		$size;
+		$image_width;
+		$image_height;
+		if ( is_int( $arg ) ) :
+			$image_id = $arg;
+		endif;
+		if ( is_array( $arg ) ) :
+			$size = $arg;
+		endif;
+		if ( $image_id ) :
+			$image_details = wp_get_attachment_image_src( $image_id, 'full' );
+			$image_width   = $image_details[1];
+			$image_height  = $image_details[2];
+		endif;
+		if ( $size ) :
+			$image_width  = $size[0];
+			$image_height = $size[1];
+		endif;
+		if ( $image_width > $image_height ) :
+			$return_result .= 'wide';
+		elseif ( $image_width < $image_height ) :
+			$return_result .= 'tall';
+		else:
+			$return_result .= 'square';
+		endif;
+		return $return_result;
+	}
+endif; // if ( ! function_exists( 'xten_wide_tall_image' ) ) :
+
+if ( ! function_exists( 'xten_get_optimal_image_size' ) ) :
+	/**
+	 * Get Optimal image size when only one dimension is provided
+	 * 
+	 * @param int $image_id - Post ID for image.
+	 * @param array $size - $size[0] = width and $size[1] = height.
+	 * @param array $aspect_ratio - $aspect_ratio[0] = Aspect Ratio Width
+	 * $aspect_ratio[1] = Aspect Ratio Height
+	 * Desired aspect ratio is used to calculate
+	 * the null dimension in $size array. Default is 16/9.
+	 * @return array $size_array returns provided $size and calculated $size.
+	 */
+	function xten_get_optimal_image_size(
+		$image_id     = null,
+		$size         = array( null, null ),
+		$aspect_ratio = array( 16, 9 )
+	) {
+		if ( ! $image_id ) :
+			return;
+		endif;
+		$size_array = array();
+		// Get Image dimensions.
+		$image_details       = wp_get_attachment_image_src( $image_id, 'full' );
+		$image_width         = $image_details[1];
+		$image_height        = $image_details[2];
+
+		// Determine whether min_height is at least 56.25% of min_width
+		$min_width           = $size[0];
+		$min_height          = $size[1];
+		$aspect_ratio_width  = $aspect_ratio[0];
+		$aspect_ratio_height = $aspect_ratio[1];
+
+		// If $min_width was provided we need to calculate Height.
+		if ( $min_width ) :
+			$provided_min_dimension    = $min_width;
+			$actual_provided_dimension = $image_width;
+			$actual_missing_dimension  = $image_height;
+			$aspect_ratio_dividend     = $aspect_ratio_height;
+			$aspect_ratio_divisor      = $aspect_ratio_width;
+			$provided_dimension_index  = 0;
+			$missing_dimension_index   = 1;
+		else:
+			$provided_min_dimension    = $min_height;
+			$actual_provided_dimension = $image_height;
+			$actual_missing_dimension  = $image_width;
+			$aspect_ratio_dividend     = $aspect_ratio_width;
+			$aspect_ratio_divisor      = $aspect_ratio_height;
+			$provided_dimension_index  = 1;
+			$missing_dimension_index   = 0;
+		endif;
+		$optimal_provided_dimension  = $actual_provided_dimension;
+
+		$aspect_ratio_multiplicand   = $aspect_ratio_dividend / $aspect_ratio_divisor;
+
+		// Whichever value was not provided (height or width) needs to be calculated.
+		$calc_missing_dimension      = $provided_min_dimension *
+			$aspect_ratio_multiplicand;
+
+		$calc_min_missing_dimension  = $calc_missing_dimension /
+			$provided_min_dimension *
+			$actual_missing_dimension;
+
+		$calc_min_provided_dimension = $actual_provided_dimension /
+			$actual_missing_dimension *
+			$calc_missing_dimension;
+
+		if ( $calc_min_provided_dimension < $provided_min_dimension ) :
+			$optimal_missing_dimension = $calc_missing_dimension /
+				$calc_min_provided_dimension *
+				$provided_min_dimension;
+		endif;
+
+		$size_array[$provided_dimension_index] = $optimal_provided_dimension;
+		$size_array[$missing_dimension_index]  = $optimal_missing_dimension;
+
+		return $size_array;
+	}
+endif; // endif ( ! function_exists( 'xten_get_optimal_image_size' ) ) :

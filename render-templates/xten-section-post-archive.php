@@ -45,7 +45,9 @@ $container_class            = $section_container ?
 $max_number_of_posts        = get_field( 'max_number_of_posts' ); // ! DV.
 $max_posts_per_row          = get_field( 'max_posts_per_row' ); // ! DV.
 $block_attrs               .= xten_add_block_attr( 'max-posts-per-row', $max_posts_per_row );
-$minimum_width_of_posts     = get_field( 'minimum_width_of_posts' ); // DV = 426.
+$minimum_width_of_posts     = get_field( 'minimum_width_of_posts' ); // DV = 450 && Max = 450.
+// Enorce the max Value of 450 since ACF does not in blocks.
+$minimum_width_of_posts     = $minimum_width_of_posts <= 450 ? $minimum_width_of_posts : 450;
 $minimum_width_of_posts_px  = ( $minimum_width_of_posts ) . 'px';
 $listed_post_selector       = '#' . $id . '.' . $section_name . ' .listed-post';
 $styles                    .= xten_add_inline_style(
@@ -114,7 +116,8 @@ if ( $type_of_archive === 'posts' ) :
 		$listed_post['thumbnail_img']    = null;
 		if ( has_post_thumbnail( $post_id ) ) :
 			$listed_post['thumbnail_img'] = get_the_post_thumbnail(
-																				$post_id, 'archive-thumbnail',
+																				$post_id,
+																				array( 450, null ),
 																				array(
 																					'title' => $listed_post['post_title']
 																				)
@@ -153,11 +156,18 @@ if ( $type_of_archive === 'categories' ) :
 		$listed_post['thumbnail_img']    = null;
 		if ( $category_thumbnail ) :
 			$thumbnail_id                 = $category_thumbnail['ID'];
+			$size = xten_get_optimal_image_size( $thumbnail_id, array(450, null), array( 16, 9 ) );
+			if ( is_array( $size ) ) :
+				$wide_tall = xten_wide_tall_image( $size );
+			else :
+				$wide_tall = xten_wide_tall_image( $thumbnail_id );
+			endif;
 			$listed_post['thumbnail_img'] = wp_get_attachment_image( 
 																				$thumbnail_id,
-																				'archive-thumbnail',
+																				$size,
 																				false,
 																				array(
+																					'class' => $wide_tall,
 																					'title' => $listed_post['post_title']
 																				)
 																			);
@@ -192,7 +202,7 @@ $block_attrs = esc_attr( $block_attrs );
 							<div class="card-style display-flex flex-column listed-post-inner">
 								<?php if ( $listed_post['thumbnail_img'] ) : ?>
 									<div class="featured-image">
-										<a href="<?php echo $listed_post['post_link']; ?>" class="post-link" rel="bookmark">
+										<a href="<?php echo $listed_post['post_link']; ?>" class="post-link landscape-img" rel="bookmark">
 											<?php echo $listed_post['thumbnail_img']; ?>
 										</a>
 									</div>

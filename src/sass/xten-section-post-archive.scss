@@ -34,12 +34,14 @@
 	}
 	.listed-post-inner {
 		width: 100%;
-		max-width: 42.6rem;
+		max-width: 45rem;
 		margin-left: $pad-xs;
 		margin-right: $pad-xs;
 	}
-	.post-link {
-		display: inline-block;
+	.etnry-header {
+		.post-link {
+			display: inline-block;
+		}
 	}
 	.post-body {
 		padding: $pad-xs;
@@ -57,15 +59,13 @@
 		.post-link {
 			img {
 				transition: $smooth-transition;
-				transform: scale(1) translateZ(0);
+				transform: scale(1) translate3d(-50%, -50%, 0);
 				backface-visibility: hidden;
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
+				transform-origin: 0 0;
 			}
 			#{$active} {
 				img {
-					transform: scale(1.05) translateZ(0);
+					transform: scale(1.05)translate3d(-50%, -50%, 0);
 				}
 			}
 		}

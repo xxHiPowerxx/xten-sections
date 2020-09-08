@@ -351,10 +351,10 @@ if ( ! function_exists( 'xten_wide_tall_image' ) ) :
 			return;
 		endif;
 		$return_result = 'object-fit-cover ';
-		$image_id;
-		$size;
-		$image_width;
-		$image_height;
+		$image_id      = null;
+		$size          = null;
+		$image_width   = null;
+		$image_height  = null;
 		if ( is_int( $arg ) ) :
 			$image_id = $arg;
 		endif;

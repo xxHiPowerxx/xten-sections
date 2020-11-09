@@ -33,11 +33,11 @@ if ( $content ) :
 	$className   = esc_attr( $className );
 	$block_attrs = esc_attr( $block_attrs );
 	?>
-	<section id="<?php echo $id; ?>" class="xten-section <?php echo $className; ?>" <?php echo $block_attrs; ?>>
+	<section id="<?php echo $id; ?>" class="xten-section xten-section-wysiwyg <?php echo $className; ?>" <?php echo $block_attrs; ?>>
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?>">
-					<div class="xten-content">
-						<?php echo $content; ?>
-					</div><!-- /.xten-content -->
+				<div class="xten-content">
+					<?php echo $content; ?>
+				</div><!-- /.xten-content -->
 			</div><!-- /.container-<?php echo esc_attr( $section_name ); ?> -->
 	</section><!-- /#<?php echo esc_attr($id); ?> -->
 

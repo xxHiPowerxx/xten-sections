@@ -186,7 +186,7 @@ $id          = esc_attr( $id );
 $className   = esc_attr( $className );
 $block_attrs = esc_attr( $block_attrs );
 ?>
-<section id="<?php echo $id; ?>" class="xten-section <?php echo $className; ?>" <?php echo $block_attrs; ?>>
+<section id="<?php echo $id; ?>" class="xten-section xten-section-hero <?php echo $className; ?>" <?php echo $block_attrs; ?>>
 	<?php if ( $content ) : ?>
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?> <?php echo $sizeHero; ?>">
 			<div class="xten-content-outer">

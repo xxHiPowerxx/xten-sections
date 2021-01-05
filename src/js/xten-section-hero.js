@@ -21,7 +21,9 @@
 					adminBarHeight = adminBar ?
 						adminBar.getBoundingClientRect().height :
 						0,
-					spaceAvailable = viewPortHeight - headerHeight - adminBarHeight,
+					sectionComputedStyle = getComputedStyle(section[0]),
+					sectionPaddings = parseFloat(sectionComputedStyle.paddingTop) + parseFloat(sectionComputedStyle.paddingBottom),
+					spaceAvailable = viewPortHeight - headerHeight - adminBarHeight - sectionPaddings,
 					minHeightNum = parseFloat(minHeight),
 					minHeightPercent = minHeightNum / 100,
 					calculatedHeight = spaceAvailable * minHeightPercent;

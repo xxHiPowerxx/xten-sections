@@ -7,7 +7,27 @@
  * @package xten-sections
  */
 
-$content = wp_kses_post( get_field( 'content' ) );
+
+$kses_defaults = wp_kses_allowed_html( 'post' );
+
+$svg_args = array(
+		'svg'   => array(
+				'class' => true,
+				'aria-hidden' => true,
+				'aria-labelledby' => true,
+				'role' => true,
+				'xmlns' => true,
+				'width' => true,
+				'height' => true,
+				'viewbox' => true, // <= Must be lower case!
+		),
+		'g'     => array( 'fill' => true ),
+		'title' => array( 'title' => true ),
+		'path'  => array( 'd' => true, 'fill' => true,  ),
+);
+$allowed_tags = array_merge( $kses_defaults, $svg_args );
+
+$content = wp_kses( get_field( 'content' ), $allowed_tags );
 if ( $content ) :
 	// Create id attribute allowing for custom "anchor" value.
 	$section_name = 'xten-section-wysiwyg';

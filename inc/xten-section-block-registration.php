@@ -16,8 +16,8 @@ function xten_acf_blocks_init() {
 		
 		// Hero Section - xten-section-hero.
 		global $section_name;
-		$section_name = 'section-hero';
-		$section_name = 'xten-' . $section_name;
+		$handle       = 'hero';
+		$section_name = 'xten-section-' . $handle;
 		acf_register_block_type(
 			array(
 				'name'              => $section_name,
@@ -33,6 +33,9 @@ function xten_acf_blocks_init() {
 																'first',
 																'main'
 															),
+				'supports'          => array(
+					'anchor' => true,
+				),
 				'category'          => 'xten-sections',
 				'enqueue_assets'    => function ($block) {
 																	$section_name = str_replace( 'acf/', '', $block['name'] );
@@ -42,8 +45,8 @@ function xten_acf_blocks_init() {
 		);
 
 		// Post Archive - xten-section-wysiwyg.
-		$section_name = 'section-post-archive';
-		$section_name = 'xten-' . $section_name;
+		$handle       = 'post-archive';
+		$section_name = 'xten-section-' . $handle;
 		acf_register_block_type(
 			array(
 				'name'              => $section_name,
@@ -59,6 +62,9 @@ function xten_acf_blocks_init() {
 																'collection',
 																'blog'
 															),
+				'supports'          => array(
+					'anchor' => true,
+				),
 				'category'          => 'xten-sections',
 				'enqueue_assets'    => function ($block) {
 																	$section_name = str_replace( 'acf/', '', $block['name'] );
@@ -68,8 +74,8 @@ function xten_acf_blocks_init() {
 		);
 
 		// WYSIWYG - xten-section-wysiwyg.
-		$section_name = 'section-wysiwyg';
-		$section_name = 'xten-' . $section_name;
+		$handle       = 'wysiwyg';
+		$section_name = 'xten-section-' . $handle;
 		acf_register_block_type(
 			array(
 				'name'              => $section_name,
@@ -85,6 +91,9 @@ function xten_acf_blocks_init() {
 																'collection',
 																'blog'
 															),
+				'supports'          => array(
+					'anchor' => true,
+				),
 				'category'          => 'xten-sections',
 				'enqueue_assets'    => function ($block) {
 																	$section_name = str_replace( 'acf/', '', $block['name'] );

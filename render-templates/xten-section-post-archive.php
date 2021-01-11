@@ -9,19 +9,20 @@
 
 // Create id attribute allowing for custom "anchor" value.
 $section_name = str_replace( 'acf/', '', $block['name'] );
-$id = $section_name . '-' . $block['id'];
-if ( !empty($block['anchor']) ) :
-	$id = $block['anchor'];
-endif;
+$handle                     = 'hero';
+// $section_name               = 'xten-section-' . $handle;
+$section_attrs              = array();
+$section_attrs['data-s-id'] = $section_name . '-' . $block['id'];
+$s_id                       = $section_attrs['data-s-id'];
+$section_attrs['id']        = $block['anchor'];
+$section_attrs['class']     = '';
+$section_attrs['class']    .= 'xten-section xten-section-' . $handle;
+$section_attrs['class']    .= $block['className'] ?
+	' ' . $block['className'] :
+	null;
 
-// Create class attribute allowing for custom "className" and "align" values.
-$className = $section_name;
-if ( !empty($block['className']) ) :
-	$className .= ' ' . $block['className'];
-endif;
-
-$block_attrs = '';
-$styles       = '';
+$section_selector           ='[data-s-id="' . $s_id . '"].' . $section_name;
+$styles                     = '';
 
 $posts_list_id = $id . '-posts-list';
 
@@ -44,12 +45,12 @@ $container_class            = $section_container ?
 															esc_attr( 'container-fluid' );
 $max_number_of_posts        = get_field( 'max_number_of_posts' ); // ! DV.
 $max_posts_per_row          = get_field( 'max_posts_per_row' ); // ! DV.
-$block_attrs               .= xten_add_block_attr( 'max-posts-per-row', $max_posts_per_row );
+$section_attrs['data-max-posts-per-row'] = $max_posts_per_row;
 $minimum_width_of_posts     = get_field( 'minimum_width_of_posts' ); // DV = 450 && Max = 450.
 // Enorce the max Value of 450 since ACF does not in blocks.
 $minimum_width_of_posts     = $minimum_width_of_posts <= 450 ? $minimum_width_of_posts : 450;
 $minimum_width_of_posts_px  = ( $minimum_width_of_posts ) . 'px';
-$listed_post_selector       = '#' . $id . '.' . $section_name . ' .listed-post';
+$listed_post_selector       = $section_selector . ' .listed-post';
 $styles                    .= xten_add_inline_style(
 																$listed_post_selector,
 																array(
@@ -180,11 +181,10 @@ endif; // endif ( $type_of_archive === 'categories' ) :
 // /Type of Archive = Categories
 
 // Render Section
-$id          = esc_attr( $id );
-$className   = esc_attr( $className );
-$block_attrs = esc_attr( $block_attrs );
+$section_attrs_s = xten_stringify_attrs( $section_attrs );
+
 ?>
-<section id="<?php echo $id; ?>" class="xten-section xten-section-post-archive <?php echo $className; ?>" <?php echo $block_attrs; ?>>
+<section <?php echo $section_attrs_s; ?>>
 	<?php if ( $posts_list ) : ?>
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?>">
 			<div class="xten-content">
@@ -248,7 +248,7 @@ $block_attrs = esc_attr( $block_attrs );
 			</div><!-- /.xten-content -->
 		</div><!-- /.container-<?php echo esc_attr( $section_name ); ?> -->
 	<?php endif; // endif ( $content ) : ?>
-</section><!-- /#<?php echo esc_attr($id); ?> -->
+</section><!-- /#<?php echo esc_attr($s_id); ?> -->
 
 <?php
-xten_section_boilerplate( $id, $section_name, $styles );
+xten_section_boilerplate( $s_id, $section_name, $styles );

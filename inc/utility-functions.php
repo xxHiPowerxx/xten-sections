@@ -29,8 +29,8 @@ endif; // endif ( ! function_exists( 'xten_section_asset_file' ) ) :
 /**
  * Register assets with naming convention.
  * 
- * @param {string} section_name - Section's Name EG: 'section-hero'.
- * @param {array} depenencies - Dependencies for css and js
+ * @param string $section_name - Section's Name EG: 'section-hero'.
+ * @param array $depenencies - Dependencies for css and js
  * EG: array('css' => null,'js' => array('jquery'))
  */
 if ( ! function_exists( 'register_section_assets' ) ) :
@@ -75,7 +75,7 @@ endif; // endif ( ! function_exists( 'register_section_assets' ) ) :
 /**
  * Register assets with naming convention.
  * 
- * @param {string} section_name - Section's Name EG: 'section-hero'.
+ * @param string $section_name - Section's Name EG: 'section-hero'.
  */
 if ( ! function_exists( 'xten_enqueue_assets' ) ) :
 	function xten_enqueue_assets( $section_name ) {
@@ -93,8 +93,8 @@ endif; // endif ( ! function_exists( 'register_section_assets' ) ) :
 /**
  * Function Adds Block Attributes
  * 
- * @param {string} attr_name - Attribute Name (will add data- prefix if not included).
- * @param {string} attr_val - Attribute Value
+ * @param string $attr_name - Attribute Name (will add data- prefix if not included).
+ * @param string $attr_val - Attribute Value
  */
 if ( ! function_exists( 'xten_add_block_attr' ) ) :
 	function xten_add_block_attr( $attr_name, $attr_val ) {
@@ -107,6 +107,28 @@ if ( ! function_exists( 'xten_add_block_attr' ) ) :
 		return ' ' . esc_attr( $attr );
 	}
 endif; // endif ( ! function_exists( 'xten_add_block_attr' ) ) :
+
+/**
+ * Convert Attributes array into String
+ * 
+ * @param array $attr_array - The Attributes 
+ * @return string - The Attributes as name-value pairs for HTML.
+ */
+if ( ! function_exists( 'xten_stringify_attrs' ) ) :
+	function xten_stringify_attrs( $attr_array ) {
+		$attr_string = '';
+		foreach ($attr_array as $key => $value) :
+			if ( $value ) :
+				$value = esc_attr( $value );
+				$space = $key !== $attr_array[0] ?
+					' ' :
+					null;
+				$attr_string.= "$space$key='$value'";
+			endif;
+		endforeach;
+		return $attr_string;
+	}
+endif; // /endif ( ! function_exists( 'xten_stringify_attrs' ) ) :
 
 /**
  * Convert Hex to RGB
@@ -251,7 +273,7 @@ endif; // endif ( ! function_exists( 'xten_get_icon' ) ) :
  */
 if ( ! function_exists( 'xten_section_block_config' ) ) :
 	function xten_section_block_config( $id, $section_name ) {
-		$selector = '#' . $id . '.' . $section_name;
+		$selector = '[data-s-id="' . $id . '"].' . $section_name;
 		$groups = array();
 		$groups['margins_group']          = get_field( 'margins_group' );
 		$groups['borders_group']          = get_field( 'borders_group' );

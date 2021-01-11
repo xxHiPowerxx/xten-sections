@@ -9,19 +9,20 @@
 
 // Create id attribute allowing for custom "anchor" value.
 $section_name = str_replace( 'acf/', '', $block['name'] );
-$id = $section_name . '-' . $block['id'];
-if ( !empty($block['anchor']) ) :
-	$id = $block['anchor'];
-endif;
+$handle                     = 'hero';
+// $section_name               = 'xten-section-' . $handle;
+$section_attrs              = array();
+$section_attrs['data-s-id'] = $section_name . '-' . $block['id'];
+$s_id                       = $section_attrs['data-s-id'];
+$section_attrs['id']        = $block['anchor'];
+$section_attrs['class']     = '';
+$section_attrs['class'] .= 'xten-section xten-section-' . $handle;
+$section_attrs['class'] .= $block['className'] ?
+	' ' . $block['className'] :
+	null;
 
-// Create class attribute allowing for custom "className" and "align" values.
-$className = $section_name;
-if ( !empty($block['className']) ) :
-	$className .= ' ' . $block['className'];
-endif;
-
-$block_attrs = '';
-$styles       = '';
+$section_selector           ='[data-s-id="' . $s_id . '"].' . $section_name;
+$styles                     = '';
 
 // Minimum Height
 $minimum_height_group = get_field( 'minimum_height_group' );
@@ -29,13 +30,13 @@ $minimum_height       = esc_attr( $minimum_height_group['minimum_height'] ); // 
 if ( $minimum_height ) :
 	$minimum_height_unit     = esc_attr( $minimum_height_group['minimum_height_unit'] ); // DV = '%'
 	$minimum_height_attr_val = $minimum_height . $minimum_height_unit;
-	$block_attrs            .= xten_add_block_attr( 'minimum-height', $minimum_height_attr_val );
+	$section_attrs['data-minimum-height'] = $minimum_height_attr_val;
 	if ( $minimum_height_unit === '%' ) :
 		$sizeHero = 'sizeHero';
 	else :
 		$sizeHero = null;
 		$styles .= xten_add_inline_style(
-			'#' . $id . '.' . $section_name . ' .container-xten-section-hero',
+			$section_selector . ' .container-xten-section-hero',
 			array(
 				'min-height' => $minimum_height_attr_val,
 			)
@@ -71,7 +72,7 @@ if ( $background_image ) :
 			$background_image_css_size = 'auto';
 	endswitch; //endswitch ( $background_image_css_size ) :
 	$styles .= xten_add_inline_style(
-							'#' . $id . '.' . $section_name,
+							$section_selector,
 							array(
 								'background-image' => 'url(' . $background_image_url . ')',
 								'background-size'  => $background_image_css_size,
@@ -83,11 +84,11 @@ $background_color         = get_field( 'background_color' );
 $background_overlay_group = get_field( 'background_overlay_group' );
 $background_overlay_color = esc_attr( $background_overlay_group['background_overlay_color'] );
 if ( $background_overlay_color ) :
-	$block_attrs                  .= xten_add_block_attr( 'has-overlay', true );
+	$section_attrs['data-has-overlay'] = true;
 	$background_overlay_opacity    = $background_overlay_group['background_overlay_opacity']; // DV = 100
 	$background_overlay_color_rgba = esc_attr( convert_hex_to_rgb( $background_overlay_color, $background_overlay_opacity ) );
 	$styles .= xten_add_inline_style(
-		'#' . $id . '.' . $section_name . ':before',
+		$section_selector . ':before',
 		array(
 			'background-color' => $background_overlay_color_rgba
 		)
@@ -100,7 +101,7 @@ $content = wp_kses_post( get_field( 'content' , false, false ) );
 if ( $content ) :
 	$content_color     = esc_attr( get_field( 'content_color' ) ); // ! DV
 	$styles           .= xten_add_inline_style(
-											 	'#' . $id . '.' . $section_name . ' .xten-content',
+											 	$section_selector . ' .xten-content',
 											 	array(
 											 		'color' => $content_color
 											 	),
@@ -115,7 +116,7 @@ if ( $content ) :
 	if ( $content_minimum_width ) :
 		$content_minimum_width_px = ( $content_minimum_width ) . 'px';
 		$styles .= xten_add_inline_style(
-			'#' . $id . '.' . $section_name . ' .xten-content',
+			$section_selector . ' .xten-content',
 			array(
 				'min-width' => $content_minimum_width_px
 			),
@@ -123,14 +124,14 @@ if ( $content ) :
 			'min-width:' . $content_minimum_width_px
 		);
 		$styles .= xten_add_inline_style(
-			'#' . $id . '.' . $section_name . ' .container-' . $section_name,
+			$section_selector . ' .container-' . $section_name,
 			array(
 				'padding-left' => '0',
 				'padding-right' => '0',
 			)
 		);
 		$styles .= xten_add_inline_style(
-			'#' . $id . '.' . $section_name . ' .container-' . $section_name,
+			$section_selector . ' .container-' . $section_name,
 			array(
 				'padding-left' => '15px',
 				'padding-right' => '15px',
@@ -147,7 +148,7 @@ if ( $content ) :
 		$content_maximum_width_unit = esc_attr( $content_maximum_width_group['maximum_width_unit'] ); // DV = '%'
 		$content_maximum_width_val  = $content_maximum_width . $content_maximum_width_unit;
 		$styles .= xten_add_inline_style(
-			'#' . $id . '.' . $section_name . ' .xten-content',
+			$section_selector . ' .xten-content',
 			array(
 				'max-width' => $content_maximum_width_val
 			),
@@ -167,7 +168,7 @@ if ( $content ) :
 																		 	)
 																		 );
 		$styles .= xten_add_inline_style(
-								'#' . $id . '.' . $section_name . ' .xten-content',
+								$section_selector . ' .xten-content',
 								array(
 									'background-color' => $content_background_color_rgba
 								)
@@ -175,18 +176,17 @@ if ( $content ) :
 	endif; // endif ( $content_background_color ) :
 	$content_location_group      = get_field( 'content_location_group' );
 	$content_vertical_location   = $content_location_group['content_vertical_location'];
-	$block_attrs                .= xten_add_block_attr( 'content-vertical-location', $content_vertical_location );
+	$section_attrs['data-content-vertical-location'] = $content_vertical_location;
 	$content_horizontal_location = $content_location_group['content_horizontal_location'];
-	$block_attrs                .= xten_add_block_attr( 'content-horizontal-location', $content_horizontal_location );
+	$section_attrs['data-content-horizontal-location'] = $content_horizontal_location;
 endif; //if ( $content ) :
 // /Content
 
 // Render Section
-$id          = esc_attr( $id );
-$className   = esc_attr( $className );
-$block_attrs = esc_attr( $block_attrs );
+$section_attrs_s = xten_stringify_attrs( $section_attrs );
+
 ?>
-<section id="<?php echo $id; ?>" class="xten-section xten-section-hero <?php echo $className; ?>" <?php echo $block_attrs; ?>>
+<section <?php echo $section_attrs_s; ?>>
 	<?php if ( $content ) : ?>
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?> <?php echo $sizeHero; ?>">
 			<div class="xten-content-outer">
@@ -196,8 +196,8 @@ $block_attrs = esc_attr( $block_attrs );
 			</div>
 		</div>
 	<?php endif; // endif ( $content ) : ?>
-</section><!-- /#<?php echo esc_attr($id); ?> -->
+</section><!-- /#<?php echo esc_attr($s_id); ?> -->
 
 <?php
 
-xten_section_boilerplate( $id, $section_name, $styles );
+xten_section_boilerplate( $s_id, $section_name, $styles );

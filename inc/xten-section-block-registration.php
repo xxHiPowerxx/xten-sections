@@ -86,10 +86,9 @@ function xten_acf_blocks_init() {
 				'keywords'          => array(
 																'xten',
 																'section',
-																'post',
-																'archive',
-																'collection',
-																'blog'
+																'wysiwyg',
+																'html',
+																'custom',
 															),
 				'supports'          => array(
 					'anchor' => true,

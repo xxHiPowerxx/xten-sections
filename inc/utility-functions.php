@@ -118,7 +118,7 @@ if ( ! function_exists( 'xten_stringify_attrs' ) ) :
 	function xten_stringify_attrs( $attr_array ) {
 		$attr_string = '';
 		foreach ($attr_array as $key => $value) :
-			if ( $value ) :
+			if ( $value !== null ) :
 				$value = esc_attr( $value );
 				$space = $key !== $attr_array[0] ?
 					' ' :
@@ -481,3 +481,66 @@ if ( ! function_exists( 'xten_get_optimal_image_size' ) ) :
 		return $size_array;
 	}
 endif; // endif ( ! function_exists( 'xten_get_optimal_image_size' ) ) :
+
+if ( ! function_exists( 'xten_kses_post' ) ) :
+	/**
+	 * Sanitizes string but leaves support for SVGs.
+	 * @param string $string to be sanitized.
+	 * @return string Sanitized string with SVG support.
+	 */
+	function xten_kses_post( $string ) {
+		$kses_defaults = wp_kses_allowed_html( 'post' );
+		$svg_args = array(
+			'svg'   => array(
+					'class' => true,
+					'aria-hidden' => true,
+					'aria-labelledby' => true,
+					'role' => true,
+					'xmlns' => true,
+					'width' => true,
+					'height' => true,
+					'viewbox' => true, // <= Must be lower case!
+				),
+				'g'     => array( 'fill' => true ),
+				'title' => array( 'title' => true ),
+				'path'  => array( 'd' => true, 'fill' => true,  ),
+		);
+		$allowed_tags = array_merge( $kses_defaults, $svg_args );
+		return wp_kses( $string, $allowed_tags );
+	}
+endif; // endif ( ! function_exists( 'xten_kses_post' ) ) :
+
+if ( ! function_exists( 'xten_get_icon_fc' ) ) :
+	function xten_get_icon_fc( $row_layout ) {
+		$icon = null;
+
+		if ( $row_layout === 'font_awesome_icon' ) :
+			$fa_handle = esc_attr( get_sub_field( 'font_awesome_icon_handle' ) );
+			if ( $fa_handle ) :
+				$icon = '<i class="fa fa-' . $fa_handle . '"></i>';
+			endif;
+		endif; // endif ( $row_layout === 'font_awesome_icon' ) :
+
+		if ( $row_layout === 'svg' ) :
+			$svg_path = get_sub_field( 'svg_path' );
+			if ( $svg_path ) :
+				$whole_path = get_stylesheet_directory() . $svg_path;
+				if ( file_exists( $whole_path ) ) :
+					$icon = file_get_contents( $whole_path );
+				endif;
+			endif;
+		endif; // endif ( $row_layout === 'svg' ) :
+
+		if ( $row_layout === 'bitmap' ) :
+			$image = get_sub_field( 'image' );
+			if ( $image ) :
+				$icon = wp_get_attachment_image(
+					$image['id'],
+					xten_get_optimal_image_size(null, 70), true
+				);
+			endif;
+		endif; // endif ( $row_layout === 'bitmap' ) :
+
+		return $icon;
+	}
+endif; // endif ( ! function_exists( 'xten_get_icon_fc' ) ) :

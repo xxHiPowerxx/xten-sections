@@ -240,7 +240,6 @@ $section_attrs_s = xten_stringify_attrs( $section_attrs );
 							</div><!-- /.listed-post-inner -->
 						</div><!-- /#<?php echo $listed_post['post_uid']; ?> -->
 						<?php
-						// var_dump($category);
 					endforeach;
 					?>
 				</div><!-- /#<?php echo $posts_list_id; ?> -->

@@ -8,7 +8,7 @@
  */
 
 
-$content = xten_kses_post( get_field( 'content' ) );
+$content = xten_kses_post( get_field( 'content', false, false ) );
 if ( $content ) :
 	$handle                     = 'wysiwyg';
 	$section_name               = 'xten-section-' . $handle;

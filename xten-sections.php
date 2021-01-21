@@ -52,7 +52,7 @@ function xten_section_assets() {
 	);
 	wp_enqueue_style( 'xten-sections-common-css' );
 	register_section_assets(
-		'section-hero',
+		'component-hero',
 		array(
 			'css' => null,
 			'js'  => array(

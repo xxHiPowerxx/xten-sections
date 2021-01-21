@@ -37,10 +37,10 @@ function xten_acf_blocks_init() {
 					'anchor' => true,
 				),
 				'category'          => 'xten-sections',
-				'enqueue_assets'    => function ($block) {
-																	$section_name = str_replace( 'acf/', '', $block['name'] );
-																	xten_enqueue_assets( $section_name );
-																}
+				// 'enqueue_assets'    => function ($block) {
+				// 													$section_name = str_replace( 'acf/', '', $block['name'] );
+				// 													xten_enqueue_assets( $section_name );
+				// 												}
 			)
 		);
 

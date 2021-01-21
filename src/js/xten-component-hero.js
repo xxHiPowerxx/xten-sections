@@ -12,8 +12,8 @@
 		function sizeHero() {
 			$('.sizeHero').each(function () {
 				startWork(this);
-				var section = $(this).closest('.xten-section'),
-					minHeight = section.attr('data-minimum-height'),
+				var component = $(this).closest('.xten-component'),
+					minHeight = component.attr('data-minimum-height'),
 					viewPortHeight = window.innerHeight,
 					headerHeight = window.siteHeaderHeight || $('.site-header')[0].getBoundingClientRect().height,
 					headerHeight = parseFloat(headerHeight),
@@ -21,9 +21,9 @@
 					adminBarHeight = adminBar ?
 						adminBar.getBoundingClientRect().height :
 						0,
-					sectionComputedStyle = getComputedStyle(section[0]),
-					sectionPaddings = parseFloat(sectionComputedStyle.paddingTop) + parseFloat(sectionComputedStyle.paddingBottom),
-					spaceAvailable = viewPortHeight - headerHeight - adminBarHeight - sectionPaddings,
+					componentComputedStyle = getComputedStyle(component[0]),
+					componentPaddings = parseFloat(componentComputedStyle.paddingTop) + parseFloat(componentComputedStyle.paddingBottom),
+					spaceAvailable = viewPortHeight - headerHeight - adminBarHeight - componentPaddings,
 					minHeightNum = parseFloat(minHeight),
 					minHeightPercent = minHeightNum / 100,
 					calculatedHeight = spaceAvailable * minHeightPercent;
@@ -55,7 +55,7 @@
 			};
 		}
 		function listenForImageLoad() {
-			$('.xten-section-hero').each(function () {
+			$('.xten-component-hero').each(function () {
 				if (isInViewport(this)) {
 					var backgroundImage = getComputedStyle(this).backgroundImage;
 					if (backgroundImage.startsWith('url')) {

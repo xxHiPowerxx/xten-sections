@@ -1,6 +1,6 @@
 @import './import/variables';
 
-.xten-section-hero {
+.xten-component-hero {
 	background-position: 50% 50%;
 	&[data-has-overlay='1'] {
 		&,
@@ -18,7 +18,7 @@
 		top: 0;
 		left: 0;
 	}
-	.container-xten-section-hero {
+	.container-xten-component-hero {
 		padding-top: 3rem;
 		padding-bottom: 3rem;
 	}
@@ -31,17 +31,17 @@
 	}
 	/*   Vertical Location   */
 	&[data-content-vertical-location='top'] {
-		.container-xten-section-hero {
+		.container-xten-component-hero {
 			align-items: flex-start;
 		}
 	}
 	&[data-content-vertical-location='middle'] {
-		.container-xten-section-hero {
+		.container-xten-component-hero {
 			align-items: center;
 		}
 	}
 	&[data-content-vertical-location='bottom'] {
-		.container-xten-section-hero {
+		.container-xten-component-hero {
 			align-items: flex-end;
 		}
 	}
@@ -67,6 +67,6 @@
 		padding: 3rem;
 	}
 }
-.container-xten-section-hero {
+.container-xten-component-hero {
 	display: flex;
 }

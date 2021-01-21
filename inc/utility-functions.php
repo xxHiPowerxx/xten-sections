@@ -283,27 +283,29 @@ if ( ! function_exists( 'xten_section_block_config' ) ) :
 
 		$style_array   = array();
 		foreach ( $groups as $group ) :
-			foreach ( $group as $rule => $value ) :
-				if ( $value ):
-					$is_color   = strpos( $rule, 'color' );
-					$is_opacity = strpos( $rule, 'opacity' );
-					$is_border  = strpos( $rule, 'border' );
-					if ( ! $is_color ) :
-						$_rule = str_replace('_', '-', $rule );
-						$style_array[$_rule] = $value;
-					elseif ( false !== $is_color && ! $is_opacity ) :
-						$rule_singular = str_replace( 'color', '', $rule );
-						$rule_plural   = $rule_singular . 's';
-						$rule_color_opacity_value = $groups[ $rule_plural . '_group' ][ $rule_singular . '_color_opacity' ];
-						// Remove 'text_' from text_color.
-						$__rule = str_replace('text_', '', $rule );
-						// Change '_' to '-'.
-						$_rule = str_replace('_', '-', $__rule );
-						$rule_color_rgba = convert_hex_to_rgb($value, $rule_color_opacity_value);
-						$style_array[$_rule] = $rule_color_rgba;
+			if ( $group ) :
+				foreach ( $group as $rule => $value ) :
+					if ( $value ):
+						$is_color   = strpos( $rule, 'color' );
+						$is_opacity = strpos( $rule, 'opacity' );
+						$is_border  = strpos( $rule, 'border' );
+						if ( ! $is_color ) :
+							$_rule = str_replace('_', '-', $rule );
+							$style_array[$_rule] = $value;
+						elseif ( false !== $is_color && ! $is_opacity ) :
+							$rule_singular = str_replace( 'color', '', $rule );
+							$rule_plural   = $rule_singular . 's';
+							$rule_color_opacity_value = $groups[ $rule_plural . '_group' ][ $rule_singular . '_color_opacity' ];
+							// Remove 'text_' from text_color.
+							$__rule = str_replace('text_', '', $rule );
+							// Change '_' to '-'.
+							$_rule = str_replace('_', '-', $__rule );
+							$rule_color_rgba = convert_hex_to_rgb($value, $rule_color_opacity_value);
+							$style_array[$_rule] = $rule_color_rgba;
+						endif;
 					endif;
-				endif;
-			endforeach; // /endforeach ( $group as $rule => $value ) :
+				endforeach; // /endforeach ( $group as $rule => $value ) :
+			endif;
 		endforeach; // /endforeach ( $groups as $group ) :
 
 		$global_styles = xten_add_inline_style($selector, $style_array);
@@ -491,21 +493,29 @@ if ( ! function_exists( 'xten_kses_post' ) ) :
 	function xten_kses_post( $string ) {
 		$kses_defaults = wp_kses_allowed_html( 'post' );
 		$svg_args = array(
-			'svg'   => array(
-					'class' => true,
-					'aria-hidden' => true,
-					'aria-labelledby' => true,
-					'role' => true,
-					'xmlns' => true,
-					'width' => true,
-					'height' => true,
-					'viewbox' => true, // <= Must be lower case!
-				),
-				'g'     => array( 'fill' => true ),
-				'title' => array( 'title' => true ),
-				'path'  => array( 'd' => true, 'fill' => true,  ),
+			'svg' => array(
+				'class' => true,
+				'aria-hidden' => true,
+				'aria-labelledby' => true,
+				'role' => true,
+				'xmlns' => true,
+				'width' => true,
+				'height' => true,
+				'viewbox' => true, // <= Must be lower case!
+			),
+			'g'     => array( 'fill' => true ),
+			'title' => array( 'title' => true ),
+			'path'  => array( 'd' => true, 'fill' => true, ),
 		);
 		$allowed_tags = array_merge( $kses_defaults, $svg_args );
+
+		foreach ( $allowed_tags as $key=>$allowed_tag ) :
+			$tabindex = array(
+				'tabindex' => true,
+			);
+			$allowed_tags[$key] = array_merge( $allowed_tag, $tabindex );
+		endforeach;
+
 		return wp_kses( $string, $allowed_tags );
 	}
 endif; // endif ( ! function_exists( 'xten_kses_post' ) ) :
@@ -544,3 +554,45 @@ if ( ! function_exists( 'xten_get_icon_fc' ) ) :
 		return $icon;
 	}
 endif; // endif ( ! function_exists( 'xten_get_icon_fc' ) ) :
+
+if ( ! function_exists( 'xten_sections_render_component' ) ) :
+	/**
+	 * Render Markup for Component.
+	 * Function will attempt to get required file to render Component
+	 * 
+	 * @param string $handle name of handle will be used to find correct file.
+	 * @param mixed array|string $post_id optional post or array of posts of data being passed.
+	 * @return string rendered markup as string.
+	 */
+	function xten_sections_render_component( $handle, $post_id = null ) {
+		$file_path = $GLOBALS['xten-sections-dir'] . '/render-templates/components/';
+		$file_name = 'component-' . $handle . '.php';
+		$file_path = $file_path . $file_name;
+		if ( file_exists( $file_path ) ) :
+			require_once( $file_path );
+			$handle_snake_case = str_replace('-', '_', $handle );
+			$component_func = 'component_' . $handle_snake_case;
+			if ( function_exists( $component_func ) ) :
+				return $component_func( $post_id );
+			endif;
+		endif;
+	}
+endif;  //endif ( ! function_exists( 'xten_sections_render_component' ) ) :
+
+if ( ! function_exists( 'xten_register_component_id' ) ) :
+	/**
+	 * Create Component ID
+	 * Function Increments Id based on handle
+	 * @param string $handle name of handle.
+	 * @return int component id.
+	 */
+	function xten_register_component_id( $handle ) {
+		$GLOBALS['component_ids'][$handle] = $GLOBALS['component_ids'][$handle] !== null ?
+			$GLOBALS['component_ids'][$handle] :
+			0;
+			$GLOBALS['component_ids'][$handle] ++;
+			$component_id = $handle . '-' . $GLOBALS['component_ids'][$handle];
+
+		return  $component_id;
+	}
+endif; // endif ( ! function_exists( 'xten_register_component_id' ) ) :

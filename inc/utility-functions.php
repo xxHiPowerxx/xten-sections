@@ -596,3 +596,22 @@ if ( ! function_exists( 'xten_register_component_id' ) ) :
 		return  $component_id;
 	}
 endif; // endif ( ! function_exists( 'xten_register_component_id' ) ) :
+
+if ( ! function_exists( 'xten_get_reuseable_block' ) ) :
+	/**
+	 * Gets Reusable Block by String, Post Object, or ID.
+	 * @param string|object|int $block - Block Title, Block Post Object, or Block Post ID.
+	 * @return string Reusable Block Content.
+	 */
+	function xten_get_reuseable_block( $block ) {
+		if ( is_string( $block ) ) :
+			$reuseable_block = get_page_by_title( $block, OBJECT, 'wp_block' );
+		elseif ( is_object( $block ) || is_numeric( $block ) ) :
+			$reuseable_block = get_post( $block );
+		else:
+			return false;
+		endif;
+		$reuseable_block_content = apply_filters( 'the_content', $reuseable_block->post_content );
+		return $reuseable_block_content;
+	}
+endif; // endif ( ! function_exists( 'xten_get_reuseable_block' ) ) :

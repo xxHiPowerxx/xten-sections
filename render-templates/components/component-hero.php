@@ -116,21 +116,40 @@ function component_hero( $args = null ) {
 		$content_minimum_width       = esc_attr( $content_minimum_width_group['minimum_width'] ); // !DV
 		$content_minimum_width_px    = null;
 		if ( $content_minimum_width ) :
-			$content_minimum_width_px = ( $content_minimum_width ) . 'px';
+			$content_minimum_width_px     = ( $content_minimum_width ) . 'px';
+			$content_min_width_breakpoint = null;
+			$bootstrap_breakpoints = array(
+				'vp_xxs' => 380,
+				'vp_xs'  => 575,
+				'vp_sm'  => 767,
+				'vp_m'   => 992,
+				'vp_lg'  => 1200,
+				'vp_xl'  => 1680,
+				'vp_xxl' => 1920,
+			);
+			foreach ( $bootstrap_breakpoints as $breakpoint ) :
+				if ( $content_minimum_width < $breakpoint ) :
+					$content_min_width_breakpoint = $breakpoint . 'px';
+					break;
+				endif;
+			endforeach;
 			$styles .= xten_add_inline_style(
 				$component_selector . ' .xten-content',
 				array(
-					'min-width' => $content_minimum_width_px
+					'min-width' => $content_minimum_width_px,
+					'width' => 'auto',
 				),
 				true,
-				'min-width:' . $content_minimum_width_px
+				'min-width:' . $content_min_width_breakpoint
 			);
 			$styles .= xten_add_inline_style(
 				$component_selector . ' .container-' . $component_name,
 				array(
 					'padding-left' => '0',
 					'padding-right' => '0',
-				)
+				),
+				true,
+				'min-width:' . $bootstrap_breakpoints['vp_xs'] . 'px'
 			);
 			$styles .= xten_add_inline_style(
 				$component_selector . ' .container-' . $component_name,

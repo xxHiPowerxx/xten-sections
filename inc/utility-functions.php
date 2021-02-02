@@ -423,7 +423,7 @@ if ( ! function_exists( 'xten_get_optimal_image_size' ) ) :
 		$aspect_ratio = array( 16, 9 )
 	) {
 		if ( ! $image_id ) :
-			return;
+			return false;
 		endif;
 		$size_array = array();
 		// Get Image dimensions.

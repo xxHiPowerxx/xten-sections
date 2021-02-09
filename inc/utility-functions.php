@@ -224,10 +224,15 @@ if ( ! function_exists( 'xten_posted_on' ) ) :
 			esc_html( get_the_modified_date('', $post) )
 		);
 
+		$href_attr = '#';
+		if ( $post !== get_queried_object() ) :
+			$href_attr = 'href="' . esc_url( get_permalink($post) ) . '"';
+		endif;
+
 		$posted_on = sprintf(
 			/* translators: %s: post date. */
 			esc_html( '%1$s', 'post date', 'xten' ),
-			'<a href="' . esc_url( get_permalink($post) ) . '" rel="bookmark">' . $time_string . '</a>'
+			'<a ' . $href_attr . ' rel="bookmark">' . $time_string . '</a>'
 		);
 
 		return '<span class="posted-on">' . $posted_on . ' </span>'; // WPCS: XSS OK.

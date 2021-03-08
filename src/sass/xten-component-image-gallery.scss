@@ -1,0 +1,39 @@
+@import './import/variables';
+
+/*   Component   */
+.xten-component-image-gallery {
+	background-color: $dark;
+	.anchor-image-gallery-image {
+		display: block;
+		@include responsive-before;
+	}
+	.nav-slider {
+		.slick-slide {
+			background-color: transparent;
+			@include smoothest-transition;
+			&.slick-center {
+				background-color: $primary;
+			}
+		}
+	}
+	[data-fancybox] {
+		cursor: zoom-in;
+	}
+}
+/*   /Component   */
+.image-gallery-nav-image-wrapper {
+	padding: .175%;
+	cursor: pointer;
+}
+
+.image-gallery-nav-image-wrapper-inner {
+	@include responsive-before;
+	&:before {
+		@include smoothest-transition;
+		@at-root .slick-center & {
+			background-color: rgba($white, .65);
+			z-index: 1;
+			position: relative;
+		}
+	}
+}

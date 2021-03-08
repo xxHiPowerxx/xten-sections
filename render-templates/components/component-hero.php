@@ -1,6 +1,6 @@
 <?php
 /**
- * This Component Renders ONE Service Category.
+ * This Component Renders a Hero Component.
  *
  * @package xten-sections
  */
@@ -222,8 +222,6 @@ function component_hero( $args = null ) {
 	<?php
 	$html = ob_get_clean();
 
-	// var_dump($component_name);
-	// die;
 	xten_enqueue_assets( $component_name );
 	xten_section_boilerplate( $c_id, $component_name, $styles );
 

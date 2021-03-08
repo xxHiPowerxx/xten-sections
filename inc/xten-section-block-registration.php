@@ -100,6 +100,35 @@ function xten_acf_blocks_init() {
 																}
 			)
 		);
+
+		// Image Gallery - xten-section-image-gallery.
+		$handle       = 'image-gallery';
+		$section_name = 'xten-section-' . $handle;
+		acf_register_block_type(
+			array(
+				'name'              => $section_name,
+				'title'             => __('Image Gallery'),
+				'description'       => __('Image Gallery Block with Slider and Lightbox (fancybox) Functionality.'),
+				'icon'              => xten_get_icon($section_name),
+				'render_template'   => $GLOBALS['xten-sections-dir'] . 'render-templates/' . $section_name . '.php',
+				'keywords'          => array(
+																'xten',
+																'section',
+																'image',
+																'gallery',
+																'slider',
+																'lightbox',
+															),
+				'supports'          => array(
+					'anchor' => true,
+				),
+				'category'          => 'xten-sections',
+				// 'enqueue_assets'    => function ($block) {
+				// 													$section_name = str_replace( 'acf/', '', $block['name'] );
+				// 													xten_enqueue_assets( $section_name );
+				// 												}
+			)
+		);
 	}
 }
 add_action('acf/init', 'xten_acf_blocks_init');

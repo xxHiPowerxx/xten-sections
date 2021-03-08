@@ -108,18 +108,21 @@ if ( ! function_exists( 'xten_add_block_attr' ) ) :
 	}
 endif; // endif ( ! function_exists( 'xten_add_block_attr' ) ) :
 
-/**
- * Convert Attributes array into String
- * 
- * @param array $attr_array - The Attributes 
- * @return string - The Attributes as name-value pairs for HTML.
- */
 if ( ! function_exists( 'xten_stringify_attrs' ) ) :
-	function xten_stringify_attrs( $attr_array ) {
+	/**
+	 * Convert Attributes array into String
+	 * 
+	 * @param array $attr_array - The Attributes 
+	 * @param bool (optional) $sanitize - default = true - Optionally Sanitize Output. 
+	 * @return string - The Attributes as name-value pairs for HTML.
+	 */
+	function xten_stringify_attrs( $attr_array, $sanitize = true ) {
 		$attr_string = '';
 		foreach ($attr_array as $key => $value) :
 			if ( $value !== null ) :
-				$value = esc_attr( $value );
+				if ( $sanitize ) :
+					$value = esc_attr( $value );
+				endif;
 				$space = $key !== $attr_array[0] ?
 					' ' :
 					null;
@@ -620,3 +623,36 @@ if ( ! function_exists( 'xten_get_reuseable_block' ) ) :
 		return $reuseable_block_content;
 	}
 endif; // endif ( ! function_exists( 'xten_get_reuseable_block' ) ) :
+
+if ( ! function_exists( 'xten_section_placeholder' ) ) :
+	function xten_section_placeholder() {
+		if ( is_admin() ) :
+			$img_src = $GLOBALS['xten-sections-uri'] . 'assets/img/build.webp';
+			ob_start();
+			?>
+			<div style="background-color:rgb(241,243,245);font-size:18px;padding:15px;text-align:center;width:830px;max-width:100%;">
+				<img src="<?php echo $img_src; ?>" width="800" height="600" style="display:inline-block;max-width:100%;" />
+				<p>No Content Found,</p>
+				<p>Please Configure this Block via the Form in the Sidebar.</p>
+			</div>
+			<?php
+			$html = ob_get_clean();
+			return $html;
+		endif;
+	}
+endif; // endif ( ! function_exists( 'xten_section_placeholder' ) ) :
+
+if ( ! function_exists( 'xten_has_content' ) ) :
+	function xten_has_content( $validation ) {
+		if ( ! is_array( $validation ) ) :
+			return false;
+		else:
+			foreach ($validation as $key => $value) :
+				if ( empty( $value) ) :
+					unset( $validation[$key] );
+				endif;
+			endforeach;
+			return ! empty( $validation );
+		endif; // endif ( is_array( $validation ) ) :
+	}
+endif; // endif ( ! function_exists( 'xten_has_content' ) ) :

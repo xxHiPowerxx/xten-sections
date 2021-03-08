@@ -26,19 +26,59 @@ require_once $GLOBALS['xten-sections-dir'] . '/inc/utility-functions.php';
 function xten_section_assets() {
 
 	// Bootstrap.
+	$bootstrap_version = '4.0.0';
 	$handle = 'xten-vendor-bootstrap-css';
 	if ( ! wp_style_is( $handle, 'registered' ) ) {
-		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/bootstrap/css/bootstrap.min.css', array(), '4.0.0' );
+		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/bootstrap/css/bootstrap.min.css', array(), $bootstrap_version );
 	}
 	$handle = 'xten-vendor-bootstrap-js';
 	if ( ! wp_script_is( $handle, 'registered' ) ) {
-		wp_register_script( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/bootstrap/js/bootstrap.bundle.min.js', array( 'jquery' ), '4.0.0', true );
+		wp_register_script( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/bootstrap/js/bootstrap.bundle.min.js', array( 'jquery' ), $bootstrap_version, true );
 	}
 
 	// Fontawesome.
+	$fontawesome_version = '5.7.1';
 	$handle = 'xten-vendor-fontawesome-css';
 	if ( ! wp_style_is( $handle, 'registered' ) ) {
-		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fontawesome/css/all.min.css', array(), ' 5.7.1', 'all' );
+		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fontawesome/css/all.min.css', array(), $fontawesome_version, 'all' );
+	}
+
+	// Slick Slider Vendor
+	// Slick JS
+	$slick_version = '1.8.0';
+	$handle = 'xten-vendor-slick-js';
+	if ( ! wp_script_is( $handle, 'registered' ) ) {
+		wp_register_script( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/slick/slick.min.js', array( 'jquery' ), $slick_version, true );
+	}
+	// Slick CSS
+	$handle = 'xten-vendor-slick-css';
+	if ( ! wp_style_is( $handle, 'registered' ) ) {
+		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/slick/slick.min.css', array(), $slick_version, 'all' );
+	}
+	// Xten Slick CSS - for better looking slick styles.
+	$handle = 'xten-vendor-override-slick-css';
+	$file_path = 'assets/css/vendor-override/xten-vendor-override-slick.css';
+	if ( ! wp_style_is( $handle, 'registered' ) ) {
+		wp_register_style(
+			$handle,
+			$GLOBALS['xten-sections-uri'] . $file_path,
+			array('xten-vendor-fontawesome-css', 'xten-vendor-slick-css'),
+			xten_filemtime( $GLOBALS['xten-sections-dir'] . $file_path ),
+			'all'
+		);
+	}
+
+	// Fancybox Vendor
+	// Fancybox JS
+	$fancybox_version = '3.5.7';
+	$handle = 'xten-vendor-fancybox-js';
+	if ( ! wp_script_is( $handle, 'registered' ) ) {
+		wp_register_script( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fancybox/jquery.fancybox.min.js', array( 'jquery' ), $fancybox_version, true );
+	}
+	// Fancybox CSS
+	$handle = 'xten-vendor-fancybox-css';
+	if ( ! wp_style_is( $handle, 'registered' ) ) {
+		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fancybox/jquery.fancybox.min.css', array(), $fancybox_version, 'all' );
 	}
 
 	register_section_assets(
@@ -76,6 +116,20 @@ function xten_section_assets() {
 			'js'  => array(
 								'jquery'
 							 ),
+		)
+	);
+	register_section_assets(
+		'component-image-gallery',
+		array(
+			'css' => array(
+				'xten-vendor-override-slick-css',
+				'xten-vendor-fancybox-css',
+			),
+			'js'  => array(
+				'jquery',
+				'xten-vendor-slick-js',
+				'xten-vendor-fancybox-js',
+			),
 		)
 	);
 }

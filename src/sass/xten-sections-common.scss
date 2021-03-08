@@ -1,3 +1,8 @@
+@import './import/variables';
+
+.smooth-transition {
+	transition: $smooth-transition;
+}
 .xten-content {
 	> :last-child {
 		margin-bottom: 0;

@@ -1,0 +1,56 @@
+@import '../import/_variables';
+
+.slick-prev {
+  left: 0;
+	&,
+	&:focus {
+		background-image: linear-gradient(to right, rgba($black, 0.4), rgba($black, 0));
+	}
+	&:hover {
+		background-image: linear-gradient(to right, rgba($black, 0.7), rgba($black, 0));
+		&:before {
+			transform: translate3d(-.5em, 0, 0);
+		}
+	}
+	&:before {
+		content: '\f053';
+	}
+}
+
+.slick-next {
+  right: 0;
+	&,
+	&:focus {
+		background-image: linear-gradient(to left, rgba($black, 0.4), rgba($black, 0));
+	}
+	&:hover {
+		background-image: linear-gradient(to left, rgba($black, 0.7), rgba($black, 0));
+		&:before {
+			transform: translate3d(7.5%, 0, 0);
+		}
+	}
+	&:before {
+		content: '\f054';
+	}
+}
+
+.slick-arrow {
+	font-size: 3rem;
+  height: 100%;
+  width: 10%;
+	min-width: 2em;
+  z-index: 1;
+  opacity: .75;
+	@include smoother-transition;
+	#{$active} {
+		opacity: 1;
+	}
+	&:before {
+		display: block;
+		@include font-awesome-font;
+		@include smoothest-transition;
+		opacity: 1;
+		text-shadow: 0 .025em .025em $black;
+		font-size: inherit;
+	}
+}

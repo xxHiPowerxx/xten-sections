@@ -33,10 +33,10 @@ if ( $content ) :
 	?>
 	<section <?php echo $section_attrs_s; ?>>
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?>">
-				<div class="xten-content">
-					<?php echo $content; ?>
-				</div><!-- /.xten-content -->
-			</div><!-- /.container-<?php echo esc_attr( $section_name ); ?> -->
+			<div class="xten-content">
+				<?php echo $content; ?>
+			</div><!-- /.xten-content -->
+		</div><!-- /.container-<?php echo esc_attr( $section_name ); ?> -->
 	</section><!-- /#<?php echo $s_id; ?> -->
 
 	<?php

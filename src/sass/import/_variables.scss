@@ -28,15 +28,58 @@ $tertiary: rgb(242, 223, 104);
 $quartiary: rgb(51, 51, 51);
 $white: rgb(255, 255, 255);
 $off-white: rgb(245, 245, 245);
-$dark: rgb(64, 64, 64);
+$dark: rgb(51, 51, 51);
 $darker: rgb(32, 32, 32);
+$black: rgb(0, 0, 0);
 /*   /Colors   */
 
 /*   Smooth Transition    */
 /*-----TRANSITIONS------*/
 $smooth-transition: all 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
-.smooth-transition {
+@mixin smooth-transition {
 	transition: $smooth-transition;
+}
+@mixin smoother-transition {
+	@include smooth-transition;
+	backface-visibility: hidden;
+}
+@mixin smoothest-transition {
+	@include smoother-transition;
+	transform: translateZ(0);
 }
 
 $active: "&:hover,&:focus,&.active";
+
+/*   Font Awesome Mixins   */
+@mixin font-awesome-font {
+	font-weight: 900;
+	font-family: 'Font Awesome 5 Free';
+	-moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+  line-height: 1;
+}
+/*   /Font Awesome Mixins   */
+
+@mixin responsive-before( $pad-bottom: 56.25% ) {
+	position: relative;
+	&:before {
+		content: '';
+		display: block;
+		width: 100%;
+		padding-bottom: $pad-bottom;
+	}
+	> * {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate3d(-50%, -50%, 0);
+		&img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+}

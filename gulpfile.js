@@ -18,7 +18,7 @@ var paths = cfg.paths;
 gulp.task('styles', function (done) {
 	var stream = gulp
 		.src([
-			`${paths.sass}/*.scss`,
+			`${paths.sass}/**/*.scss`,
 			'!src/sass/import/', //exclude import'
 			'!src/sass/import/**/*'
 		])
@@ -56,10 +56,10 @@ gulp.task('scripts', function (done) {
 });
 
 // Images
-var imgDest = './assets/images/';
+var imgDest = './assets/img/';
 gulp.task('images', function (done) {
 	gulp
-		.src('./src/images/**/*')
+		.src('./src/img/**/*')
 		.pipe(newer(imgDest))
 		.pipe(imagemin())
 		.pipe(gulp.dest(imgDest));
@@ -70,7 +70,7 @@ gulp.task('images', function (done) {
 gulp.task('watch', function () {
 	gulp.watch('./src/sass/**/*.scss', gulp.series('styles'));
 	gulp.watch('./src/js/**/*.js', gulp.series('scripts'));
-	gulp.watch('./src/images/**/*', gulp.series('images'));
+	gulp.watch('./src/img/**/*', gulp.series('images'));
 });
 
 

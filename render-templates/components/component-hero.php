@@ -1,6 +1,6 @@
 <?php
 /**
- * This Component Renders a Hero Component.
+ * This Component Renders a.
  *
  * @package xten-sections
  */

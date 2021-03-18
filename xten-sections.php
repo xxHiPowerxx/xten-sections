@@ -132,8 +132,29 @@ function xten_section_assets() {
 			),
 		)
 	);
+	register_section_assets(
+		'component-google-review-slider',
+		array(
+			'css' => array(
+				'xten-vendor-override-slick-css',
+			),
+			'js'  => array(
+				'jquery',
+				'xten-vendor-slick-js',
+			),
+		)
+	);
 }
 add_action( 'wp_enqueue_scripts', 'xten_section_assets' );
+
+function deregister_google_review_widget_css() {
+	$handle = 'grw_css';
+
+	if ( wp_style_is( $handle, 'registered' ) ) {
+		wp_deregister_style( $handle );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'deregister_google_review_widget_css', 99 );
 
 require $GLOBALS['xten-sections-dir'] . '/inc/xten-section-block-registration.php';
 

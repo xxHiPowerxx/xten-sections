@@ -625,15 +625,15 @@ if ( ! function_exists( 'xten_get_reuseable_block' ) ) :
 endif; // endif ( ! function_exists( 'xten_get_reuseable_block' ) ) :
 
 if ( ! function_exists( 'xten_section_placeholder' ) ) :
-	function xten_section_placeholder() {
+	function xten_section_placeholder( $message = null ) {
 		if ( is_admin() ) :
+			$message = '<p>No Content Found,</p><p>Please Configure this Block via the Form in the Sidebar.</p>';
 			$img_src = $GLOBALS['xten-sections-uri'] . 'assets/img/build.webp';
 			ob_start();
 			?>
 			<div style="background-color:rgb(241,243,245);font-size:18px;padding:15px;text-align:center;width:830px;max-width:100%;">
 				<img src="<?php echo $img_src; ?>" width="800" height="600" style="display:inline-block;max-width:100%;" />
-				<p>No Content Found,</p>
-				<p>Please Configure this Block via the Form in the Sidebar.</p>
+				<div><?php echo $message; ?></div>
 			</div>
 			<?php
 			$html = ob_get_clean();

@@ -1,0 +1,43 @@
+{
+    "key": "group_60468791c305a",
+    "title": "Google Reviews Slider Section Configuration",
+    "fields": [
+        {
+            "key": "field_604688b312d0a",
+            "label": "Google Reviews Shortcode",
+            "name": "google_reviews_shortcode",
+            "type": "text",
+            "instructions": "Use the Shortcode obtained from The <a href=\".\/options-general.php?page=grw&grw_tab=shortcode\" target=\"_blank\"><b>Google Reviews Widget Plugin <i>Shortcode Tab<\/i><\/b><\/a>.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/xten-section-google-review-slider"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1615238675
+}

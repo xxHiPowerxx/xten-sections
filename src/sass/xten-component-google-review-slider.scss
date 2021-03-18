@@ -1,0 +1,100 @@
+@import './import/variables';
+
+/*   .component-google-review-slider   */
+.component-google-review-slider {
+	.wp-google-list {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+	}
+	.wp-google-place {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.wp-google-reviews {
+		max-width: 50em;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: $white;
+		margin-top: 1.5em;
+		&.slick-dotted {
+			margin-bottom: 0;
+		}
+	}
+	.wp-google-name {
+		font-size: 1.25em;
+		img {
+			float: left;
+			margin-right: .6em;
+		}
+	}
+	.wp-google-time {
+		font-size: .8em;
+	}
+	.slick-arrow,
+	.slick-arrow:focus {
+		background-image: none;
+		background-color: $primary;
+	}
+	.wp-google-text {
+		overflow: hidden;
+		white-space: pre-wrap;
+		word-break: break-word;
+		clear: none;
+		clip: auto;
+	}
+	.wp-more {
+		display: none;
+	}
+	.wp-more-toggle {
+		color: $primary;
+		cursor: pointer;
+		text-decoration: none;
+	}
+	.slick-dots {
+		position: static;
+		margin-top: 1.5em;
+	}
+}
+/*   /.component-google-review-slider   */
+
+.wpac {
+	font-size: 2rem;
+}
+.slick-list {
+	margin: 1.5em calc(10% + 1.5em);
+}
+.wp-google-place {
+	display: inline-block;
+	text-align: left;
+	padding: 1em;
+	.wp-google-name {
+		font-size: 1.5em;
+	}
+	.wp-google-left {
+		img {
+			width: 7.25em;
+		}
+	}
+}
+.wp-google-left {
+	flex: 1 0 auto;
+	display: inline-block;
+	vertical-align: top;
+	img {
+		margin-right: .75em;
+	}
+}
+.wp-google-right {
+	width: auto;
+	display: inline-block;
+	text-align: left;
+}
+.wp-google-rating {
+	font-size: 1.25em;
+}
+.wp-google-url {
+	display: inline-block;
+	margin-top: 1.5em;
+	text-decoration: none;
+}

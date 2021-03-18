@@ -1,7 +1,7 @@
 (function ($) {
 	$(document).on("ready", function () {
 		var $document = $(this),
-		$sliders = $('.slickSlider');
+		$sliders = $('.xten-component-image-gallery .slickSlider');
 
 		function fancyBoxIgnoreSlickClones () {
 			// Skip cloned elements

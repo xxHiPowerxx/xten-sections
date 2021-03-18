@@ -11,7 +11,7 @@
 function xten_acf_blocks_init() {
 
 	// Check function exists.
-	if( function_exists('acf_register_block_type') ) {
+	if( function_exists('acf_register_block_type') ) :
 		
 		
 		// Hero Section - xten-section-hero.
@@ -129,6 +129,43 @@ function xten_acf_blocks_init() {
 				// 												}
 			)
 		);
-	}
+
+		// Check to see if Widget Google Reviews Plugin is Activated.
+		$plugin_file = 'widget-google-reviews/grw.php';
+		if ( is_plugin_active( $plugin_file ) ) :
+			// Google Review Slider Section - xten-section-google-review-slider.
+			$handle       = 'google-review-slider';
+			$section_name = 'xten-section-' . $handle;
+			$icon         = null;
+			if ( function_exists( 'xten_get_icon' ) ) :
+				$icon = xten_get_icon( $section_name );
+			endif;
+			acf_register_block_type(
+				array(
+					'name'              => $section_name,
+					'title'             => __('Google Review Slider Section'),
+					'description'       => __('Section with Google Review Slider'),
+					'icon'              => $icon,
+					'render_template'   => $GLOBALS['xten-sections-dir'] . 'render-templates/' . $section_name . '.php',
+					'keywords'          => array(
+																	'xten',
+																	'section',
+																	'google',
+																	'review',
+																	'slider',
+																),
+					'supports'          => array(
+						'anchor' => true,
+					),
+					'category'          => 'xten-sections',
+					// 'enqueue_assets'    => function ($block) {
+					// 													$section_name = str_replace( 'acf/', '', $block['name'] );
+					// 													xten_enqueue_assets( $section_name );
+					// 												}
+				)
+			);
+		endif; // endif ( is_plugin_active( $plugin_file ) ) :
+
+	endif; // endif( function_exists('acf_register_block_type') ) :
 }
 add_action('acf/init', 'xten_acf_blocks_init');

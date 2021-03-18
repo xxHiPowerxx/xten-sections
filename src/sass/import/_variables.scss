@@ -1,9 +1,9 @@
 /*   Viewport Sizes   */
 $vp_xxs: 380px;
-$vp_xs: 575px;
-$vp_sm: 767px;
+$vp_xs: 576px;
+$vp_sm: 768px;
 $vp_m: 992px;
-$vp_lg: 1210px;
+$vp_lg: 1200px;
 $vp_xl: 1680px;
 $vp_xxl: 1920px;
 /*   /Viewport Sizes   */
@@ -80,6 +80,17 @@ $active: "&:hover,&:focus,&.active";
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
+		}
+	}
+}
+
+@mixin flex-margin( $units, $padding: false ) {
+	margin: -$units;
+	> * {
+		@if $padding {
+			padding: $units;
+		} @else {
+			margin: $units;
 		}
 	}
 }

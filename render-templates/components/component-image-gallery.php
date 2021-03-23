@@ -11,10 +11,14 @@ function component_image_gallery( $args = null ) {
 	$component_name               = 'xten-component-' . $handle;
 	$component_attrs              = array();
 
-	$component_attrs['data-c-id'] = $component_name . '-' . xten_register_component_id( $handle );
+	$component_attrs['data-c-id'] = xten_register_component_id( $handle );
 	$c_id                         = $component_attrs['data-c-id'];
-	
-	$component_attrs['id']        = $args['c_attrs']['id'];
+	$component_attrs['id']        = esc_attr( $args['c_attrs']['id'] );
+	$fancybox_id                  = $component_attrs['id'] ?
+		xten_register_component_id( $component_attrs['id'] ) :
+		$c_id;
+
+
 	$component_attrs['class']     = '';
 	$component_attrs['class'] .= 'xten-component xten-component-' . $handle;
 	$component_attrs['class'] .= ' ' . $args['c_attrs']['class'];
@@ -81,13 +85,11 @@ function component_image_gallery( $args = null ) {
 						<?php
 						$nav_images = array();
 						foreach ( $images as $key=>$image ) :
-							// var_dump($image);
-							// die;
 							$full_image       = wp_get_attachment_image( $image['ID'], array(2560, null) );
 							$full_image_url   = $image['url'];
 							$nav_images[$key] = $full_image;
 							?>
-							<a class="anchor-image-gallery-image" data-fancybox="<?php echo $component_attrs['data-c-id']; ?>" data-loop="true" href="<?php echo $full_image_url; ?>" data-width="<?php echo $image['width']; ?>" data-height="<?php echo $image['height']; ?>">
+							<a class="anchor-image-gallery-image" data-fancybox="<?php echo $fancybox_id ?>" data-loop="true" href="<?php echo $full_image_url; ?>" data-width="<?php echo $image['width']; ?>" data-height="<?php echo $image['height']; ?>">
 								<?php echo $full_image; ?>
 							</a>
 							<?php

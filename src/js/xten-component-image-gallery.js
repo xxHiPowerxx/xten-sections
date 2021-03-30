@@ -73,6 +73,7 @@
 					}
 				});
 			}
+			coreFunc();
 			$(window).on('scroll', coreFunc);
 		}
 		function hideNotificationOnClick() {

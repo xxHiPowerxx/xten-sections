@@ -41,6 +41,27 @@
 				}
 			});
 		}
+		function pauseSlickAutoPlayOnFancy() {
+			$document.on('afterClose.fb', function(e,instance){
+				var $mainSlider = instance.$trigger.closest('.main-slider'),
+					autoPlay = $mainSlider.slick('slickGetOption', 'autoplay');
+				if ( ! autoPlay ) {
+					return;
+				};
+				$mainSlider.slick('slickPlay');
+			});
+			$mainSliders.each(function(){
+				var $mainSlider = $(this),
+					autoPlay = $mainSlider.slick('slickGetOption', 'autoplay');
+				if ( ! autoPlay ) {
+					return;
+				}
+				var $fancyboxes = $(this).find('[data-fancybox]');
+				$fancyboxes.on('click', function(){
+					$mainSlider.slick('slickPause');
+				});
+			});
+		}
 		function isCenterOfElementInViewport(el) {
 			// Special bonus for those using jQuery
 			if (typeof jQuery === "function" && el instanceof jQuery) {
@@ -114,6 +135,7 @@
 			fancyBoxIgnoreSlickClones();
 			initSlick();
 			slideSlickOnFancyClick();
+			pauseSlickAutoPlayOnFancy();
 			hideNotificationOnClick();
 			hideNotificationOnScroll();
 		}

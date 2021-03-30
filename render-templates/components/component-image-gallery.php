@@ -39,12 +39,20 @@ function component_image_gallery( $args = null ) {
 		"cssEase": "cubic-bezier(0.22, 0.61, 0.36, 1)"
 	' );
 
+	$autoplay             = get_field( 'autoplay' );
+	$autoplay_speed       = get_field( 'autoplay_speed' );
+	$autoplay_prop        = $autoplay ?
+		'"autoplay":' . $autoplay . ',' :
+		 null;
+	$autoplay_speed_prop  = $autoplay_speed ?
+		'"autoplaySpeed":' . $autoplay_speed . ',' :
+		 null;
 	/*   Main Slider Config   */
 	$main_slider_slick_attrs_inner = rtrim( '
 		"slidesToShow": 1,
 		"arrows": true,
-		'./*"autoplay": true,
-		"autoplaySpeed": 5000,'*/'
+		' . $autoplay_prop . '
+		' . $autoplay_speed_prop . '
 		"asNavFor": "' . str_replace( '"', '\"', $component_selector ) . ' .nav-slider"
 	' );
 

@@ -29,15 +29,15 @@
 				$(this).on('init reInit', function(){
 					slickExtras($(this));
 				}).slick({
-					'autoPlay': true,
-					'autoplaySpeed': 5000,
-					'speed': 350,
-					'adaptiveHeight': true,
-					'dots': true,
-					'cssEase': 'cubic-bezier(0.22, 0.61, 0.36, 1)',
-					'swipeToSlide': true,
-					'touchMove': true,
-					'touchMove': true,
+					autoplay: true,
+					autoplaySpeed: 7000,
+					speed: 350,
+					adaptiveHeight: true,
+					dots: true,
+					cssEase: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
+					swipeToSlide: true,
+					touchMove: true,
+					touchMove: true,
 				});
 			});
 		}

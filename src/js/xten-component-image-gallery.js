@@ -1,7 +1,8 @@
 (function ($) {
 	$(document).on("ready", function () {
 		var $document = $(this),
-		$sliders = $('.xten-component-image-gallery .slickSlider');
+		$sliders = $('.xten-component-image-gallery .slickSlider'),
+		$mainSliders = $sliders.filter('.main-slider');
 
 		function fancyBoxIgnoreSlickClones () {
 			// Skip cloned elements
@@ -40,17 +41,81 @@
 				}
 			});
 		}
+		function isCenterOfElementInViewport(el) {
+			// Special bonus for those using jQuery
+			if (typeof jQuery === "function" && el instanceof jQuery) {
+				el = el[0];
+			}
+			var rect = el.getBoundingClientRect(),
+				vCenter = rect.top + rect.height/2;
+			return (
+				rect.top >= 0 &&
+				rect.left >= 0 &&
+				vCenter <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
+				rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+			);
+		}
+		// Hide notification when Slider is in Viewport or if Slider has interaction.
+		function hideNotificationOnScroll() {
+			var coreFunc = function() {
+				$mainSliders.each(function() {
+					// Bail if no Title,
+					// the Notification is entirely dependant on the Title Attribute
+					if ( $(this).attr('title') === undefined ) {
+						return;
+					}
+					if (isCenterOfElementInViewport($(this))) {
+						var $that = $(this);
+						setTimeout(function(){
+							$that.removeClass('show-notification');
+							$(window).off('scroll', coreFunc);
+						}, 2000);
+					}
+				});
+			}
+			$(window).on('scroll', coreFunc);
+		}
+		function hideNotificationOnClick() {
+			$mainSliders.each(function(){
+				// Bail if no Title,
+				// the Notification is entirely dependant on the Title Attribute
+				if ( $(this).attr('title') === undefined ) {
+					return;
+				}
+				// Remove Slick's native focusin event handler and cache it.
+				var that = this,
+					focusInHandler,
+					prop;
+				// Find prop that starts with jQuery && has 'events' prop.
+				Object.keys(that).forEach(function(p){
+					if ( ~p.indexOf("jQuery") && that[p].hasOwnProperty('events') ) {
+						// cache prop and focusin handler and set to null.
+						prop = p;
+						focusInHandler = that[p]['events']['focusin'];
+						that[p]['events']['focusin'] = null;
+					}
+				});
+				$(this).one('focusin', function(){
+					$(this).removeClass('show-notification');
+					// Re-Bind focusInHandler to focusin event.
+					if ( prop && focusInHandler ) {
+						this[prop]['events']['focusin'] = focusInHandler;
+					}
+				});
+
+				$(this).addClass('show-notification').
+					one('click mouseover', function(){
+						$(this).removeClass('show-notification');
+					});
+			});
+		}
 		function readyFuncs() {
 			fancyBoxIgnoreSlickClones();
 			initSlick();
 			slideSlickOnFancyClick();
+			hideNotificationOnClick();
+			hideNotificationOnScroll();
 		}
 		readyFuncs();
-		function resizeFuncs() {
-			
-		}
-		$(window).on('resize', function () {
-			resizeFuncs();
-		});
 	});
 })(jQuery);

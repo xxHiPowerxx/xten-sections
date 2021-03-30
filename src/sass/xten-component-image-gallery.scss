@@ -19,6 +19,37 @@
 	[data-fancybox] {
 		cursor: zoom-in;
 	}
+	.main-slider {
+		&:after {
+			content: attr(title);
+			font-weight: 500;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			padding: 10%;
+			background-color: rgba($black, 0.6);
+			color: $white;
+			pointer-events: none !important;
+			@include smoothest-transition;
+			transition-duration: 1s;
+			opacity: 0;
+			font-size: 4rem;
+			@media (min-width: $vp_xs) {
+				font-size: 5rem;
+			}
+		}
+		&.show-notification {
+			&:after {
+				opacity: 1;
+			}
+		}
+	}
 }
 /*   /Component   */
 .image-gallery-nav-image-wrapper {

@@ -55,14 +55,14 @@
 		position: static;
 		margin-top: 1.5em;
 	}
+	.slick-list {
+		margin: 1.5em calc(10% + 1.5em);
+	}
 }
 /*   /.component-google-review-slider   */
 
 .wpac {
 	font-size: 2rem;
-}
-.slick-list {
-	margin: 1.5em calc(10% + 1.5em);
 }
 .wp-google-place {
 	display: inline-block;

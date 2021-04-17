@@ -656,3 +656,101 @@ if ( ! function_exists( 'xten_has_content' ) ) :
 		endif; // endif ( is_array( $validation ) ) :
 	}
 endif; // endif ( ! function_exists( 'xten_has_content' ) ) :
+
+if ( ! function_exists( 'xten_snake_to_camel' ) ) :
+	function xten_snake_to_camel( $string ) {
+		return lcfirst( str_replace( ' ', '', ucwords( str_replace( '_', ' ', $string ) ) ) );
+	}
+endif; // endif ( ! function_exists( 'xten_snake_to_camel' ) ) :
+
+if ( ! function_exists( 'xten_camel_to_snake' ) ) :
+	function xten_camel_to_snake( $string ) {
+		return strtolower( preg_replace( '/(?<!^)[A-Z]/', '_$0', $string) );
+	}
+endif; // endif ( ! function_exists( 'xten_camel_to_snake' ) ) :
+
+/**
+ * Slider Configuration
+ * This function uses the Field Group - Slider Configuration
+ *
+ * @param int|object - $post - Post ID or Post Object.
+ * @return string - JSON object with Slider Settings.
+ */
+if ( ! function_exists( 'xten_slider_configuration' ) ) :
+	function xten_slider_configuration( $post = null ) {
+		// $s is for settings.
+		$s = array();
+
+		// General
+		$s['adaptive_height']     = get_field( 'adaptive_height', $post );
+		$s['variable_width']      = get_field( 'variable_width', $post );
+		$autoplay_group           = get_field( 'autoplay_group', $post );
+		$s['autoplay']            = $autoplay_group['autoplay'];
+		$s['autoplay_speed']      = $autoplay_group['autoplay_speed'];
+		$s['pause_on_focus']      = $autoplay_group['pause_on_focus'];
+		$s['pause_on_hover']      = $autoplay_group['pause_on_hover'];
+		$s['pause_on_dots_hover'] = $autoplay_group['pause_on_dots_hover'];
+		$s['css_ease']            = get_field( 'css_ease', $post );
+		$s['speed']               = get_field( 'speed', $post );
+		$s['as_nav_for']          = get_field( 'as_nav_for', $post );
+		$center_mode_group        = get_field( 'center_mode_group', $post );
+		$s['center_mode']         = $center_mode_group['center_mode'];
+		$center_padding_group     = $center_mode_group['center_padding_group'];
+		$s['center_padding']      = $center_padding_group['center_padding'] .
+			$center_padding_group[' center_padding_unit'];
+		$s['draggable']           = get_field( 'draggable', $post );
+		$s['swipe']               = get_field( 'swipe', $post );
+		$s['swipe_to_slide']      = get_field( 'swipe_to_slide', $post );
+		$s['vertical']            = get_field( 'vertical', $post );
+		$s['rtl']                 = get_field( 'rtl', $post );
+		$s['wait_for_animate']    = get_field( 'wait_for_animate', $post );
+		// /General
+
+		// Nav
+		$s['arrows']              = get_field( 'arrows', $post );
+		$s['dots']                = get_field( 'dots', $post );
+		// /Nav
+
+		// Slides
+		$s['fade']                = get_field( 'fade', $post );
+		$s['focus_on_select']     = get_field( 'focus_on_select', $post );
+		$s['infinite']            = get_field( 'infinite', $post );
+		$s['initial_slide']       = get_field( 'initial_slide', $post );
+		$s['slides_to_scroll']    = get_field( 'slides_to_scroll', $post );
+		$s['slides_to_show']      = get_field( 'slides_to_show', $post );
+		// /Slides
+
+		// Grid
+		$s['rows']                = get_field( 'rows', $post );
+		$s['slides_per_row']      = get_field( 'slides_per_row', $post );
+		// /Grid
+
+		// Responsive
+		$s['respond_to']          = get_field( 'respond_to', $post );
+		$s['responsive']          = get_field( 'responsive', $post );
+		// /Responsive
+
+		$settings = array();
+		foreach( $s as $key => $value ) :
+			if ( $value !== '' && $value !== null ) :
+				$js_key = xten_snake_to_camel( $key );
+				if ( $key === 'vertical' && $value === true ) :
+					$settings['verticalSwiping'] = $s['swipe'];
+				endif;
+				if ( $key === 'resonsive' ) :
+					if ( have_rows( 'responsive' ) ) :
+						$value = '[';
+						while ( have_rows( 'responsive' ) ) :
+							the_row();
+							$responsive_object = '{';
+							$breakpoint = get_sub_field( 'breakpoint' );
+							$responsive_object .= '},';
+						endwhile;
+					endif;
+				endif; // endif ( $key === 'resonsive' ) :
+				$settings[$js_key] = $value;
+			endif; // endif ( $value !== '' && $value !== null ) :
+		endforeach; // endforeach( $s as $setting ) :
+		return json_encode( $settings );
+	}
+endif; // endif ( ! function_exists( 'xten_slider_configuration' ) ) :

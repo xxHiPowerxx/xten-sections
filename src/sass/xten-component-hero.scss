@@ -1,72 +1,76 @@
 @import './import/variables';
 
+// Component
 .xten-component-hero {
-	background-position: 50% 50%;
-	&[data-has-overlay='1'] {
-		&,
-		> * {
-			position: relative;
+	.xten-hero-slide {
+		background-position: 50% 50%;
+		&[data-has-overlay='1'] {
+			&,
+			> * {
+				position: relative;
+			}
+			&:before {
+				content: '';
+			}
 		}
 		&:before {
-			content: '';
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
 		}
-	}
-	&:before {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-	}
-	.container-xten-component-hero {
-		padding-top: 3rem;
-		padding-bottom: 3rem;
-	}
-	.sizeHero {
-		transition: $smooth-transition;
-	}
-	.xten-content-outer {
-		display: flex;
-		width: 100%;
-	}
-	/*   Vertical Location   */
-	&[data-content-vertical-location='top'] {
 		.container-xten-component-hero {
-			align-items: flex-start;
+			padding-top: 3rem;
+			padding-bottom: 3rem;
 		}
-	}
-	&[data-content-vertical-location='middle'] {
-		.container-xten-component-hero {
-			align-items: center;
+		.sizeHero {
+			transition: $smooth-transition;
 		}
-	}
-	&[data-content-vertical-location='bottom'] {
-		.container-xten-component-hero {
-			align-items: flex-end;
-		}
-	}
-	/*   /Vertical Location   */
-	/*   Horizontal Location   */
-	&[data-content-horizontal-location='left'] {
 		.xten-content-outer {
-			justify-content: flex-start;
+			display: flex;
+			width: 100%;
 		}
-	}
-	&[data-content-horizontal-location='middle'] {
-		.xten-content-outer {
-			justify-content: center;
+		/*   Vertical Location   */
+		&[data-content-vertical-location='top'] {
+			.container-xten-component-hero {
+				align-items: flex-start;
+			}
 		}
-	}
-	&[data-content-horizontal-location='right'] {
-		.xten-content-outer {
-			justify-content: flex-end;
+		&[data-content-vertical-location='middle'] {
+			.container-xten-component-hero {
+				align-items: center;
+			}
 		}
-	}
-	/*   /Horizontal Location   */
-	.xten-content {
-		padding: 3rem;
+		&[data-content-vertical-location='bottom'] {
+			.container-xten-component-hero {
+				align-items: flex-end;
+			}
+		}
+		/*   /Vertical Location   */
+		/*   Horizontal Location   */
+		&[data-content-horizontal-location='left'] {
+			.xten-content-outer {
+				justify-content: flex-start;
+			}
+		}
+		&[data-content-horizontal-location='middle'] {
+			.xten-content-outer {
+				justify-content: center;
+			}
+		}
+		&[data-content-horizontal-location='right'] {
+			.xten-content-outer {
+				justify-content: flex-end;
+			}
+		}
+		/*   /Horizontal Location   */
+		.xten-content {
+			padding: 3rem;
+		}
 	}
 }
+// / Component
 .container-xten-component-hero {
 	display: flex;
 }

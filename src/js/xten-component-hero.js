@@ -12,7 +12,7 @@
 		function sizeHero() {
 			$('.sizeHero').each(function () {
 				startWork(this);
-				var component = $(this).closest('.xten-component'),
+				var component = $(this).closest('.sizeHeroParent'),
 					minHeight = component.attr('data-minimum-height'),
 					viewPortHeight = window.innerHeight,
 					headerHeight = window.siteHeaderHeight || $('.site-header')[0].getBoundingClientRect().height,
@@ -73,9 +73,16 @@
 				}// endif ( isInViewport(this) )
 			});
 		}
+		function initSlick() {
+			var $sliders = $('.xten-component-hero[data-slick]');
+			$sliders.each(function(){
+				$(this).slick();
+			});
+		}
 		function readyFuncs() {
 			sizeHero();
 			listenForImageLoad();
+			initSlick();
 		}
 		readyFuncs();
 		function resizeFuncs() {

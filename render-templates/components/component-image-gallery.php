@@ -32,11 +32,11 @@ function component_image_gallery( $args = null ) {
 	$component_attrs_s       = xten_stringify_attrs( $component_attrs );
 
 	$shared_slick_properties = rtrim( '
-		"slidesToScroll": 1,
-		"dots": false,
-		"infinite": true,
-		"speed": 350,
-		"cssEase": "cubic-bezier(0.22, 0.61, 0.36, 1)"
+		"slidesToScroll":1,
+		"dots":false,
+		"infinite":true,
+		"speed":350,
+		"cssEase":"cubic-bezier(0.22, 0.61, 0.36, 1)"
 	' );
 
 	$autoplay             = get_field( 'autoplay' );
@@ -49,11 +49,11 @@ function component_image_gallery( $args = null ) {
 		 null;
 	/*   Main Slider Config   */
 	$main_slider_slick_attrs_inner = rtrim( '
-		"slidesToShow": 1,
-		"arrows": true,
+		"slidesToShow":1,
+		"arrows":true,
 		' . $autoplay_prop . '
 		' . $autoplay_speed_prop . '
-		"asNavFor": "' . str_replace( '"', '\"', $component_selector ) . ' .nav-slider"
+		"asNavFor":"' . str_replace( '"', '\"', $component_selector ) . ' .nav-slider"
 	' );
 
 	$main_slider_slick_attrs_inner .= ',' . $shared_slick_properties;
@@ -69,16 +69,16 @@ function component_image_gallery( $args = null ) {
 
 	/*   Nav Slider Config   */
 	$nav_slider_slick_attrs_inner = rtrim( '
-		"centerMode": true,
-		"centerPadding": "7.5%",
-		"focusOnSelect": true,
-		"arrows": false,
-		"swipeToSlide": true,
-		"responsive": [{
-			"breakpoint": 576,
-			"settings": {"slidesToShow": 3}
+		"centerMode":true,
+		"centerPadding":"7.5%",
+		"focusOnSelect":true,
+		"arrows":false,
+		"swipeToSlide":true,
+		"responsive":[{
+			"breakpoint":576,
+			"settings":{"slidesToShow":3}
 		}],
-		"asNavFor": "' . str_replace( '"', '\"', $component_selector ) . ' .main-slider"
+		"asNavFor":"' . str_replace( '"', '\"', $component_selector ) . ' .main-slider"
 	' );
 	/*   /Nav Slider Config   */
 
@@ -111,7 +111,7 @@ function component_image_gallery( $args = null ) {
 				$slides_to_show   = $nav_images_count >= $max_nav_images ?
 					$max_nav_images :
 					$nav_images_count;
-				$nav_slider_slick_attrs_inner .= ',"slidesToShow": ' . --$slides_to_show;
+				$nav_slider_slick_attrs_inner .= ',"slidesToShow":' . --$slides_to_show;
 				$nav_slider_slick_attrs_inner .= ',' . $shared_slick_properties;
 				$nav_slider_slick_attrs = '{' . $nav_slider_slick_attrs_inner . '}';
 				$nav_slider_attrs       = array(

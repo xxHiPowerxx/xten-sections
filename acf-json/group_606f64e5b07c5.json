@@ -1,0 +1,851 @@
+{
+    "key": "group_606f64e5b07c5",
+    "title": "Slider Configuration",
+    "fields": [
+        {
+            "key": "field_606f7ef49d5ee",
+            "label": "Slider Configuration",
+            "name": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_606f841c7881b",
+            "label": "General",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_606f65ad361d2",
+            "label": "Adaptive Height",
+            "name": "adaptive_height",
+            "type": "true_false",
+            "instructions": "Enables adaptive height for single slide horizontal carousels.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f7c06dec3e",
+            "label": "Variable Width",
+            "name": "variable_width",
+            "type": "true_false",
+            "instructions": "Variable Width Slides.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f830aa5f0a",
+            "label": "Autoplay Settings",
+            "name": "autoplay_group",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_606f6615361d3",
+                    "label": "Autoplay",
+                    "name": "autoplay",
+                    "type": "true_false",
+                    "instructions": "Enables Autoplay",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_606f6651361d4",
+                    "label": "Autoplay Speed",
+                    "name": "autoplay_speed",
+                    "type": "number",
+                    "instructions": "Autoplay Speed in milliseconds (0.001 seconds) (1second = 1000 milliseconds)",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": 5000,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "ms",
+                    "min": 0,
+                    "max": "",
+                    "step": ""
+                },
+                {
+                    "key": "field_606f6d6b361e5",
+                    "label": "Pause on Focus",
+                    "name": "pause_on_focus",
+                    "type": "true_false",
+                    "instructions": "Pause <b>Autoplay<\/b> On Focus",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 1,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_606f6dcb361e6",
+                    "label": "Pause on Hover",
+                    "name": "pause_on_hover",
+                    "type": "true_false",
+                    "instructions": "Pause <b>Autoplay<\/b> On Hover",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 1,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_606f6e03361e7",
+                    "label": "Pause on Dots Hover",
+                    "name": "pause_on_dots_hover",
+                    "type": "true_false",
+                    "instructions": "Pause <b>Autoplay<\/b> when a <b>dot<\/b> is hovered",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                }
+            ]
+        },
+        {
+            "key": "field_606f6a64361de",
+            "label": "Css Ease",
+            "name": "css_ease",
+            "type": "text",
+            "instructions": "CSS3 Animation Easing (choose between  ease, ease-in, ease-out, ease-in-out, linear, step-start, step-end, or custom cubic-bezier)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_606f74e9dec3b",
+            "label": "Speed",
+            "name": "speed",
+            "type": "number",
+            "instructions": "Animation\/Transition Speed in milliseconds (0.001 seconds) (1second = 1000 milliseconds)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 350,
+            "placeholder": "",
+            "prepend": "",
+            "append": "ms",
+            "min": 0,
+            "max": "",
+            "step": ""
+        },
+        {
+            "key": "field_606f67a6361d7",
+            "label": "As Nav For",
+            "name": "as_nav_for",
+            "type": "text",
+            "instructions": "Set the slider to be the navigation of other slider (Class or ID Name)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_606f8556fa958",
+            "label": "Center Mode Settings",
+            "name": "center_mode_group",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_606f6820361da",
+                    "label": "Center Mode",
+                    "name": "center_mode",
+                    "type": "true_false",
+                    "instructions": "Enables centered view with partial prev\/next slides. Use with odd numbered <b>Slides to Show<\/b> counts.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_606f69df361dc",
+                    "label": "Center Padding Settings",
+                    "name": "center_padding_group",
+                    "type": "group",
+                    "instructions": "Side padding when in <b>Center Mode<\/b> (px or %)",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_606f6970361db",
+                            "label": "Center Padding",
+                            "name": "center_padding",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "px or %",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_606f6a17361dd",
+                            "label": "Center Padding Unit",
+                            "name": "center_padding_unit",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "px": "px",
+                                "%": "%"
+                            },
+                            "default_value": [
+                                "px"
+                            ],
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "ui": 0,
+                            "return_format": "value",
+                            "ajax": 0,
+                            "placeholder": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_606f6b9d361e0",
+            "label": "Draggable",
+            "name": "draggable",
+            "type": "true_false",
+            "instructions": "Enable mouse dragging",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f75a5dec3c",
+            "label": "Swipe",
+            "name": "swipe",
+            "type": "true_false",
+            "instructions": "Enable Swiping to Slide",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f7b0ddec3d",
+            "label": "Swipe to Slide",
+            "name": "swipe_to_slide",
+            "type": "true_false",
+            "instructions": "Allow users to drag or swipe directly to a slide instead of swiping\/dragging to slide 4 and Swipe to Slide forcing one slide at a time. (Recommend leaving this to true)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f7c5adec3f",
+            "label": "Vertical",
+            "name": "vertical",
+            "type": "true_false",
+            "instructions": "Change Slider into a Vertical Slider",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f7ca5dec40",
+            "label": "Reverse Direction",
+            "name": "rtl",
+            "type": "true_false",
+            "instructions": "Change the slider's direction to become right-to-left",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f7cd2dec41",
+            "label": "Wait for Animate",
+            "name": "wait_for_animate",
+            "type": "true_false",
+            "instructions": "Ignores requests to advance the slide while animating",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f84037881a",
+            "label": "Nav",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_606f66d7361d5",
+            "label": "Arrows",
+            "name": "arrows",
+            "type": "true_false",
+            "instructions": "Use Prev\/Next Arrows in Slider",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f6b6f361df",
+            "label": "Dot Navigation",
+            "name": "dots",
+            "type": "true_false",
+            "instructions": "Show dot indicators",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f85d5fa95b",
+            "label": "Slides",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_606f6be9361e1",
+            "label": "Fade",
+            "name": "fade",
+            "type": "true_false",
+            "instructions": "Enable fading transition between slides.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f6c19361e2",
+            "label": "Focus on Select",
+            "name": "focus_on_select",
+            "type": "true_false",
+            "instructions": "Enable focus on selected element (click) best used in combination with <b>As Nav For<\/b>",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f6cd3361e3",
+            "label": "IInfinite",
+            "name": "iinfinite",
+            "type": "true_false",
+            "instructions": "Infinite loop sliding",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_606f6cfb361e4",
+            "label": "Initial Slide",
+            "name": "initial_slide",
+            "type": "number",
+            "instructions": "Slide to start on.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 0,
+            "max": "",
+            "step": ""
+        },
+        {
+            "key": "field_606f74badec3a",
+            "label": "Slides to Scroll",
+            "name": "slides_to_scroll",
+            "type": "number",
+            "instructions": "Number of slides to scroll",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 1,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1,
+            "max": "",
+            "step": ""
+        },
+        {
+            "key": "field_606f746fdec39",
+            "label": "Slides to Show",
+            "name": "slides_to_show",
+            "type": "number",
+            "instructions": "Number of slides to show",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 1,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1,
+            "max": "",
+            "step": ""
+        },
+        {
+            "key": "field_606f86b6fa95c",
+            "label": "Grid",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_606f7030361eb",
+            "label": "Rows",
+            "name": "rows",
+            "type": "number",
+            "instructions": "Setting this to more than 1 initializes <b>grid mode<\/b>. Use <b>Slides Per Row<\/b> to set how many slides should be in each row.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 1,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1,
+            "max": "",
+            "step": ""
+        },
+        {
+            "key": "field_606f72c8361ec",
+            "label": "Slides Per Row",
+            "name": "slides_per_row",
+            "type": "number",
+            "instructions": "With <b>grid mode<\/b> intialized via the <b>Rows<\/b> option, this sets how many slides are in each grid row.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 1,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1,
+            "max": "",
+            "step": ""
+        },
+        {
+            "key": "field_606f879efa95d",
+            "label": "Responsive",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_606f6e43361e8",
+            "label": "Respond To",
+            "name": "respond_to",
+            "type": "select",
+            "instructions": "Width that responsive object responds to. Can be 'window', 'slider' or 'min' (the smaller of the two)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "window": "Window",
+                "slider": "Slider",
+                "min": "The Smaller of the Two Above"
+            },
+            "default_value": [
+                "window"
+            ],
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_606f6ed0361e9",
+            "label": "Responsive Design Breakpoints",
+            "name": "responsive",
+            "type": "repeater",
+            "instructions": "Object containing breakpoints and settings objects (see demo). Enables settings sets at given screen width. Even disable Slider at specific Breakpoint.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_606f6fa2361ea",
+            "min": 0,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add Breakpoint",
+            "sub_fields": [
+                {
+                    "key": "field_606f6fa2361ea",
+                    "label": "Breakpoint",
+                    "name": "breakpoint",
+                    "type": "number",
+                    "instructions": "Breakpoint in px for these Slider Settings",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "px",
+                    "min": 0,
+                    "max": "",
+                    "step": ""
+                },
+                {
+                    "key": "field_606f7d46bbf77",
+                    "label": "Arrows",
+                    "name": "arrows",
+                    "type": "true_false",
+                    "instructions": "Use Prev\/Next Arrows in Slider",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 1,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                }
+            ]
+        },
+        {
+            "key": "field_606f7f109d5ef",
+            "label": "Slider Configuration Accordion Endpoint",
+            "name": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/xten-section-hero"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "This Field Group will set up options for the Slick Slider",
+    "modified": 1618264004
+}

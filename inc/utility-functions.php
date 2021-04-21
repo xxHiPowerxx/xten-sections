@@ -669,6 +669,18 @@ if ( ! function_exists( 'xten_camel_to_snake' ) ) :
 	}
 endif; // endif ( ! function_exists( 'xten_camel_to_snake' ) ) :
 
+if ( ! function_exists( 'xten_snake_to_dash' ) ) :
+	function xten_snake_to_dash( $string ) {
+		return str_replace( '_', '-', $string );
+	}
+endif; // endif ( ! function_exists( 'xten_snake_to_dash' ) ) :
+
+if ( ! function_exists( 'xten_dash_to_snake' ) ) :
+	function xten_dash_to_snake( $string ) {
+		return str_replace( '-', '_', $string );
+	}
+endif; // endif ( ! function_exists( 'xten_dash_to_snake' ) ) :
+
 /**
  * Slider Configuration
  * This function uses the Field Group - Slider Configuration
@@ -754,3 +766,109 @@ if ( ! function_exists( 'xten_slider_configuration' ) ) :
 		return json_encode( $settings );
 	}
 endif; // endif ( ! function_exists( 'xten_slider_configuration' ) ) :
+
+// add_action('wp_head', 'update_meta_values');
+function update_meta_values() {
+
+	/*
+	 * Takes a set of fields and resets them as part of a repeater
+	 * To start, create a new repeater field and enter the slug in $new_repeater
+	 * Find the fields you would like to move in wp_posts and set the post_parent to the new repeater's ID
+	 */
+
+	// Slug of the new repeater
+	$new_repeater = 'slides_repeater';
+	
+	// Set the fields you would like to move's slugs in $rows
+	$rows = array(
+		'minimum_height_group',
+		'background_image_group',
+		'background_color',
+		'background_overlay_group',
+		'content',
+		'content_minimum_width_group',
+		'content_maximum_width_group',
+		'content_color',
+		'content_background_group',
+		'content_location_group',
+	);
+
+	// Query the effected posts
+	$args = array(
+		'post_type' => array( 'page' ),
+		'posts_per_page' => -1
+	);
+
+	$posts = get_posts($args);
+
+	foreach ($posts as $post) {
+
+		// Update Meta Fields
+		$id = $post->ID;
+		if ( has_blocks( $post->post_content ) ) :
+			$blocks = parse_blocks( $post->post_content );
+			foreach( $blocks as $block ) :
+				if ( $block['blockName'] === 'acf/xten-section-hero' ) :
+					$meta = $block['attrs']['data'];
+					// $meta = get_post_meta( $id );
+					unset($updated);
+
+					// Loop each posts Meta values
+					foreach ( $meta as $key => $value ) {
+			
+						// Loop the possible fields
+						foreach ( $rows as $row ) {
+							var_dump($key);
+							if ($post->post_title === 'Home'):
+								end($rows);
+								if ($row === key($rows)):
+									// die;
+								endif;
+							endif;
+							
+							//Check if field name is in meta value
+							// if ( strpos( $key, $row ) !== false ) {
+							if ( $key === $row ) {
+							// var_dump($meta);
+
+								// var_dump($key, $row);
+								// die;
+								// Grab the value's name, prepend it with the repeater name.
+								$new_post_meta = str_replace( $row, $new_repeater . '_0_' . $row , $key );
+
+								// Replace old Content with New Content.
+								$updated_content   = str_replace($row, $new_post_meta, $block['attrs']['data'] );
+								$post_update_array = array(
+									'ID'          => $id,
+									'post_content'=> $updated_content
+								);
+								wp_update_post( $post_update_array, true );
+								if (is_wp_error($post_id)) {
+									$errors = $post_id->get_error_messages();
+									foreach ($errors as $error) {
+											echo $error;
+									}
+								}
+								// Add new meta
+								// 
+								// update_post_meta( $id, $new_post_meta, $value[0] );
+								
+								// Delete old meta
+								// delete_post_meta( $id, $key );
+								$updated = true;
+								break;
+							}
+						}
+					}
+			
+					// If this post has repeater rows, mark it with 1
+					if ($updated) {
+						update_post_meta( $id, 'resource_list', 1 );
+						update_post_meta( $id, '_resource_list', 'field_574ee7028384d' );
+					}
+				endif; //endif ( $block['blockName'] === 'acf/xten-section-hero' ) :
+			endforeach; // endforeach( $blocks as $block ) :
+		endif; // endif ( has_blocks( $post->post_content ) ) :
+
+	}
+}

@@ -622,6 +622,49 @@
                     "endpoint": 1
                 }
             ]
+        },
+        {
+            "key": "field_607e181fcb760",
+            "label": "Slide Method",
+            "name": "slide_method",
+            "type": "select",
+            "instructions": "Select The Slide Method of the Slides",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "default": "Default",
+                "slide_content_fade_background": "Slide Content, Fade Background",
+                "slide_background_fade_content": "Slide Background, Fade Content"
+            },
+            "default_value": [
+                "default"
+            ],
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 1,
+            "ajax": 0,
+            "return_format": "value",
+            "placeholder": ""
+        },
+        {
+            "key": "field_607f6ce894e65",
+            "label": "Slider Background Color",
+            "name": "slider_background_color",
+            "type": "color_picker",
+            "instructions": "This is the background to the entire slider.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": ""
         }
     ],
     "location": [
@@ -641,5 +684,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1618259842
+    "modified": 1618963743
 }

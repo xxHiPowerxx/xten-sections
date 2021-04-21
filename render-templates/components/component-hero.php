@@ -54,57 +54,6 @@ function component_hero( $args = null ) {
 		endif; // endif ( $minimum_height ) :
 		// /Minimum Height
 
-		// Background
-		// Background Image
-		$background_image_group = $slide[ 'background_image_group' ];
-		$background_image       = $background_image_group['background_image'];
-		if ( $background_image ) :
-			$background_image_url      = esc_url( $background_image['url'] );
-			$background_image_css_size = esc_attr( $background_image_group['background_image_size'] ) ? : 'auto'; // DV = 'auto'.
-			switch ( $background_image_css_size ) :
-				case 'auto':
-						$background_image_css_size = 'auto';
-						break;
-				case 'cover':
-					$background_image_css_size = 'cover';
-					break;
-				case 'contain':
-					$background_image_css_size = 'contain';
-					break;
-				case 'width_100':
-					$background_image_css_size = '100% auto';
-					break;
-				case 'height_100':
-					$background_image_css_size = 'auto 100%';
-					break;
-				default:
-					$background_image_css_size = 'auto';
-			endswitch; //endswitch ( $background_image_css_size ) :
-			$styles .= xten_add_inline_style(
-									$slide_selector,
-									array(
-										'background-image' => 'url(' . $background_image_url . ')',
-										'background-size'  => $background_image_css_size,
-									)
-								);
-		endif; // endif ( $background_image ) :
-		// /Background Image
-		$background_color         = $slide['background_color'];
-		$background_overlay_group = $slide['background_overlay_group'];
-		$background_overlay_color = esc_attr( $background_overlay_group['background_overlay_color'] );
-		if ( $background_overlay_color ) :
-			$slide_attrs['data-has-overlay'] = true;
-			$background_overlay_opacity      = $background_overlay_group['background_overlay_opacity'] ? : 100; // DV = 100
-			$background_overlay_color_rgba = esc_attr( convert_hex_to_rgb( $background_overlay_color, $background_overlay_opacity ) );
-			$styles .= xten_add_inline_style(
-				$slide_selector . ':before',
-				array(
-					'background-color' => $background_overlay_color_rgba
-				)
-			);
-		endif; // endif ( $background_color ) :
-		// /Background
-
 		// Content
 		$content = $slide['content'];
 		if ( $content ) :
@@ -216,16 +165,96 @@ function component_hero( $args = null ) {
 
 		// Slider Configuration
 		if ( count( $slides ) > 1 ) :
-			$slider_config = xten_slider_configuration();
-			$component_attrs['data-slick'] = $slider_config;
-			$component_attrs['class'] .= ' slickSlider';
+			$slider_config                         = xten_slider_configuration();
+			$component_attrs['data-slick']         = $slider_config;
+			$component_attrs['class']             .= ' slickSlider';
+			$component_attrs['data-slide-method']  = xten_snake_to_dash( get_field( 'slide_method' ) );
 		endif;
 		// /Slider Configuration
+
+		// Background
+		// Background Image
+		$background_image_group = $slide[ 'background_image_group' ];
+		$background_image       = $background_image_group['background_image'];
+		$slide_background_selector = strpos( $component_attrs['data-slide-method'], 'slide' ) !== false ?
+				 $slide_selector . ' .xten-hero-slide-background' :
+				 $slide_selector;
+		$slide_background_style = array();
+		if ( $background_image ) :
+			$background_image_url      = esc_url( $background_image['url'] );
+			$background_image_css_size = esc_attr( $background_image_group['background_image_size'] ) ? : 'auto'; // DV = 'auto'.
+			switch ( $background_image_css_size ) :
+				case 'auto':
+						$background_image_css_size = 'auto';
+						break;
+				case 'cover':
+					$background_image_css_size = 'cover';
+					break;
+				case 'contain':
+					$background_image_css_size = 'contain';
+					break;
+				case 'width_100':
+					$background_image_css_size = '100% auto';
+					break;
+				case 'height_100':
+					$background_image_css_size = 'auto 100%';
+					break;
+				default:
+					$background_image_css_size = 'auto';
+			endswitch; //endswitch ( $background_image_css_size ) :
+			$slide_background_style['background-image'] = 'url(' . $background_image_url . ')';
+			$slide_background_style['background-size'] = $background_image_css_size;
+		endif; // endif ( $background_image ) :
+		// /Background Image
+		// Background Color
+		$background_color         = $slide['background_color'];
+		if ( $background_color ) :
+			$slide_background_style['background-color'] = $background_color;
+		endif; // endif ( $background_color ) :
+		// /Background Color
+
+		// Set Background Styles.
+		if ( ! empty( $slide_background_style ) ) :
+			$styles .= xten_add_inline_style(
+				$slide_background_selector,
+				$slide_background_style
+			);
+		endif;
+
+		// Background Overlay
+		$background_overlay_group = $slide['background_overlay_group'];
+		$background_overlay_color = esc_attr( $background_overlay_group['background_overlay_color'] );
+		if ( $background_overlay_color ) :
+			$slide_attrs['data-has-overlay'] = true;
+			$background_overlay_opacity      = $background_overlay_group['background_overlay_opacity'] ? : 100; // DV = 100
+			$background_overlay_color_rgba   = esc_attr( convert_hex_to_rgb( $background_overlay_color, $background_overlay_opacity ) );
+			$styles .= xten_add_inline_style(
+				$slide_background_selector . ':before',
+				array(
+					'background-color' => $background_overlay_color_rgba
+				)
+			);
+		endif; // endif ( $background_overlay_color ) :
+		// /Background Overlay
+		// /Background
+
+		// Slider Background Color
+		$slider_background_color = get_field( 'slider_background_color' );
+		if ( $slider_background_color ) :
+			$styles .= xten_add_inline_style(
+				$component_selector,
+				array( 'background-color' => $slider_background_color )
+			);
+		endif;
+		// /Slider Background Color
 
 		$slide_attrs_s = xten_stringify_attrs( $slide_attrs );
 		ob_start();
 		?>
 		<div <?php echo $slide_attrs_s; ?>>
+			<?php if ( strpos( $component_attrs['data-slide-method'], 'slide' ) !== false ) : ?>
+				<div class="xten-hero-slide-background"></div>
+			<?php endif; ?>
 			<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $component_name ); ?> <?php echo $sizeHero; ?>">
 				<?php if ( $content ) : ?>
 					<div class="xten-content-outer">

@@ -2,6 +2,9 @@
 
 // Component
 .xten-component-hero {
+	&:not(.slick-slider) {
+		display: flex;
+	}
 	&.sizeHero {
 		flex-direction: column;
 		transition: $smooth-transition;

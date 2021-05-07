@@ -12,8 +12,8 @@
 		function sizeHero() {
 			$('.sizeHero').each(function () {
 				startWork(this);
-				var component = $(this).closest('.sizeHeroParent'),
-					minHeight = component.attr('data-minimum-height'),
+				var $component = $(this),
+					minHeight = $component.attr('data-minimum-height'),
 					viewPortHeight = window.innerHeight,
 					headerHeight = window.siteHeaderHeight || $('.site-header')[0].getBoundingClientRect().height,
 					headerHeight = parseFloat(headerHeight),
@@ -21,19 +21,50 @@
 					adminBarHeight = adminBar ?
 						adminBar.getBoundingClientRect().height :
 						0,
-					componentComputedStyle = getComputedStyle(component[0]),
+					componentComputedStyle = getComputedStyle($component[0]),
 					componentPaddings = parseFloat(componentComputedStyle.paddingTop) + parseFloat(componentComputedStyle.paddingBottom),
 					spaceAvailable = viewPortHeight - headerHeight - adminBarHeight - componentPaddings,
 					minHeightNum = parseFloat(minHeight),
 					minHeightPercent = minHeightNum / 100,
-					calculatedHeight = spaceAvailable * minHeightPercent;
-				$(this).css('min-height', calculatedHeight + 'px');
-				// Depenendancy: Xten Theme
-				if ($body.is('.browser-ie')) {
-					$(this).css('height', calculatedHeight + 'px');
+					calculatedHeight = spaceAvailable * minHeightPercent,
+					$slides = $component.find('.xten-hero-slide:not(.slick-cloned)'),
+					$inners = $slides.find('.sizeHeroInner'),
+					tallestInnerHeight = 0,
+					componentOffsetTop = $component.offset().top;
+				// Find Tallest Inner Height.
+				$inners.each(function(){
+					// Inner Height can be offset from actual component which would Padding
+					// between top of component and Inner.
+					var thisOuterHeight = $(this).outerHeight(true),
+						thisOffsetTop = $(this).offset().top,
+						// Calculate the Padding Found.
+						paddingTop = thisOffsetTop - componentOffsetTop,
+						thisHeightFromTop = paddingTop + thisOuterHeight;
+					if ( thisHeightFromTop > tallestInnerHeight ) {
+						tallestInnerHeight = thisHeightFromTop;
+					}
+				});
+				// If tallest Inner Height found is be taller than sizeHero,
+				// Remove Height and Class.
+				if ( tallestInnerHeight > calculatedHeight ) {
+					$component.css({
+						'height': ''
+					}).removeClass('heroSized');
+				} else {
+					$component.css({
+						'height': calculatedHeight + 'px'
+					}).addClass('heroSized');
 				}
+
 				finishWork(this);
 			});
+		}
+		// For resizing, there is a split second needed
+		//to adjust for repaint, and recalculation of elements.
+		function doSizeHero() {
+			setTimeout(function(){
+				sizeHero();
+			}, 100);
 		}
 		function isInViewport(elem) {
 			if (elem instanceof jQuery) {
@@ -86,9 +117,9 @@
 		}
 		readyFuncs();
 		function resizeFuncs() {
-			sizeHero();
+			doSizeHero();
 		}
-		$(window).on('resize', function () {
+		$(window).on('resize', function (){
 			resizeFuncs();
 		});
 	});

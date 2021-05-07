@@ -38,9 +38,11 @@
 	font-size: 3rem;
   height: 100%;
   width: 10%;
-	min-width: 2em;
-  z-index: 1;
-  opacity: .75;
+	@media( min-width: $vp_sm ) {
+		min-width: 2rem;
+	}
+	z-index: 1;
+	opacity: .75;
 	@include smoother-transition;
 	#{$active} {
 		opacity: 1;
@@ -56,7 +58,7 @@
 }
 
 .slick-dots {
-  font-size: 2rem;
+	font-size: 2rem;
 	li {
 		height: auto;
 		width: auto;

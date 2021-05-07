@@ -681,14 +681,44 @@ if ( ! function_exists( 'xten_dash_to_snake' ) ) :
 	}
 endif; // endif ( ! function_exists( 'xten_dash_to_snake' ) ) :
 
-/**
- * Slider Configuration
- * This function uses the Field Group - Slider Configuration
- *
- * @param int|object - $post - Post ID or Post Object.
- * @return string - JSON object with Slider Settings.
- */
+
+if ( ! function_exists( 'filter_slick_defaults' ) ) :
+	/**
+	 * Filter Slick Defaults
+	 * This function compares Slick Defaults to the Defined Slick Settings
+	 * and removes them from the settings if they are equal to the Default.
+	 * This function is necessary because certain settings cause bugs when defined
+	 * EG: adaptiveHeight does not work when SlidesToShow is defined, even if it's 1, which is the default
+	 *
+	 * @param array - $settings - Post ID or Post Object.
+	 * @return string - JSON object with Slider Settings.
+	 */
+	function filter_slick_defaults( $settings ) {
+		// TODO: Add the rest of the Defaults for comparrison.
+		// Refer to Field Group - Slider Configuration for more defaults.
+		$defaults = array(
+			'slides_to_show' => 1,
+		);
+		if ( ! is_array( $settings ) ) :
+			return;
+		endif;
+		foreach ( $settings as $key=>$setting ) :
+			if ( $settings[$key] == $defaults[$key] ) :
+				unset( $settings[$key] );
+			endif;
+		endforeach;
+		return $settings;
+	}
+endif; // endif ( ! function_exists( 'filter_slick_defaults' ) ) :
+
 if ( ! function_exists( 'xten_slider_configuration' ) ) :
+	/**
+	 * Slider Configuration
+	 * This function uses the Field Group - Slider Configuration
+	 *
+	 * @param int|object - $post - Post ID or Post Object.
+	 * @return string - JSON object with Slider Settings.
+	 */
 	function xten_slider_configuration( $post = null ) {
 		// $s is for settings.
 		$s = array();
@@ -729,7 +759,7 @@ if ( ! function_exists( 'xten_slider_configuration' ) ) :
 		$s['infinite']            = get_field( 'infinite', $post );
 		$s['initial_slide']       = get_field( 'initial_slide', $post );
 		$s['slides_to_scroll']    = get_field( 'slides_to_scroll', $post );
-		$s['slides_to_show']      = get_field( 'slides_to_show', $post );
+		$s['slides_to_show']      = get_field( 'slides_to_show', $post ) ? : $d;
 		// /Slides
 
 		// Grid
@@ -742,12 +772,22 @@ if ( ! function_exists( 'xten_slider_configuration' ) ) :
 		$s['responsive']          = get_field( 'responsive', $post );
 		// /Responsive
 
+		$s = filter_slick_defaults( $s );
+
 		$settings = array();
 		foreach( $s as $key => $value ) :
+			$initial_slide;
 			if ( $value !== '' && $value !== null ) :
 				$js_key = xten_snake_to_camel( $key );
 				if ( $key === 'vertical' && $value === true ) :
 					$settings['verticalSwiping'] = $s['swipe'];
+				endif;
+				// initialSlide setting does not play nice with stringified interger value.
+				// So we cannot use json_encode on this value.
+				// Add it to the settings string the Hard way.
+				if ( $key === 'initial_slide' ) :
+					$initial_slide = ',"' . $js_key . '":' . $s['initial_slide'];
+					continue;
 				endif;
 				if ( $key === 'resonsive' ) :
 					if ( have_rows( 'responsive' ) ) :
@@ -763,7 +803,22 @@ if ( ! function_exists( 'xten_slider_configuration' ) ) :
 				$settings[$js_key] = $value;
 			endif; // endif ( $value !== '' && $value !== null ) :
 		endforeach; // endforeach( $s as $setting ) :
-		return json_encode( $settings );
+
+		$settings = json_encode( $settings );
+
+		// If $initial_slide is set we need to set attach it to the $settings string without
+		// the value being json_encoded.
+		if (
+			$initial_slide &&
+			substr( $settings, -1, 1 ) == '}'
+		) :
+			// Remove '}' from end of $settings.
+			$settings = substr( $settings, 0, -1 );
+			// Add $initial_slide string and re-close off object.
+			$settings = $settings . $initial_slide . '}';
+		endif; // endif $initial_slide.
+
+		return $settings;
 	}
 endif; // endif ( ! function_exists( 'xten_slider_configuration' ) ) :
 

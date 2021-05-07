@@ -9,22 +9,20 @@
 
 // Store Block Configuration to pass to component.
 $args             = array();
-$args['slides']   = get_field( 'slides_repeater' );
-$valid_images     = array();
-$valid_min_heights = array();
-$valid_contents    = array();
+
+$args['minimum_height_group'] = get_field( 'minimum_height_group' );
+$minimum_height               = $args['minimum_height_group']['minimum_height']; // !DV
+if ( $minimum_height ) :
+	$valid_min_height = $args['minimum_height_group']['minimum_height_unit']; // DV = '%'
+endif;
+
+$args['slides'] = get_field( 'slides_repeater' );
+$valid_images   = array();
+$valid_contents = array();
 foreach( $args['slides'] as $key => $slide ) :
-	if ( $slide['background_image_group']['background_image'] ) :
+	if ( $slide['background_image_group']['background_image'] && $valid_min_height ) :
 		$valid_image = $slide['background_image_group']['background_image'];
 		$valid_images[] = $valid_image;
-	endif;
-	if (
-		! empty( $slide['minimum_height_group']['minimum_height'] ) &&
-		( $slide['background_image_group']['background_image'] ||
-			$slide['background_image_group']['background_color'] )
-	) :
-		$valid_min_height = $slide['minimum_height_group']['minimum_height'] . $slide['minimum_height_group']['minimum_height_unit'];
-		$valid_min_heights[] = $valid_min_height;
 	endif;
 	if ( $slide['content'] ) :
 		$valid_content = $slide['content'];
@@ -34,7 +32,6 @@ foreach( $args['slides'] as $key => $slide ) :
 	// For Efficiency's sake, Check Validation for this Slide,
 	$validation = array(
 		$valid_image,
-		$valid_min_height,
 		$valid_content,
 	);
 	$slide_has_content = xten_has_content( $validation );
@@ -44,11 +41,6 @@ foreach( $args['slides'] as $key => $slide ) :
 		continue;
 	endif;
 
-	$minimum_height_group                     = $slide['minimum_height_group'];
-	$args['slides'][$key]['minimum_height']   = $minimum_height_group['minimum_height']; // !DV
-	if ( $args['slides'][$key]['minimum_height'] ) :
-		$args['slides'][$key]['minimum_height_unit'] = $minimum_height_group['minimum_height_unit']; // DV = '%'
-	endif;
 	$args['slides'][$key]['background_image_group']   = $slide['background_image_group'];
 	$args['slides'][$key]['background_color']         = $slide['background_color'];
 	$args['slides'][$key]['background_overlay_group'] = $slide['background_overlay_group'];
@@ -66,8 +58,8 @@ endforeach; // endforeach( $args['slides'] as $key => $slide ) :
 
 $validations = array(
 	count( $valid_images ) > 0,
-	count( $valid_min_heights ) > 0,
 	count( $valid_contents ) > 0,
+	$valid_min_height,
 );
 
 $slides_have_content = xten_has_content( $validations );
@@ -87,8 +79,11 @@ else :
 	$section_selector           ='[data-s-id="' . $s_id . '"].' . $section_name;
 	$styles                     = '';
 
-	$args['c_attrs']['id']    = $block['anchor'];
-	$args['c_attrs']['class'] = $block['className'];
+	$args['c_attrs']['id']      = $block['anchor'];
+	$args['c_attrs']['class']   = $block['className'];
+
+	$args['slide_method']            = get_field( 'slide_method' );
+	$args['slider_background_color'] = get_field( 'slider_background_color' );
 
 	// Render Section
 	$section_attrs_s = xten_stringify_attrs( $section_attrs );

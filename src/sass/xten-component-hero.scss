@@ -2,14 +2,47 @@
 
 // Component
 .xten-component-hero {
+	&.sizeHero {
+		flex-direction: column;
+		transition: $smooth-transition;
+		.slick-list,
+		 .xten-hero-slide {
+			flex: 1;
+		}
+		.xten-hero-slide {
+			display: flex;
+		}
+	}
+	&[data-slick*="\"adaptiveHeight\":true"] {
+		&.heroSized {
+			display: flex;
+			.slick-track {
+				height: 100%;
+			}
+		}
+	}
+	&.slick-dotted {
+		.xten-hero-slide {
+			.container-xten-component-hero {
+				margin-bottom: 2rem;
+			}
+		}
+		&.sizeHero {
+			&:not(.heroSized) {
+				.xten-hero-slide {
+					.container-xten-component-hero {
+						margin-bottom: 0;
+						margin-top: 2rem;
+					}
+				}
+			}
+		}
+	}
 	.xten-hero-slide {
 		position: relative;
 		.container-xten-component-hero {
 			padding-top: 3rem;
 			padding-bottom: 3rem;
-		}
-		.sizeHero {
-			transition: $smooth-transition;
 		}
 		.xten-content-outer {
 			display: flex;
@@ -58,6 +91,7 @@
 	&[data-slide-method="default"] .xten-hero-slide,
 	&[data-slide-method*="slide"] .xten-hero-slide-background {
 		background-position: 50% 50%;
+		background-repeat: no-repeat;
 		&:before {
 			position: absolute;
 			width: 100%;
@@ -107,6 +141,51 @@
 	}
 	/*   /Slide Background   */
 	/*   /Slide Method   */
+	/*   Slider Navigation   */
+	.slick-arrow {
+		max-width: 3rem;
+		@media (min-width: $vp_xs) {
+			max-width: calc( (100% - (540 - 30)px ) / 2 );
+		}
+		@media (min-width: $vp_sm) {
+			max-width: calc( (100% - (720 - 30)px) / 2 );
+		}
+		@media (min-width: $vp_m) {
+			max-width: calc( (100% - (960 - 30)px) / 2 );
+		}
+		@media (min-width: $vp_lg) {
+			max-width: calc( (100% - (1140 - 30)px) / 2 );
+		}
+		@media (min-width: $vp_xl) {
+			max-width: calc( (100% - (1440 - 30)px) / 2 );
+		}
+		@media (min-width: $vp_xxl) {
+			max-width: calc( (100% - 174.8rem + 30px) / 2 );
+		}
+	}
+	.slick-dots {
+		width: auto;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 0;
+		margin-bottom: 3rem;
+	}
+	&.slick-dotted {
+		&.slick-slider {
+			margin-bottom: 0;
+		}
+	}
+	&.sizeHero {
+		&:not(.heroSized) {
+			.slick-dots {
+				bottom: initial;
+				margin-bottom: 0;
+				top: 0;
+				margin-top: 3rem;
+			}
+		}
+	}
+	/*   /Slider Navigation   */
 }
 // / Component
 .container-xten-component-hero {

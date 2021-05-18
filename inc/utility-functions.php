@@ -595,6 +595,9 @@ if ( ! function_exists( 'xten_register_component_id' ) ) :
 	 * @return int component id.
 	 */
 	function xten_register_component_id( $handle ) {
+		$GLOBALS['component_ids'] = isset( $GLOBALS['component_ids'] ) ?
+			$GLOBALS['component_ids'] :
+			array();
 		$GLOBALS['component_ids'][$handle] = $GLOBALS['component_ids'][$handle] !== null ?
 			$GLOBALS['component_ids'][$handle] :
 			0;

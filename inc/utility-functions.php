@@ -123,7 +123,7 @@ if ( ! function_exists( 'xten_stringify_attrs' ) ) :
 				if ( $sanitize ) :
 					$value = esc_attr( $value );
 				endif;
-				$space = $key !== $attr_array[0] ?
+				$space = $key !== reset( $attr_array ) ?
 					' ' :
 					null;
 				$attr_string.= "$space$key='$value'";

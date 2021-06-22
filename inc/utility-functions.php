@@ -930,3 +930,68 @@ function update_meta_values() {
 
 	}
 }
+
+if ( ! function_exists( 'merge_inner_blocks_with_parent' ) ) :
+	/**
+	 * Recursively Merge Inner Blocks Array with Parent Array.
+	 * 
+	 * @param array $blocks - Parent Blocks.
+	 * @return array $blocks - Returns Blocks merged with found $block['innerBlocks'].
+	 */
+	function merge_inner_blocks_with_parent( $blocks ) {
+		foreach ( $blocks as $block ) {
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				// or call the function recursively, to find heading blocks in inner blocks
+				$blocks = array_merge( $blocks, merge_inner_blocks_with_parent( $block['innerBlocks'] ) );
+			}
+		}
+		return $blocks;
+	}
+endif; // endif ( ! function_exists( 'merge_inner_blocks_with_parent' ) ) :
+
+if ( ! function_exists( 'check_the_content_for_fancybox' ) ) :
+	/**
+	 * Check the_content for .fancybox and Load up Fancybox Assets.
+	 */
+	function check_the_content_for_fancybox( $content ) {
+
+		$blocks_contain_fancybox = false;
+		// Find blocks if they exist (particularly re-usable blocks).
+		if ( has_blocks( $content ) ) :
+			$blocks = parse_blocks( $content );
+			$blocks = merge_inner_blocks_with_parent( $blocks );
+			foreach ( $blocks as $block ) :
+				$block_content = $block['innerHTML'];
+				// Reusable blocks have an ['attrs'] called ['ref']
+				// Check to see if is Reusable Block.
+				if ( $block['attrs']['ref'] ) :
+					// If so, get the block content.
+					$block_post_object = get_post( $block['attrs']['ref'] );
+					$block_content .= $block_post_object->post_content;
+				endif;
+				if ( strpos( $block_content, 'fancybox' ) ) :
+					$blocks_contain_fancybox = true;
+					break; // stop looking.
+				endif;
+			endforeach;
+		endif;
+
+		// Check if either the Content or the Blocks contain 'fancybox'.
+		if (
+			strpos( $content, 'fancybox' ) ||
+			$blocks_contain_fancybox
+		) :
+			$handle = 'xten-fancybox-js';
+			if ( ! wp_style_is( $handle, 'enqueued' ) ) :
+				wp_enqueue_script( $handle );
+			endif;
+			$handle = 'xten-vendor-fancybox-css';
+			if ( ! wp_style_is( $handle, 'enqueued' ) ) :
+				wp_enqueue_style( $handle );
+			endif;
+		endif;
+
+		return $content;
+	}
+	add_filter( 'the_content', 'check_the_content_for_fancybox', 1 );
+endif; // endif ( ! function_exists( 'check_the_content_for_fancybox' ) ) :

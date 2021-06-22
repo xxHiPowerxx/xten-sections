@@ -25,6 +25,8 @@ require_once $GLOBALS['xten-sections-dir'] . '/inc/utility-functions.php';
  */
 function xten_section_assets() {
 
+	// Vendor
+
 	// Bootstrap.
 	$bootstrap_version = '4.0.0';
 	$handle = 'xten-vendor-bootstrap-css';
@@ -80,6 +82,24 @@ function xten_section_assets() {
 	if ( ! wp_style_is( $handle, 'registered' ) ) {
 		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fancybox/jquery.fancybox.min.css', array(), $fancybox_version, 'all' );
 	}
+
+	// /Vendor
+
+	// Shared
+
+	$handle = 'xten-fancybox-js';
+	$file_path = 'assets/js/shared/xten-fancybox.js';
+	wp_register_script(
+		$handle,
+		$GLOBALS['xten-sections-uri'] . $file_path,
+		array( 'jquery', 'xten-vendor-fancybox-js' ),
+		xten_filemtime( $GLOBALS['xten-sections-dir'] . $file_path ),
+		true
+	);
+
+	// /Shared
+
+	// Sections
 
 	register_section_assets(
 		'sections-common',
@@ -144,17 +164,36 @@ function xten_section_assets() {
 			),
 		)
 	);
+
+	// /Sections
 }
 add_action( 'wp_enqueue_scripts', 'xten_section_assets' );
 
-function deregister_google_review_widget_css() {
+function deregister_google_review_widget_assets() {
+	// Google Review Widget CSS
 	$handle = 'grw_css';
-
 	if ( wp_style_is( $handle, 'registered' ) ) {
 		wp_deregister_style( $handle );
 	}
+
+	// Business Reviews Bundle CSS
+	$handle = 'rplg-css';
+	if ( wp_style_is( $handle, 'registered' ) ) {
+		wp_deregister_style( $handle );
+	}
+
+	// Business Reviews Bundle JS
+	// Both Plugins use a js file titled rplg.js but the Free plugin is an old version
+	// Only deregister the Free Plugin's js if the Paid Plugin's js file is registered.
+	$paid_handle = 'rplg-js';
+	if ( wp_script_is( $paid_handle, 'registered' ) ) {
+		$free_handle = 'rplg_js';
+		if ( wp_script_is( $free_handle, 'registered' ) ) {
+			wp_deregister_script( $free_handle );
+		}
+	}
 }
-add_action( 'wp_enqueue_scripts', 'deregister_google_review_widget_css', 99 );
+add_action( 'wp_enqueue_scripts', 'deregister_google_review_widget_assets', 99 );
 
 require $GLOBALS['xten-sections-dir'] . '/inc/xten-section-block-registration.php';
 

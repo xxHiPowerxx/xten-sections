@@ -2,16 +2,19 @@
 
 /*   .component-google-review-slider   */
 .component-google-review-slider {
-	.wp-google-list {
+	.wp-google-list,
+	[class*="rplg-list"] {
 		text-align: center;
 		display: flex;
 		flex-direction: column;
 	}
-	.wp-google-place {
+	.wp-google-place,
+	.rplg-businesses {
 		margin-left: auto;
 		margin-right: auto;
 	}
-	.wp-google-reviews {
+	.wp-google-reviews,
+	.rplg-reviews {
 		max-width: 50em;
 		margin-left: auto;
 		margin-right: auto;
@@ -21,14 +24,16 @@
 			margin-bottom: 0;
 		}
 	}
-	.wp-google-name {
+	.wp-google-name,
+	.rplg-review-name {
 		font-size: 1.25em;
 		img {
 			float: left;
 			margin-right: .6em;
 		}
 	}
-	.wp-google-time {
+	.wp-google-time,
+	.rplg-review-time {
 		font-size: .8em;
 	}
 	.slick-arrow,
@@ -39,17 +44,20 @@
 	.slick-dots {
 		font-size: 1em;
 	}
-	.wp-google-text {
+	.wp-google-text,
+	.rplg-review-text {
 		overflow: hidden;
 		white-space: pre-wrap;
 		word-break: break-word;
 		clear: none;
 		clip: auto;
 	}
-	.wp-more {
+	.wp-more,
+	.rplg-more {
 		display: none;
 	}
-	.wp-more-toggle {
+	.wp-more-toggle,
+	.rplg-more-toggle {
 		color: $primary;
 		cursor: pointer;
 		text-decoration: none;
@@ -64,40 +72,80 @@
 }
 /*   /.component-google-review-slider   */
 
-.wpac {
-	font-size: 2rem;
+.wpac,
+.rplg {
+	font-size: 2rem !important;
 }
-.wp-google-place {
+.wp-google-place,
+.rplg-businesses {
 	display: inline-block;
 	text-align: left;
 	padding: 1em;
-	.wp-google-name {
-		font-size: 1.5em;
+}
+.wp-google-place .wp-google-name,
+.rplg-businesses .rplg-biz-name {
+	font-size: 1.5em;
+}
+.wp-google-place .wp-google-left,
+.rplg-businesses .rplg-row-left {
+	img {
+		width: 7.25em;
 	}
-	.wp-google-left {
-		img {
-			width: 7.25em;
-		}
+}
+.wp-google-left,
+.rplg-row-left {
+	img {
+		margin-right: .75em;
 	}
 }
 .wp-google-left {
 	flex: 1 0 auto;
 	display: inline-block;
 	vertical-align: top;
-	img {
-		margin-right: .75em;
-	}
 }
-.wp-google-right {
+.wp-google-right,
+.rplg-row-right {
 	width: auto;
 	display: inline-block;
 	text-align: left;
 }
-.wp-google-rating {
+.wp-google-rating,
+.rplg-biz-rating {
 	font-size: 1.25em;
 }
 .wp-google-url {
 	display: inline-block;
 	margin-top: 1.5em;
 	text-decoration: none;
+}
+
+
+.rplg {
+	.rplg-row {
+		display: flex;
+		align-items: center;
+	}
+}
+.rplg-review-badge {
+	display: none;
+}
+.rplg-biz-rating {
+	display: flex;
+	align-items: flex-end;
+}
+.rplg-biz-score {
+	line-height: 1;
+}
+.rplg-stars {
+	margin-bottom: .05em;
+	margin-left: .25em;
+}
+.rplg-box-content {
+	margin-top: 0.5em;
+	text-align: left;
+	.rplg-stars {
+		display: inline;
+		margin-right: 0.5em;
+		margin-left: 0;
+	}
 }

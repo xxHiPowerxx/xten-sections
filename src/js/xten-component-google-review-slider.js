@@ -1,27 +1,51 @@
 (function ($) {
 	$(document).on("ready", function () {
-		var $sliders = $('.component-google-review-slider .wp-google-reviews');
+		var $sliders = $('.component-google-review-slider .wp-google-reviews, .rplg-reviews');
+
+		function reviewsPluginFreeOrPaid() {
+			$sliders.each(function(){
+				this.reviewsPlugin = $(this).is('.wp-google-reviews') ?
+				'free' :
+				'paid';
+			});
+		}
+		reviewsPluginFreeOrPaid();
 
 		function moveAvatarToName() {
-			var $reviews = $sliders.find('.wp-google-review');
-			$reviews.each(function(){
-				var $img = $(this).find('.rplg-review-avatar'),
-					$imgParent = $img.parent(),
-					$name = $(this).find('.wp-google-name').first(),
-					$imgElm = $img.detach();
-				$imgParent.remove();
-				$name.prepend($imgElm);
+			$sliders.each(function(){
+				var sliderReviewPlugin = this.reviewsPlugin,
+					reviewsSelector = sliderReviewPlugin === 'free' ?
+						'.wp-google-review' :
+						'.rplg-reviews',
+					$reviews = $(this).find(reviewsSelector);
+				$reviews.each(function(){
+					var $img = $(this).find('.rplg-review-avatar'),
+						$imgParent = $img.parent(),
+						nameSelector = sliderReviewPlugin === 'free' ?
+							'.wp-google-name' :
+							'.rplg-review-name',
+						$name = $(this).find(nameSelector).first(),
+						$imgElm = $img.detach();
+					$imgParent.remove();
+					$name.prepend($imgElm);
+				});
 			});
 		}
 		function slickExtras($slider) {
-			var $dots = $slider.find('.slick-dots').first().detach();
+			var $dots = $slider.find('.slick-dots').first().detach(),
+				moreToggleSelector = this.reviewsPlugin	=== 'free' ?
+				'.wp-more-toggle' :
+				'.rplg-more-toggle';
 			$slider.
-					after($dots).
-					find('.wp-more-toggle').
-					on('click', function(){
-						$slider[0].slick.animateHeight();
-						$slider.slick('slickSetOption', '', null, true);
-					});
+				after($dots).
+				find(moreToggleSelector);
+			if ( ! this.animateClickHandlerBound ) {
+				$(this).on('click', function(){
+					this.animateClickHandlerBound = true;
+					$slider[0].slick.animateHeight();
+					$slider.slick('slickSetOption', '', null, true);
+				});
+			}
 		}
 		function initSlick() {
 			moveAvatarToName();

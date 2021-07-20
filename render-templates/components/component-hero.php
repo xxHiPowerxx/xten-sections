@@ -47,8 +47,10 @@ function component_hero( $args = null ) {
 						$content_color
 					);
 				endif;
-				$component_container = $slide['component_container'] ? : true; // DV = true (Fixed Width).
-				$container_class     = $component_container ?
+				$component_container = $slide['component_container'] !== null ?
+					$slide['component_container']
+					: true; // DV = true (Fixed Width).
+				$container_class     = $component_container === true ?
 					esc_attr( 'container container-ext' ) :
 					esc_attr( 'container-fluid' );
 				// Content Minimum Width
@@ -238,7 +240,7 @@ function component_hero( $args = null ) {
 					<?php if ( $content ) : ?>
 						<div class="xten-content-outer sizeHeroInner">
 							<div class="xten-content">
-								<?php echo $content; ?>
+								<?php echo do_shortcode( $content ); ?>
 							</div>
 						</div>
 					<?php endif; // endif ( $content ) : ?>

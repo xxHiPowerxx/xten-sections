@@ -44,7 +44,7 @@ foreach( $args['slides'] as $key => $slide ) :
 	$args['slides'][$key]['background_image_group']   = $slide['background_image_group'];
 	$args['slides'][$key]['background_color']         = $slide['background_color'];
 	$args['slides'][$key]['background_overlay_group'] = $slide['background_overlay_group'];
-	$args['slides'][$key]['content']                  = xten_kses_post( $slide['content'] );
+	$args['slides'][$key]['content']                  = $slide['content'];
 	if ( $args['slides'][$key]['content'] ) :
 		$args['slides'][$key]['content_color']               = $slide['content_color'];
 		$args['slides'][$key]['component_container']         = $slide['component_container']; // DV] true (Fixed Width).
@@ -85,11 +85,20 @@ else :
 	$args['slide_method']            = get_field( 'slide_method' );
 	$args['slider_background_color'] = get_field( 'slider_background_color' );
 
+	$section_container               = get_field( 'section_container' ); // DV] true (Fixed Width).
+	$container_class                 = $section_container ?
+		esc_attr( 'container container-ext' ) :
+		esc_attr( 'container-fluid' );
+
 	// Render Section
 	$section_attrs_s = xten_stringify_attrs( $section_attrs );
 	?>
 	<section <?php echo $section_attrs_s; ?>>
-		<?php echo xten_sections_render_component( 'hero', $args ); ?>
+		<div class="<?php echo $container_class; ?> container-section-hero">
+			<div class="row row-section-hero">
+				<?php echo xten_sections_render_component( 'hero', $args ); ?>
+			</div>
+		</div>
 	</section><!-- /#<?php echo esc_attr($s_id); ?> -->
 <?php
 endif; // if ( ! $has_content ) :

@@ -32,7 +32,7 @@
                 "class": "",
                 "id": ""
             },
-            "collapsed": "field_5e8b7abecc55e",
+            "collapsed": "field_5e8b7c4ccc564",
             "min": 1,
             "max": 0,
             "layout": "block",
@@ -114,9 +114,7 @@
                                 "width_100": "100% Width",
                                 "height_100": "100% Height"
                             },
-                            "default_value": [
-                                "auto"
-                            ],
+                            "default_value": "auto",
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 1,
@@ -383,9 +381,7 @@
                                 "vmin": "vmin",
                                 "vmax": "vmax"
                             },
-                            "default_value": [
-                                "%"
-                            ],
+                            "default_value": "%",
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 1,
@@ -495,9 +491,7 @@
                                 "middle": "Middle",
                                 "bottom": "Bottom"
                             },
-                            "default_value": [
-                                "middle"
-                            ],
+                            "default_value": "middle",
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 0,
@@ -523,9 +517,7 @@
                                 "middle": "Middle",
                                 "right": "Right"
                             },
-                            "default_value": [
-                                "middle"
-                            ],
+                            "default_value": "middle",
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 0,
@@ -534,6 +526,25 @@
                             "placeholder": ""
                         }
                     ]
+                },
+                {
+                    "key": "field_60f71a8400341",
+                    "label": "Use Bootstrap Container?",
+                    "name": "component_container",
+                    "type": "true_false",
+                    "instructions": "Select Whether Content is bound by global \"container\" or not.\r\nFull-Width = No Container, Fixed Width = Container.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "Fixed Width",
+                    "ui_off_text": "Full Width"
                 },
                 {
                     "key": "field_5e8b81456e316",
@@ -632,9 +643,7 @@
                         "vmin": "vmin",
                         "vmax": "vmax"
                     },
-                    "default_value": [
-                        "%"
-                    ],
+                    "default_value": "%",
                     "allow_null": 0,
                     "multiple": 0,
                     "ui": 1,
@@ -679,9 +688,7 @@
                 "slide_content_fade_background": "Slide Content, Fade Background",
                 "slide_background_fade_content": "Slide Background, Fade Content"
             },
-            "default_value": [
-                "default"
-            ],
+            "default_value": "default",
             "allow_null": 0,
             "multiple": 0,
             "ui": 1,
@@ -720,7 +727,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": 1,
+    "active": true,
     "description": "",
-    "modified": 1620161909
+    "modified": 1626810225
 }

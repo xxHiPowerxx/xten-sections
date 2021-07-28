@@ -122,6 +122,6 @@
 		$(window).on('resize', function (){
 			resizeFuncs();
 		});
-		$(this).on('wpcf7submit', doSizeHero);
+		$(this).on('wpcf7submit wpcf7invalid wpcf7mailsent', doSizeHero);
 	});
 })(jQuery);

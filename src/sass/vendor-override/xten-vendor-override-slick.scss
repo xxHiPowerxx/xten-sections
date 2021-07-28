@@ -66,12 +66,10 @@
 		width: auto;
 		box-shadow: 0 .05em .075em rgba($black, .5);
 		border-radius: 50%;
-		margin-left: 2.5%;
-		margin-right: 2.5%;
+		margin-left: .5em;
+		margin-right: .5em;
 		flex: 0 1 1.5em;
 		@media (min-width: $vp_xs) {
-			margin-left: .5em;
-			margin-right: .5em;
 			flex-basis: auto;
 		}
 		&.slick-active {
@@ -89,7 +87,6 @@
 			opacity: .25;
 			@include smoothest-transition;
 			width: 100%;
-			font-size: 0;
 			@media (min-width: $vp_xs) {
 				width: 1em;
 				font-size: inherit;

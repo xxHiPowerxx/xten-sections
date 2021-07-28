@@ -15,7 +15,8 @@
 	}
 	.wp-google-reviews,
 	.rplg-reviews {
-		max-width: 50em;
+		width: 50em;
+		max-width: 100%;
 		margin-left: auto;
 		margin-right: auto;
 		background-color: $white;

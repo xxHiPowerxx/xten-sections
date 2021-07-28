@@ -9,8 +9,7 @@
 	&.sizeHero {
 		flex-direction: column;
 		transition: $smooth-transition;
-		.slick-list,
-		 .xten-hero-slide {
+		.slick-list {
 			flex: 1;
 		}
 		.xten-hero-slide {
@@ -44,6 +43,7 @@
 	}
 	.xten-hero-slide {
 		position: relative;
+		flex: 1;
 		.container-xten-component-hero {
 			padding-top: 3rem;
 			padding-bottom: 3rem;

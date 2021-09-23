@@ -1052,7 +1052,7 @@ if ( ! function_exists( 'active_siblings' ) ) :
 		return $output;
 	}
 endif; // endif ( ! function_exists( 'active_siblings' ) ) :
-
+/* TODO: Debug nth-child recipe to display dots correctly
 if ( ! function_exists( 'set_max_slick_dots_styles' ) ) :
 	function set_max_slick_dots_styles( $selector, $max_dots ) {
 		$max_dots = (int) $max_dots;
@@ -1079,3 +1079,4 @@ if ( ! function_exists( 'set_max_slick_dots_styles' ) ) :
 		return $output;
 	}
 endif; // endif ( ! function_exists( 'set_max_slick_dots_styles' ) ) :
+*/

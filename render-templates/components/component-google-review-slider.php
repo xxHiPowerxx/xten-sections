@@ -57,7 +57,7 @@ function component_google_review_slider( $args = null ) {
 		<?php
 		$html = ob_get_clean();
 
-		$styles .= set_max_slick_dots_styles( $c_id_attr, $args['max_dots'] );
+		// $styles .= set_max_slick_dots_styles( $c_id_attr, $args['max_dots'] );
 
 		$styles = xten_minify_css( $styles );
 

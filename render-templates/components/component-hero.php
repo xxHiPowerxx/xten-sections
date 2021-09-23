@@ -32,7 +32,7 @@ function component_hero( $args = null ) {
 			$slide_selector = "[data-s-id=\"$slide_id\"]";
 			$slide_attrs    = array();
 			$slide_attrs['data-s-id'] = $slide_id;
-			$slide_attrs['class'] = 'xten-hero-slide';
+			$slide_attrs['class']     = 'xten-hero-slide';
 
 			// Content
 			$content = $slide['content'];

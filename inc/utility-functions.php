@@ -154,6 +154,50 @@ if ( ! function_exists( 'convert_hex_to_rgb' ) ) :
 	}
 endif; // endif ( ! function_exists( 'convert_hex_to_rgb' ) ) :
 
+if ( ! function_exists( 'xten_minify_css' ) ) :
+	require_once $GLOBALS['xten-sections-dir'] . '/inc/minify-css.php';
+	$singleQuoteSequenceFinder = new QuoteSequenceFinder('\'');
+	$doubleQuoteSequenceFinder = new QuoteSequenceFinder('"');
+	$blockCommentFinder = new StringSequenceFinder('/*', '*/');
+	/**
+	 * Minify CSS
+	 *
+	 * @param string $css - CSS Rules to be minified
+	 * @return string $css - Minified Style.
+	 */
+	function xten_minify_css( $css ) {
+		global $minificationStore, $singleQuoteSequenceFinder, $doubleQuoteSequenceFinder, $blockCommentFinder;
+		$css_special_chars = array(
+			$blockCommentFinder, // CSS Comment
+			$singleQuoteSequenceFinder, // single quote escape, e.g. :before{ content: '-';}
+			$doubleQuoteSequenceFinder // double quote
+		);
+		// pull out everything that needs to be pulled out and saved
+		while ( $sequence = getNextSpecialSequence( $css, $css_special_chars ) ) {
+			switch ( $sequence->type ) {
+				case '/*': // remove comments
+					$css = substr( $css, 0, $sequence->start_idx ) . substr( $css, $sequence->end_idx );
+					break;
+				default: // strings that need to be preservered
+				$placeholder = getNextMinificationPlaceholder();
+				$minificationStore[$placeholder] = substr( $css, $sequence->start_idx, $sequence->end_idx - $sequence->start_idx );
+				$css = substr( $css, 0, $sequence->start_idx ) . $placeholder . substr( $css, $sequence->end_idx );
+			}
+		}
+			// minimize the string
+			$css = preg_replace('/\s{2,}/s', ' ', $css);
+			$css = preg_replace('/\s*([:;{}])\s*/', '$1', $css);
+			$css = preg_replace('/;}/', '}', $css);
+			// put back the preserved strings
+			if ( $minificationStore !== null ) {
+				foreach ( $minificationStore as $placeholder => $original ) {
+					$css = str_replace($placeholder, $original, $css);
+				}
+			}
+		return trim($css);
+	}
+endif; // endif ( ! function_exists( 'xten_minify_css' ) ) :
+
 if ( ! function_exists( 'xten_add_inline_style' ) ) :
 	/**
 	 * Add Inline Style
@@ -995,3 +1039,43 @@ if ( ! function_exists( 'check_the_content_for_fancybox' ) ) :
 	}
 	add_filter( 'the_content', 'check_the_content_for_fancybox', 1 );
 endif; // endif ( ! function_exists( 'check_the_content_for_fancybox' ) ) :
+
+if ( ! function_exists( 'active_siblings' ) ) :
+	function active_siblings( $selector, $max_dots ) {
+		$start_sel = "$selector .slick-dots li.slick-active";
+		$output = $start_sel;
+		$last_sel = $start_sel;
+		for ($i = 0; $i < $max_dots; $i++) :
+			$last_sel = "$last_sel + li";
+			$output = "$output, $last_sel";
+		endfor;
+		return $output;
+	}
+endif; // endif ( ! function_exists( 'active_siblings' ) ) :
+
+if ( ! function_exists( 'set_max_slick_dots_styles' ) ) :
+	function set_max_slick_dots_styles( $selector, $max_dots ) {
+		$max_dots = (int) $max_dots;
+		$active_siblings = active_siblings($selector, $max_dots);
+		$output =
+			"$selector .slick-dots li {
+				display: none
+			}
+			$active_siblings {
+				display: block;
+			}
+			$selector .slick-dots li:nth-last-child(-n + $max_dots) {
+				display: block;
+			}
+			$selector .slick-dots li.slick-active ~ li:nth-last-child(-n + $max_dots) {
+				display: none;
+			}
+			$selector .slick-dots li.slick-active + li + li:nth-last-child(-n + $max_dots),
+			$selector .slick-dots li.slick-active + li:nth-last-child(-n + $max_dots){
+				display: block;
+			}"
+		;
+
+		return $output;
+	}
+endif; // endif ( ! function_exists( 'set_max_slick_dots_styles' ) ) :

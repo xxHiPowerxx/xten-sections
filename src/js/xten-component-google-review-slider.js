@@ -50,7 +50,7 @@
 		function initSlick() {
 			moveAvatarToName();
 			$sliders.each(function(){
-				$(this).on('init reInit', function(){
+				$(this).on('init reInit breakpoint', function(){
 					slickExtras($(this));
 				}).slick({
 					autoplay: true,
@@ -61,7 +61,14 @@
 					cssEase: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
 					swipeToSlide: true,
 					touchMove: true,
-					touchMove: true,
+					responsive: [
+						{
+							breakpoint: 768,
+							settings: {
+								dots: false
+							}
+						}
+					],
 				});
 			});
 		}

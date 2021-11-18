@@ -105,9 +105,11 @@
 			});
 		}
 		function initSlick() {
-			var $sliders = $('.xten-component-hero[data-slick]');
+			var $sliders = $('.xten-component-hero[data-slick]:not(.slick-initialized)');
 			$sliders.each(function(){
-				$(this).slick();
+				if (typeof $(this).slick === 'function') {
+					$(this).slick();
+				}
 			});
 		}
 		function readyFuncs() {

@@ -114,9 +114,10 @@ function xten_section_assets() {
 	register_section_assets(
 		'component-hero',
 		array(
-			'css' => null,
+			'css' => array('xten-vendor-override-slick-css'),
 			'js'  => array(
-								'jquery'
+								'jquery',
+								'xten-vendor-slick-js'
 							 ),
 		)
 	);

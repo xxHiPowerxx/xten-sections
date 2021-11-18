@@ -102,3 +102,5 @@ else :
 	</section><!-- /#<?php echo esc_attr($s_id); ?> -->
 <?php
 endif; // if ( ! $has_content ) :
+
+xten_section_boilerplate( $s_id, $section_name, $styles );

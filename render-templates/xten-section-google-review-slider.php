@@ -28,6 +28,7 @@ if ( is_plugin_active( $plugin_file ) ) :
 		$section_attrs['id']        = $block['anchor'];
 		$section_attrs['class']   .= ' ' . $block['className'];
 		$args['component_container'] = get_field( 'component_container' ); // DV = true (Fixed Width).
+		$args['max_dots'] = get_field( 'max_dots' ); // ! DV
 
 		// Render Section
 		$section_attrs_s = xten_stringify_attrs( $section_attrs );
@@ -36,7 +37,8 @@ if ( is_plugin_active( $plugin_file ) ) :
 			<?php echo xten_sections_render_component( 'google-review-slider', $args ); ?>
 		</section><!-- /#<?php echo esc_attr($s_id); ?> -->
 		<?php
-	else:
+		xten_section_boilerplate( $s_id, $section_name, $styles );
+	else :
 		echo xten_section_placeholder();
 	endif;
 endif; // endif ( ! is_plugin_active( $plugin_file ) ) :

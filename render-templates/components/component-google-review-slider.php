@@ -42,9 +42,10 @@ function component_google_review_slider( $args = null ) {
 			esc_attr( 'container container-ext' ) :
 			esc_attr( 'container-fluid' );
 
-		$component_attrs['id']    = $component_id;
-		$component_attrs['class'] = $component_handle;
-		$component_attrs_s        = xten_stringify_attrs( $component_attrs );
+		$component_attrs['data-c-id']  = $component_id;
+		$c_id_attr                     = "[data-c-id=\"$component_id\"]";
+		$component_attrs['class']      = $component_handle;
+		$component_attrs_s             = xten_stringify_attrs( $component_attrs );
 
 		ob_start();
 		?>
@@ -56,8 +57,14 @@ function component_google_review_slider( $args = null ) {
 		<?php
 		$html = ob_get_clean();
 
+		$styles .= set_max_slick_dots_styles( $c_id_attr, $args['max_dots'] );
+
+		$styles = xten_minify_css( $styles );
+
+		wp_register_style( $component_id, false );
+		wp_enqueue_style( $component_id );
+		wp_add_inline_style( $component_id, $styles );
 		xten_enqueue_assets( $component_name );
-		xten_section_boilerplate( $c_id, $component_name, $styles );
 
 		return $html;
 	endif;

@@ -12,12 +12,15 @@
 		funcs.openModalOnClick = function() {
 			// modalIds is defined through wp_localize_script.
 			// Bail early if no modalIds are found.
-			if (! modalIds) {
-				console.error('no modalIds');
+			if (window.modalIds === undefined && window.siteWideModalIds === undefined) {
 				return;
 			}
-			for (var modalId in modalIds) {
-				var selector = 'a[href="#' + modalIds[modalId] + '"]';
+
+			function assignClickHandler(modalId) {
+				if (! modalId ) {
+					return;
+				}
+				var selector = 'a[href="#' + modalId + '"]';
 				$(selector).on('click', function(e){
 					e.preventDefault();
 					e.stopPropagation();
@@ -25,7 +28,19 @@
 					$(id).modal('show');
 				});
 			}
+
+			if ( window.modalIds ) {
+				for (var modalId in window.modalIds) {
+					assignClickHandler(window.modalIds[modalId]);
+				}
+			}
+			if ( window.siteWideModalIds ) {
+				for (var modalId in window.siteWideModalIds) {
+					assignClickHandler(window.siteWideModalIds[modalId]);
+				}
+			}
 		}
+
 		readyFuncs.openModalOnClick = funcs.openModalOnClick;
 		funcs.executeFuncs(readyFuncs);
 	});

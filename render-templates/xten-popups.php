@@ -143,20 +143,20 @@ function xten_popups() {
 		return $modal_ids;
 	}
 	/*   Sitewide Popups   */
-	/*if ( have_rows( 'popups_fc', 'options' ) ) :
+	if ( have_rows( 'popups_fc', 'options' ) ) :
 		// Start Modal IDs Array.
-		$modal_ids = array();
+		$site_wide_modal_ids = array();
 
 		// Loop through rows.
 		while ( have_rows( 'popups_fc', 'options' ) ) :
-			render_xten_popups( $modal_ids );
+			$site_wide_modal_ids = render_xten_popups( $site_wide_modal_ids );
 		endwhile; // endwhile ( have_rows( 'popups_fc', 'options' ) ) :
 
 		// Send Modal IDs to local script.
-		wp_localize_script( 'xten-component-modal-js', 'modalIds', $modal_ids );
+		wp_localize_script( 'xten-component-modal-js', 'siteWideModalIds', $site_wide_modal_ids );
 
 	endif; // endif ( have_rows( 'popups_fc', 'options' ) ) :
-		*/
+		
 	/*   /Sitewide Popups   */
 
 	/*   Page Specific Popups   */
@@ -166,7 +166,7 @@ function xten_popups() {
 
 		// Loop through rows.
 		while ( have_rows( 'popups_fc' ) ) :
-			render_xten_popups( $modal_ids );
+			$modal_ids = render_xten_popups( $modal_ids );
 		endwhile; // endwhile ( have_rows( 'popups_fc' ) ) :
 
 		// Send Modal IDs to local script.

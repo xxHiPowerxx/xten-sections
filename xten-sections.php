@@ -167,6 +167,18 @@ function xten_section_assets() {
 	);
 
 	// /Sections
+
+	// Other Components
+	register_section_assets(
+		'component-modal',
+		array(
+			'css' => null,
+			'js'  => array(
+								'jquery'
+							 ),
+		)
+	);
+	// /Other Components
 }
 add_action( 'wp_enqueue_scripts', 'xten_section_assets' );
 
@@ -258,3 +270,6 @@ function add_to_wysiwyg_whitelist( $styles ) {
 add_filter( 'safe_style_css', 'add_to_wysiwyg_whitelist' );
 
 // require $GLOBALS['xten-sections-dir'] . '/inc/add-acf-block-location-rules.php';
+
+// Include Popups / Modals.
+require_once $GLOBALS['xten-sections-dir'] . '/render-templates/xten-popups.php';

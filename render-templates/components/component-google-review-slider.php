@@ -1,6 +1,6 @@
 <?php
 /**
- * This Component Google Review Slider.
+ * This Component renders the Google Review Slider.
  * @package xten
  */
 function component_google_review_slider( $args = null ) {

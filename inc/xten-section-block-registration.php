@@ -166,6 +166,35 @@ function xten_acf_blocks_init() {
 			);
 		endif; // endif ( is_plugin_active( $plugin_file ) ) :
 
+	// Archive - xten-section-archive.
+	$handle       = 'archive';
+	$section_name = 'xten-section-' . $handle;
+	acf_register_block_type(
+		array(
+			'name'              => $section_name,
+			'title'             => __('Archive Section'),
+			'description'       => __('Archive Block which Renders any type of archive.'),
+			'icon'              => xten_get_icon($section_name),
+			'render_template'   => $GLOBALS['xten-sections-dir'] . 'render-templates/' . $section_name . '.php',
+			'keywords'          => array(
+															'xten',
+															'section',
+															'archive',
+															'post',
+															'taxonomy',
+															'category',
+														),
+			'supports'          => array(
+				'anchor' => true,
+			),
+			'category'          => 'xten-sections',
+			// 'enqueue_assets'    => function ($block) {
+			// 													$section_name = str_replace( 'acf/', '', $block['name'] );
+			// 													xten_enqueue_assets( $section_name );
+			// 												}
+		)
+	);
+
 	endif; // endif( function_exists('acf_register_block_type') ) :
 }
 add_action('acf/init', 'xten_acf_blocks_init');

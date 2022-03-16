@@ -1,0 +1,193 @@
+{
+    "key": "group_615e08881a796",
+    "title": "Archive Section Configuration",
+    "fields": [
+        {
+            "key": "field_615e0911a89e9",
+            "label": "Static Or Dynamic",
+            "name": "static_or_dynamic",
+            "type": "flexible_content",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layouts": {
+                "layout_615e092b17aeb": {
+                    "key": "layout_615e092b17aeb",
+                    "name": "static",
+                    "label": "Static",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_615e09e8a89ec",
+                            "label": "Objects",
+                            "name": "objects",
+                            "type": "relationship",
+                            "instructions": "Select from Multiple Post Types and Taxonomies",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "post_type": "",
+                            "taxonomy": "",
+                            "filters": [
+                                "search",
+                                "post_type",
+                                "taxonomy"
+                            ],
+                            "elements": [
+                                "featured_image"
+                            ],
+                            "min": "",
+                            "max": "",
+                            "return_format": "object"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_615e0955a89eb": {
+                    "key": "layout_615e0955a89eb",
+                    "name": "dynamic",
+                    "label": "Dynamic",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_615e0cc477d26",
+                            "label": "Archive Type",
+                            "name": "archive_type",
+                            "type": "select",
+                            "instructions": "Select Between Dynamic Post Archive or Dynamic Taxonomy Archive",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "post_archive": "Post Archive",
+                                "tax_archive": "Taxonomy Archive"
+                            },
+                            "default_value": "post_archive",
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "ui": 1,
+                            "ajax": 0,
+                            "return_format": "value",
+                            "placeholder": ""
+                        },
+                        {
+                            "key": "field_615e1d4977d28",
+                            "label": "Max Objects to Show",
+                            "name": "max_objects_to_show",
+                            "type": "number",
+                            "instructions": "Leave Blank to Allow <b>Blog pages show at most<\/b> set in <b><i>Reading<\/i> Settings<\/b> to dictate posts to show.<br>\r\nSet to -1 to show infinite Objects.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "min": -1,
+                            "max": "",
+                            "step": ""
+                        },
+                        {
+                            "key": "field_615e28ccd8ccb",
+                            "label": "Post Type",
+                            "name": "post_type",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "post",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_615e3744130b5",
+                            "label": "Taxonomy Slug",
+                            "name": "tax_slug",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "category",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_615e3776130b6",
+                            "label": "Term Name",
+                            "name": "term_name",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "uncategorized",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": ""
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            },
+            "button_label": "Choose Type of Archive",
+            "min": 1,
+            "max": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/xten-section-archive"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "modified": 1633628854
+}

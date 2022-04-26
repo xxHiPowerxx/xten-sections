@@ -146,14 +146,22 @@ function component_hero( $args = null ) {
 			// /Content
 
 			// Background
-			// Background Image
-			$background_image_group = $slide['background_image_group'];
-			$background_image       = $background_image_group['background_image'];
 			$slide_background_selector = strpos( $component_attrs['data-slide-method'], 'slide' ) !== false ?
 			'.xten-component-hero[data-slide-method*="slide"] ' . $slide_selector . ' .xten-hero-slide-background' :
 			'.xten-component-hero[data-slide-method="default"] ' . $slide_selector;
-
 			$slide_background_style = array();
+
+			// Background Color
+			$background_color         = $slide['background_color'];
+			if ( $background_color ) :
+				$slide_background_style['background-color'] = $background_color;
+			endif; // endif ( $background_color ) :
+			// /Background Color
+
+			// Background Image
+			$background_image_group = $slide['background_image_group'];
+			$background_image       = $background_image_group['background_image'];
+
 			if ( $background_image ) :
 				$background_image_url        = esc_url( $background_image['url'] );
 				$background_image_css_size   = esc_attr( $background_image_group['background_image_size'] ) ? : 'auto'; // DV = 'auto'.
@@ -187,12 +195,104 @@ function component_hero( $args = null ) {
 				$slide_background_style['background-size'] = $background_image_css_size;
 			endif; // endif ( $background_image ) :
 			// /Background Image
-			// Background Color
-			$background_color         = $slide['background_color'];
-			if ( $background_color ) :
-				$slide_background_style['background-color'] = $background_color;
-			endif; // endif ( $background_color ) :
-			// /Background Color
+
+			// Background Video
+			$background_video_fc = $slide['background_video_fc'];
+			$video_background_markup = null;
+			if ( ! empty( $background_video_fc ) ) :
+				$slide_attrs['data-has-video'] = true;
+				$video_type = $background_video_fc[0]['acf_fc_layout'];
+				ob_start();
+				?>
+				<div class="xten-hero-slide-background-video-wrapper" data-video-type="<?php echo esc_attr( $video_type ); ?>">
+					<?php
+					if ( $video_type === 'uploaded_video_type' ) :
+						$video_id = $background_video_fc[0]['uploaded_video'];
+						if ( $video_id !== false ) :
+							$video_src = wp_get_attachment_url( $video_id );
+							// Don't autoplay if we're in the editor.
+							$autoplay = is_admin() ? null : 'autoplay';
+							$slide_attrs['data-video-provider'] = 'internal-video';
+							?>
+							<div class="xten-hero-slide-background-video-inner">
+								<video src="<?php echo esc_url( $video_src ); ?>" class="xten-hero-slide-background-video" <?php echo $autoplay; ?> loop muted></video>
+							</div>
+							<?php
+						endif; // endif ( $video_id !== false ) :
+					endif; // endif ( $video_type === 'uploaded_video_type' ) :
+					// /Uploaded Video Type
+
+					// External Video Type
+					if ( $video_type === 'external_video_type' ) :
+						$external_video_url = $background_video_fc[0]['external_video'];
+						if ( $external_video_url ) :
+							$oembed   = _wp_oembed_get_object();
+							$provider = $oembed->get_provider( $external_video_url );
+							if ( $provider !== false ) :
+								$slide_attrs['data-video-provider'] = $provider;
+
+								$external_video_iframe = wp_oembed_get( $external_video_url );
+								// Don't autoplay if we're in the editor.
+								if ( ! is_admin() ) :
+									// Add autoplay functionality to the video code
+									if ( preg_match( '/src="(.+?)"/', $external_video_iframe, $matches ) ) :
+										// Video source URL
+										$src = $matches[1];
+
+										// Determine where video url is sourced.
+										// TODO: Find out if using $provider is more efficient/foolproof than video type given from the xten_determine_video_url_type function.
+										$video_data     = xten_determine_video_url_type( $src );
+										$video_url_type = $video_data['video_type'];
+
+										// Determine if .
+										if ( $video_url_type === 'youtube' ) :
+											// Enqueue YouTube Iframe API.
+											$handle = 'xten-vendor-youtube-iframe';
+											if ( ! wp_script_is( $handle, 'registered' ) ) {
+												wp_register_script( $handle, 'https://www.youtube.com/iframe_api', array('xten-component-hero-js'), null, true );
+											}
+											// wp_enqueue_script( $handle );
+
+											$youtube_video_id = $video_data['video_id'];
+
+											// Add option to hide controls, enable HD, and do autoplay -- depending on provider
+											$params = array(
+												'controls'    => 0,
+												'hd'          => 1,
+												'autoplay'    => 1,
+												'mute'        => 1,
+												'loop'        => 1,
+												'enablejsapi' => 1,
+												'playlist'    => $youtube_video_id,
+											);
+
+											$new_src = add_query_arg($params, $src);
+
+											$external_video_iframe = str_replace($src, $new_src, $external_video_iframe);
+
+											// add extra attributes to iframe html
+											$attributes = 'class="youtube-iframe" frameborder="0"';
+
+											$external_video_iframe = str_replace('></iframe>', ' ' . $attributes . '></iframe>', $external_video_iframe);
+										endif; // endif ( $video_url_type === 'youtube' ) :
+									endif;
+								endif; // endif ( is_admin() ) :
+								// Safe to echo if no video is found, wp_obembed_get returns false.
+								?>
+								<div class="xten-hero-slide-background-video-inner" data-video-provider="<?php echo esc_attr( $provider ); ?>">
+									<?php echo $external_video_iframe; ?>
+								</div>
+								<?php
+							endif; //endif ( $provider !== false ) :
+						endif; //endif ( $external_video_url ) :
+					endif; // endif ( $video_type === 'external_video_type' ) :
+					// /External Video Type
+					?>
+				</div>
+				<?php
+				$video_background_markup = ob_get_clean();
+			endif; // endif ( ! empty( $background_video_fc ) ) :
+			// /Background Video
 
 			// Set Background Styles.
 			if ( ! empty( $slide_background_style ) ) :
@@ -205,16 +305,18 @@ function component_hero( $args = null ) {
 			// Background Overlay
 			$background_overlay_group = $slide['background_overlay_group'];
 			$background_overlay_color = esc_attr( $background_overlay_group['background_overlay_color'] );
+			$background_overlay_markup = null;
 			if ( $background_overlay_color ) :
 				$slide_attrs['data-has-overlay'] = true;
 				$background_overlay_opacity      = $background_overlay_group['background_overlay_opacity'] ? : 100; // DV = 100
 				$background_overlay_color_rgba   = esc_attr( convert_hex_to_rgb( $background_overlay_color, $background_overlay_opacity ) );
 				$styles .= xten_add_inline_style(
-					$slide_background_selector . ':before',
+					$slide_background_selector . '>.xten-hero-slide-background-overlay',
 					array(
 						'background-color' => $background_overlay_color_rgba
 					)
 				);
+				$background_overlay_markup = '<div class="xten-hero-slide-background-overlay"></div>';
 			endif; // endif ( $background_overlay_color ) :
 			// /Background Overlay
 			// /Background
@@ -233,6 +335,10 @@ function component_hero( $args = null ) {
 			ob_start();
 			?>
 			<div <?php echo $slide_attrs_s; ?>>
+				<?php
+				echo $video_background_markup;
+				echo $background_overlay_markup;
+				?>
 				<?php if ( strpos( $component_attrs['data-slide-method'], 'slide' ) !== false ) : ?>
 					<div class="xten-hero-slide-background"></div>
 				<?php endif; ?>

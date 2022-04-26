@@ -104,17 +104,100 @@
 				}// endif ( isInViewport(this) )
 			});
 		}
+		function setLoadedIframeClass() {
+			$('iframe').on('load', function(){
+				$(this).addClass('loaded');
+			});
+		}
+		function commandYTVideo(el,command) {
+			el.contentWindow.postMessage('{"event":"command","func":"' + command + '","args":""}', '*');
+			// console.log('YT Command = ' + command, el);
+		}
+		function pauseBackgroundVideo($slide) {
+			var provider = $slide.attr('data-video-provider');
+			switch (provider) {
+				case 'https://www.youtube.com/oembed':
+					var $yTIFrame = $slide.find('.youtube-iframe').first();
+					if ( ! $yTIFrame.is('.loaded') ) {
+						// console.log('waiting on $yTIFrame to load');
+						$yTIFrame.on('load', function(){
+							// console.log('$yTIFrame is now loaded');
+							commandYTVideo($yTIFrame[0], 'pauseVideo');
+						});
+					} else {
+						commandYTVideo($yTIFrame[0], 'pauseVideo');
+					}
+				break;
+				case 'internal-video':
+					var $internalVideo = $slide.find('.xten-hero-slide-background-video');
+					if ($internalVideo.length) {
+						$internalVideo[0].pause();
+					}
+					// console.log('internal-video Paused');
+				break;
+			}
+		}
+		function pauseAllBackgroundVideos($slides) {
+			$slides.each(function(){
+				pauseBackgroundVideo($(this));
+			});
+		}
+		function playBackgroundVideo($slide) {
+			var provider = $slide.attr('data-video-provider');
+			switch (provider) {
+				case 'https://www.youtube.com/oembed':
+					var $slideIframe = $slide.find('.youtube-iframe');
+					commandYTVideo($slideIframe[0], 'playVideo');
+				break;
+				case 'internal-video':
+					var $internalVideo = $slide.find('.xten-hero-slide-background-video');
+					if ($internalVideo.length) {
+						$internalVideo[0].play();
+					}
+					// console.log('internal-video Played');
+				break;
+			}
+		}
+		function pauseYTVideoOnSlideChange() {
+			var $sliders = $('.xten-component-hero[data-slick]');
+			$sliders.on('beforeChange', function(event, slick, currentSlide, nextSlide){
+				var $nextSlide = $(slick.$slides[nextSlide]),
+					$slides = $(this).find('.slick-slide:not(.slick-cloned)');
+					pauseAllBackgroundVideos($slides);
+					playBackgroundVideo($nextSlide);
+				// console.log('event', event);
+				// console.log('slick', slick);
+				// console.log('currentSlide', currentSlide);
+				// console.log('nextSlide', nextSlide);
+				// console.log('$nextSlide', $nextSlide);
+			});
+		}
 		function initSlick() {
 			var $sliders = $('.xten-component-hero[data-slick]:not(.slick-initialized)');
 			$sliders.each(function(){
 				if (typeof $(this).slick === 'function') {
 					$(this).slick();
+
+					// Pause Any background videos that may be autoplaying.
+					var $slides = $(this).find('.slick-slide'),
+						$clones = $slides.filter('.slick-cloned'),
+						$slidesSansClones = $slides.not($clones),
+						$slidesBesidesCurrent = $slidesSansClones.not('.slick-current'),
+						// $backgroundVideos = $slidesBesidesCurrent.find('.xten-hero-slide-background-video-wrapper'),
+						$clonesWithSrc = $clones.find('[src]');
+
+					// Remove Source from Clones so they do load iframes unnecessarily.
+					$clonesWithSrc.removeAttr('src');
+					pauseAllBackgroundVideos($slidesBesidesCurrent);
+					pauseYTVideoOnSlideChange();
 				}
 			});
 		}
+
 		function readyFuncs() {
 			sizeHero();
 			listenForImageLoad();
+			setLoadedIframeClass();
 			initSlick();
 		}
 		readyFuncs();

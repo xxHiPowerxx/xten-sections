@@ -56,6 +56,21 @@
                     "endpoint": 0
                 },
                 {
+                    "key": "field_5e8b7abecc55e",
+                    "label": "Background Color",
+                    "name": "background_color",
+                    "type": "color_picker",
+                    "instructions": "Background Color will show if there is no Background Image.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": ""
+                },
+                {
                     "key": "field_5e8b7c4ccc564",
                     "label": "Background Image",
                     "name": "background_image_group",
@@ -163,11 +178,11 @@
                     ]
                 },
                 {
-                    "key": "field_5e8b7abecc55e",
-                    "label": "Background Color",
-                    "name": "background_color",
-                    "type": "color_picker",
-                    "instructions": "Background Color will show if there is no Background Image.",
+                    "key": "field_62421a3864dae",
+                    "label": "Background Video",
+                    "name": "background_video_fc",
+                    "type": "flexible_content",
+                    "instructions": "Choose Uploaded or External Background Video",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -175,7 +190,66 @@
                         "class": "",
                         "id": ""
                     },
-                    "default_value": ""
+                    "layouts": {
+                        "layout_62421a654a5f1": {
+                            "key": "layout_62421a654a5f1",
+                            "name": "uploaded_video_type",
+                            "label": "Uploaded Video",
+                            "display": "table",
+                            "sub_fields": [
+                                {
+                                    "key": "field_62421b1364daf",
+                                    "label": "Video",
+                                    "name": "uploaded_video",
+                                    "type": "file",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "",
+                                    "library": "",
+                                    "min_size": "",
+                                    "max_size": "",
+                                    "mime_types": "mp4, m4v, webm, ogv, wmv, flv"
+                                }
+                            ],
+                            "min": "",
+                            "max": ""
+                        },
+                        "layout_62421dec64db1": {
+                            "key": "layout_62421dec64db1",
+                            "name": "external_video_type",
+                            "label": "External Video",
+                            "display": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_62421dec64db2",
+                                    "label": "Video",
+                                    "name": "external_video",
+                                    "type": "url",
+                                    "instructions": "Enter the URL of the file",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "placeholder": ""
+                                }
+                            ],
+                            "min": "",
+                            "max": ""
+                        }
+                    },
+                    "button_label": "Choose Video Type",
+                    "min": "",
+                    "max": 1
                 },
                 {
                     "key": "field_5e8b7b36cc55f",
@@ -729,5 +803,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "modified": 1626810225
+    "modified": 1648846482
 }

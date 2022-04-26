@@ -557,7 +557,11 @@ if ( ! function_exists( 'xten_kses_post' ) ) :
 			),
 			'g'     => array( 'fill' => true ),
 			'title' => array( 'title' => true ),
-			'path'  => array( 'd' => true, 'fill' => true, ),
+			'path'  => array(
+				'd'     => true,
+				'fill'  => true,
+				'style' => true,
+			),
 		);
 		$allowed_tags = array_merge( $kses_defaults, $svg_args );
 
@@ -993,38 +997,66 @@ if ( ! function_exists( 'merge_inner_blocks_with_parent' ) ) :
 	}
 endif; // endif ( ! function_exists( 'merge_inner_blocks_with_parent' ) ) :
 
-if ( ! function_exists( 'check_the_content_for_fancybox' ) ) :
+if ( ! function_exists( 'check_the_content_for_keyword' ) ) :
+	function check_the_content_for_keyword( $args ) {
+		$content  = $args['content'];
+		$keywords = $args['keywords'];
+		$keywords_found_in_content = array();
+
+		foreach( $keywords as $keyword ) :
+			$keyword_found_in_content = false;
+			$blocks_contain_keyword   = false;
+			// Find blocks if they exist (particularly re-usable blocks).
+			if ( has_blocks( $content ) ) :
+				$blocks = parse_blocks( $content );
+				$blocks = merge_inner_blocks_with_parent( $blocks );
+				foreach ( $blocks as $block ) :
+					$block_content = $block['innerHTML'];
+					// Reusable blocks have an ['attrs'] called ['ref']
+					// Check to see if is Reusable Block.
+					if ( $block['attrs']['ref'] ) :
+						// If so, get the block content.
+						$block_post_object = get_post( $block['attrs']['ref'] );
+						$block_content .= $block_post_object->post_content;
+					endif;
+					if ( strpos( $block_content, $keyword ) ) :
+						$blocks_contain_keyword = true;
+						break; // stop looking.
+					endif;
+				endforeach;
+			endif;
+
+			// Check if either the Content or the Blocks contain $keyword.
+			if (
+				strpos( $content, $keyword ) ||
+				$blocks_contain_keyword
+			) :
+				$keyword_found_in_content = true;
+			endif;
+			$keywords_found_in_content[$keyword] = $keyword_found_in_content;
+		endforeach;
+
+		return $keywords_found_in_content;
+	}
+endif; // endif ( ! function_exists( 'check_the_content_for_keyword' ) ) :
+
+if ( ! function_exists( 'load_assets_if_keyword_in_content' ) ) :
 	/**
 	 * Check the_content for .fancybox and Load up Fancybox Assets.
 	 */
-	function check_the_content_for_fancybox( $content ) {
+	function load_assets_if_keyword_in_content( $content ) {
 
-		$blocks_contain_fancybox = false;
-		// Find blocks if they exist (particularly re-usable blocks).
-		if ( has_blocks( $content ) ) :
-			$blocks = parse_blocks( $content );
-			$blocks = merge_inner_blocks_with_parent( $blocks );
-			foreach ( $blocks as $block ) :
-				$block_content = $block['innerHTML'];
-				// Reusable blocks have an ['attrs'] called ['ref']
-				// Check to see if is Reusable Block.
-				if ( $block['attrs']['ref'] ) :
-					// If so, get the block content.
-					$block_post_object = get_post( $block['attrs']['ref'] );
-					$block_content .= $block_post_object->post_content;
-				endif;
-				if ( strpos( $block_content, 'fancybox' ) ) :
-					$blocks_contain_fancybox = true;
-					break; // stop looking.
-				endif;
-			endforeach;
-		endif;
+		$args = array(
+			'content'  => $content,
+			'keywords' => array(
+				'fancybox',
+				'data-aos',
+			),
+		);
 
-		// Check if either the Content or the Blocks contain 'fancybox'.
-		if (
-			strpos( $content, 'fancybox' ) ||
-			$blocks_contain_fancybox
-		) :
+		$keywords_in_content_results = check_the_content_for_keyword( $args );
+		
+		if ( $keywords_in_content_results['fancybox'] === true ) :
 			$handle = 'xten-fancybox-js';
 			if ( ! wp_style_is( $handle, 'enqueued' ) ) :
 				wp_enqueue_script( $handle );
@@ -1035,10 +1067,21 @@ if ( ! function_exists( 'check_the_content_for_fancybox' ) ) :
 			endif;
 		endif;
 
+		if ( $keywords_in_content_results['data-aos'] === true ) :
+			$handle = 'xten-aos-js';
+			if ( ! wp_style_is( $handle, 'enqueued' ) ) :
+				wp_enqueue_script( $handle );
+			endif;
+			$handle = 'xten-vendor-aos-css';
+			if ( ! wp_style_is( $handle, 'enqueued' ) ) :
+				wp_enqueue_style( $handle );
+			endif;
+		endif;
+
 		return $content;
 	}
-	add_filter( 'the_content', 'check_the_content_for_fancybox', 1 );
-endif; // endif ( ! function_exists( 'check_the_content_for_fancybox' ) ) :
+	add_filter( 'the_content', 'load_assets_if_keyword_in_content', 1 );
+endif; // endif ( ! function_exists( 'load_assets_if_keyword_in_content' ) ) :
 
 if ( ! function_exists( 'active_siblings' ) ) :
 	function active_siblings( $selector, $max_dots ) {
@@ -1080,3 +1123,37 @@ if ( ! function_exists( 'set_max_slick_dots_styles' ) ) :
 	}
 endif; // endif ( ! function_exists( 'set_max_slick_dots_styles' ) ) :
 */
+
+if ( ! function_exists( 'xten_determine_video_url_type' ) ) :
+	/**
+	 * [xten_determine_video_url_type used to determine what kind of url is being submitted here]
+	 * @param  string $url either a YouTube or Vimeo URL string
+	 * @return array will return either "youtube","vimeo" or "none" and also the video id from the url
+	 */
+
+	function xten_determine_video_url_type( $url ) {
+		$yt_rx = '/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/';
+		$has_match_youtube = preg_match( $yt_rx, $url, $yt_matches );
+
+		$vm_rx = '/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([‌​0-9]{6,11})[?]?.*/';
+		$has_match_vimeo = preg_match( $vm_rx, $url, $vm_matches );
+
+		//Then we want the video id which is:
+		if ( $has_match_youtube ) :
+				$video_id = $yt_matches[5]; 
+				$type = 'youtube';
+		elseif ( $has_match_vimeo ) :
+				$video_id = $vm_matches[5];
+				$type = 'vimeo';
+		else :
+				$video_id = 0;
+				$type = 'none';
+		endif;
+
+		$data['video_id']   = $video_id;
+		$data['video_type'] = $type;
+
+		return $data;
+
+	}
+endif; // endif ( ! function_exists( 'xten_determine_video_url_type' ) ) :

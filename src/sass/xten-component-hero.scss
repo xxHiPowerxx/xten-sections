@@ -241,6 +241,13 @@
 			}
 		}
 	}
+	&[data-video-type="uploaded_video_type"] {
+		.xten-hero-slide-background-video {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
 	.xten-hero-slide-background-video {
 		object-fit: cover;
 		width: 100%;

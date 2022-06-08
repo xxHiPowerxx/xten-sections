@@ -200,6 +200,10 @@ function component_hero( $args = null ) {
 			$background_video_fc = $slide['background_video_fc'];
 			$video_background_markup = null;
 			if ( ! empty( $background_video_fc ) ) :
+				$loop_background_video = $slide['loop_background_video'] === null ?
+					true :
+					$slide['loop_background_video'];
+				$slide_attrs['data-loop-background-video'] = $loop_background_video;
 				$slide_attrs['data-has-video'] = true;
 				$video_type = $background_video_fc[0]['acf_fc_layout'];
 				ob_start();
@@ -212,10 +216,11 @@ function component_hero( $args = null ) {
 							$video_src = wp_get_attachment_url( $video_id );
 							// Don't autoplay if we're in the editor.
 							$autoplay = is_admin() ? null : 'autoplay';
+							$loop     = $loop_background_video ? 'loop' : null;
 							$slide_attrs['data-video-provider'] = 'internal-video';
 							?>
 							<div class="xten-hero-slide-background-video-inner">
-								<video src="<?php echo esc_url( $video_src ); ?>" class="xten-hero-slide-background-video" <?php echo $autoplay; ?> loop muted></video>
+								<video src="<?php echo esc_url( $video_src ); ?>" class="xten-hero-slide-background-video" <?php echo $autoplay; ?> <?php echo $loop; ?> muted></video>
 							</div>
 							<?php
 						endif; // endif ( $video_id !== false ) :
@@ -261,7 +266,7 @@ function component_hero( $args = null ) {
 												'hd'          => 1,
 												'autoplay'    => 1,
 												'mute'        => 1,
-												'loop'        => 1,
+												'loop'        => $loop_background_video,
 												'enablejsapi' => 1,
 												'playlist'    => $youtube_video_id,
 											);

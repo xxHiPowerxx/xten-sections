@@ -252,6 +252,25 @@
                     "max": 1
                 },
                 {
+                    "key": "field_628e9d526f3f5",
+                    "label": "Loop Background Video?",
+                    "name": "loop_background_video",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 1,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
                     "key": "field_5e8b7b36cc55f",
                     "label": "Background Overlay",
                     "name": "background_overlay_group",
@@ -803,5 +822,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "modified": 1648846482
+    "modified": 1653513629
 }

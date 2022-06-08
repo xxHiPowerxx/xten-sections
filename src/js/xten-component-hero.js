@@ -193,12 +193,25 @@
 				}
 			});
 		}
+		function listenForEndOfVideo() {
+			$videos = $('.xten-hero-slide-background-video');
+			$videos.each(function(){
+				$loopVideo = $(this).attr('loop-background-video');
+				if ( ! $loopVideo ) {
+					$(this).on('ended', function(e){
+						var $parentSlide = $(this).closest('.xten-hero-slide');
+						$parentSlide.addClass('background-video-ended');
+					});
+				}
+			});
+		}
 
 		function readyFuncs() {
 			sizeHero();
 			listenForImageLoad();
 			setLoadedIframeClass();
 			initSlick();
+			listenForEndOfVideo();
 		}
 		readyFuncs();
 		function resizeFuncs() {

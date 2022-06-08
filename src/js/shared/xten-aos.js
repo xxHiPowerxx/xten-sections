@@ -63,6 +63,12 @@
 
 			});
 		}
+		// Sometimes AOS doesn't on load so we dispatch resize.
+		function dispatchResize() {
+			var resizeEvent = window.document.createEvent('UIEvents');
+			resizeEvent.initUIEvent('resize', true, false, window, 0);
+			window.dispatchEvent(resizeEvent);
+		}
 		function initAOS() {
 			var aosConf = {
 				startEvent: 'load',
@@ -70,11 +76,14 @@
 				easing: 'ease-out',
 			};
 			if (waitForClassesToAttributes === true) {
-				$(window).on('aosclassesconvertedtoattributes.xten', function(){
+				aosConf.startEvent = 'aosclassesconvertedtoattributes.xten';
+				$(window).on('aosclassesconvertedtoattributes.xten', function(e){
 					AOS.init(aosConf);
+					dispatchResize();
 				});
 			} else {
 				AOS.init(aosConf);
+				dispatchResize();
 			}
 		}
 		function readyFuncs() {

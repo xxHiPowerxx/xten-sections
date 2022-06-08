@@ -611,6 +611,29 @@ if ( ! function_exists( 'xten_get_icon_fc' ) ) :
 	}
 endif; // endif ( ! function_exists( 'xten_get_icon_fc' ) ) :
 
+if ( ! function_exists( 'xten_get_fc_icon' ) ) :
+	/**
+	 * Get Flexible Content Icon
+	 * @param WP_Post|int (optional) $post - WP_Post Object or Post-ID
+	 * @return null|string $icon - Returns Null if nothing found or Icon's HTML.
+	 */
+	function xten_get_fc_icon( $post = null ) {
+		$icon_row_layout = null;
+		$icon            = null;
+		if ( have_rows( 'icon_fc', $post ) ) :
+			while ( have_rows( 'icon_fc', $post ) ) :
+				the_row();
+				$icon_row_layout = get_row_layout();
+				break;
+			endwhile;
+		endif;
+		if ( $icon_row_layout ) :
+			$icon = xten_get_icon_fc( $icon_row_layout );
+		endif;
+		return $icon;
+	}
+endif; // endif ( ! function_exists( 'xten_get_fc_icon' ) ) :
+
 if ( ! function_exists( 'xten_sections_render_component' ) ) :
 	/**
 	 * Render Markup for Component.
@@ -1157,3 +1180,23 @@ if ( ! function_exists( 'xten_determine_video_url_type' ) ) :
 
 	}
 endif; // endif ( ! function_exists( 'xten_determine_video_url_type' ) ) :
+
+if ( ! function_exists( 'xten_check_for_reviews_plugins' ) ) :
+	/**
+	 * Check to see if Widget Google Reviews Plugin or Business Reviews Bundle is Activated.
+	 * @return bool true if plugin files are found false if not.
+	 */
+	function xten_check_for_reviews_plugins() {
+		$reviews_plugin_file_found = false;
+		$widget_google_reviews_plugin_file = 'widget-google-reviews/grw.php';
+		$business_reviews_bundle_plugin_file = 'business-reviews-bundle/brb.php';
+		if (
+			is_plugin_active( $widget_google_reviews_plugin_file ) ||
+			is_plugin_active( $business_reviews_bundle_plugin_file )
+		) :
+			$reviews_plugin_file_found = true;
+		endif;
+
+		return $reviews_plugin_file_found;
+	}
+endif; // endif ( ! function_exists( 'xten_check_for_reviews_plugins' ) ) :

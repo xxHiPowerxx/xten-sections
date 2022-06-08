@@ -1,0 +1,30 @@
+@import './import/variables';
+
+.component-modal {
+	.modal-dialog {
+		margin-top: 9vh;
+		margin-bottom: 9vh;
+	}
+	.modal-header,
+	.modal-body,
+	.modal-footer {
+		padding: 1.5rem 3rem;
+	}
+	.modal-header {
+		text-align: center;
+		.close {
+			padding: 1rem;
+			margin: 0;
+			font-size: 1.67rem;
+			font-size: 3rem;
+			padding: 0.2005em;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	}
+}
+.modal-title-wrapper,
+.modal-title {
+	flex: 1;
+}

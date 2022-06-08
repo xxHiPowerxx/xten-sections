@@ -1,13 +1,12 @@
 <?php
 /**
- * This Component Google Review Slider.
+ * This Component renders the Google Review Slider.
  * @package xten
  */
 function component_google_review_slider( $args = null ) {
 	// Check to see if Widget Google Reviews Plugin is not Activated.
-	$plugin_file = 'widget-google-reviews/grw.php';
 	if (
-		! is_plugin_active( $plugin_file ) ||
+		! xten_check_for_reviews_plugins() ||
 		empty( $args['google_reviews_shortcode'] )
 	) :
 		return;

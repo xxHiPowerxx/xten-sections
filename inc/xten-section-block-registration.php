@@ -130,9 +130,8 @@ function xten_acf_blocks_init() {
 			)
 		);
 
-		// Check to see if Widget Google Reviews Plugin is Activated.
-		$plugin_file = 'widget-google-reviews/grw.php';
-		if ( is_plugin_active( $plugin_file ) ) :
+		// Check to see if Widget Google Reviews Plugin or Business Reviews Bundle is Activated.
+		if ( xten_check_for_reviews_plugins() ) :
 			// Google Review Slider Section - xten-section-google-review-slider.
 			$handle       = 'google-review-slider';
 			$section_name = 'xten-section-' . $handle;

@@ -1,0 +1,478 @@
+{
+    "key": "group_61e094b46e63f",
+    "title": "Popups \/ Modals",
+    "fields": [
+        {
+            "key": "field_61e094ef352e0",
+            "label": "Popups",
+            "name": "popups_fc",
+            "type": "flexible_content",
+            "instructions": "Choose the Type of Popup(s)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layouts": {
+                "layout_61e095a89029a": {
+                    "key": "layout_61e095a89029a",
+                    "name": "simplified_popup",
+                    "label": "Simplified Popup",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_61e73e8dccb49",
+                            "label": "Popup ID",
+                            "name": "popup_id",
+                            "type": "text",
+                            "instructions": "The Popup's ID can be used as the <b><i>href<\/i> attribute<\/b> on any <b><i>&lt;a&gt;<\/i><\/b> tag<\/b>",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "#",
+                            "append": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_61f4ae12fe205",
+                            "label": "Popup Size",
+                            "name": "popup_size",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "lg": "Large",
+                                "md": "Medium",
+                                "sm": "Small"
+                            },
+                            "default_value": [
+                                "md"
+                            ],
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "ui": 1,
+                            "ajax": 0,
+                            "return_format": "value",
+                            "placeholder": ""
+                        },
+                        {
+                            "key": "field_61e09606352e3",
+                            "label": "Popup Title",
+                            "name": "popup_title",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "&lt;h2&gt;",
+                            "append": "&lt;\/h2&gt;",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_61e09690352e4",
+                            "label": "Popup Sub-Title",
+                            "name": "popup_sub_title",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "&lt;h3&gt;",
+                            "append": "&lt;\/h3&gt;",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_61e096cd352e5",
+                            "label": "Popup Content",
+                            "name": "popup_content",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 1
+                        },
+                        {
+                            "key": "field_61e096eb352e6",
+                            "label": "Popup Buttons",
+                            "name": "popup_buttons_repeater",
+                            "type": "repeater",
+                            "instructions": "Add\/Delete Buttons",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "collapsed": "field_61e0975d352e7",
+                            "min": 0,
+                            "max": 0,
+                            "layout": "row",
+                            "button_label": "Add Button",
+                            "sub_fields": [
+                                {
+                                    "key": "field_61e0975d352e7",
+                                    "label": "Button Text",
+                                    "name": "button_text",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "maxlength": ""
+                                },
+                                {
+                                    "key": "field_61e097d3352e8",
+                                    "label": "Button Background Color",
+                                    "name": "button_background_color_group",
+                                    "type": "group",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "layout": "block",
+                                    "sub_fields": [
+                                        {
+                                            "key": "field_61e0982d352e9",
+                                            "label": "Button Background Color",
+                                            "name": "button_background_color",
+                                            "type": "color_picker",
+                                            "instructions": "Leave Clear to inherit Theme Style",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": ""
+                                        },
+                                        {
+                                            "key": "field_61e09987352ea",
+                                            "label": "Button Background Color Opacity",
+                                            "name": "button_background_color_opacity",
+                                            "type": "range",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": 100,
+                                            "min": 0,
+                                            "max": 100,
+                                            "step": "",
+                                            "prepend": "",
+                                            "append": "%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "field_61e746156c433",
+                                    "label": "Button Text Color",
+                                    "name": "button_text_color_group",
+                                    "type": "group",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "layout": "block",
+                                    "sub_fields": [
+                                        {
+                                            "key": "field_61e746156c434",
+                                            "label": "Button Text Color",
+                                            "name": "button_text_color",
+                                            "type": "color_picker",
+                                            "instructions": "Leave Clear to inherit Theme Style",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": ""
+                                        },
+                                        {
+                                            "key": "field_61e746156c435",
+                                            "label": "Button Text Color Opacity",
+                                            "name": "button_text_color_opacity",
+                                            "type": "range",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": 100,
+                                            "min": 0,
+                                            "max": 100,
+                                            "step": "",
+                                            "prepend": "",
+                                            "append": "%"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "field_61e099b6352eb",
+                                    "label": "Button Link",
+                                    "name": "button_link",
+                                    "type": "url",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "#",
+                                    "placeholder": ""
+                                },
+                                {
+                                    "key": "field_61e09a15352ec",
+                                    "label": "Button Attributes",
+                                    "name": "button_attributes_repeater",
+                                    "type": "repeater",
+                                    "instructions": "Add Attributes and Values for the button.<br><b>EG: class=\"btn\", data-modal=\"dismiss\"<\/b>",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "collapsed": "field_61e0b25b352ed",
+                                    "min": 0,
+                                    "max": 0,
+                                    "layout": "table",
+                                    "button_label": "Add Button Attribute",
+                                    "sub_fields": [
+                                        {
+                                            "key": "field_61e0b25b352ed",
+                                            "label": "Button Attribute Name",
+                                            "name": "button_attribute_name",
+                                            "type": "text",
+                                            "instructions": "<b><i>class<\/i><\/b>=\"btn\"",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        },
+                                        {
+                                            "key": "field_61e0b29f352ee",
+                                            "label": "Button Attribute Value",
+                                            "name": "button_attribute_value",
+                                            "type": "text",
+                                            "instructions": "class=\"<b><i>btn<\/i><\/b>\"",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        }
+                                    ]
+                                },
+                                {
+                                    "key": "field_61e0b2fe352ef",
+                                    "label": "Close Popup on Button Click?",
+                                    "name": "close_popup_on_button_click",
+                                    "type": "true_false",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "message": "",
+                                    "default_value": 0,
+                                    "ui": 1,
+                                    "ui_on_text": "",
+                                    "ui_off_text": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_61e095f8352e2": {
+                    "key": "layout_61e095f8352e2",
+                    "name": "customized_popup",
+                    "label": "Customized Popup",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_61e73f67ccb4a",
+                            "label": "Popup ID",
+                            "name": "popup_id",
+                            "type": "text",
+                            "instructions": "The Popup's ID can be used as the <b><i>href<\/i> attribute<\/b> on any <b><i>&lt;a&gt;<\/i><\/b> tag<\/b>",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "#",
+                            "append": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_61f4ad295d3a1",
+                            "label": "Popup Size",
+                            "name": "popup_size",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "lg": "Large",
+                                "md": "Medium",
+                                "sm": "Small"
+                            },
+                            "default_value": [
+                                "md"
+                            ],
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "ui": 1,
+                            "ajax": 0,
+                            "return_format": "value",
+                            "placeholder": ""
+                        },
+                        {
+                            "key": "field_61e0b365352f0",
+                            "label": "Popup HTML",
+                            "name": "popup_html",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 1
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            },
+            "button_label": "Add Popup",
+            "min": "",
+            "max": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "site-settings"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "!=",
+                "value": "cases"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "Settings for Popups and Modal Dialogues",
+    "modified": 1643429141
+}

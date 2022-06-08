@@ -17,23 +17,39 @@ if ( $minimum_height ) :
 endif;
 
 $args['slides'] = get_field( 'slides_repeater' );
-$valid_images   = array();
+$valid_bgs      = array();
 $valid_contents = array();
 foreach( $args['slides'] as $key => $slide ) :
-	if ( $slide['background_image_group']['background_image'] && $valid_min_height ) :
-		$valid_image = $slide['background_image_group']['background_image'];
-		$valid_images[] = $valid_image;
-	endif;
+	// Only validate bg if there is a min-height set.
+	if ( $valid_min_height ) :
+		$valid_bg = array();
+		// Check for background images.
+		if ( $slide['background_image_group']['background_image'] ) :
+			$valid_image = $slide['background_image_group']['background_image'];
+			$valid_bg[]  = $valid_image;
+			$valid_bgs[] = $valid_image;
+		endif;
+
+		// Check for background videos.
+		if ( ! empty( $slide['background_video_fc'] ) ) :
+			$valid_video = $slide['background_video_fc'][0];
+			$valid_bg[]  = $valid_video;
+			$valid_bgs[] = $valid_video;
+		endif;
+	endif; // endif ( $valid_min_height ) :
+
+	// Check for content.
 	if ( $slide['content'] ) :
-		$valid_content = $slide['content'];
+		$valid_content    = $slide['content'];
 		$valid_contents[] = $valid_content;
 	endif;
 
 	// For Efficiency's sake, Check Validation for this Slide,
 	$validation = array(
-		$valid_image,
+		$valid_bg,
 		$valid_content,
 	);
+
 	$slide_has_content = xten_has_content( $validation );
 
 	// if doesn't meet requirements, move on.
@@ -41,8 +57,9 @@ foreach( $args['slides'] as $key => $slide ) :
 		continue;
 	endif;
 
-	$args['slides'][$key]['background_image_group']   = $slide['background_image_group'];
 	$args['slides'][$key]['background_color']         = $slide['background_color'];
+	$args['slides'][$key]['background_image_group']   = $slide['background_image_group'];
+	$args['slides'][$key]['background_video_fc']      = $slide['background_video_fc'];
 	$args['slides'][$key]['background_overlay_group'] = $slide['background_overlay_group'];
 	$args['slides'][$key]['content']                  = $slide['content'];
 	if ( $args['slides'][$key]['content'] ) :
@@ -57,9 +74,8 @@ foreach( $args['slides'] as $key => $slide ) :
 endforeach; // endforeach( $args['slides'] as $key => $slide ) :
 
 $validations = array(
-	count( $valid_images ) > 0,
+	count( $valid_bgs ) > 0,
 	count( $valid_contents ) > 0,
-	$valid_min_height,
 );
 
 $slides_have_content = xten_has_content( $validations );
@@ -102,3 +118,5 @@ else :
 	</section><!-- /#<?php echo esc_attr($s_id); ?> -->
 <?php
 endif; // if ( ! $has_content ) :
+
+xten_section_boilerplate( $s_id, $section_name, $styles );

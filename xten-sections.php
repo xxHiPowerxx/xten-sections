@@ -39,7 +39,7 @@ function xten_section_assets() {
 	}
 
 	// Fontawesome.
-	$fontawesome_version = '5.7.1';
+	$fontawesome_version = '6.1.1';
 	$handle = 'xten-vendor-fontawesome-css';
 	if ( ! wp_style_is( $handle, 'registered' ) ) {
 		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fontawesome/css/all.min.css', array(), $fontawesome_version, 'all' );
@@ -83,6 +83,25 @@ function xten_section_assets() {
 		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fancybox/jquery.fancybox.min.css', array(), $fancybox_version, 'all' );
 	}
 
+	// AOS Vendor
+	// AOS JS
+	$aos_version = '2.3.4';
+	$handle = 'xten-vendor-aos-js';
+	if ( ! wp_script_is( $handle, 'registered' ) ) {
+		wp_register_script( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/aos/aos.js', array(), $aos_version, true );
+	}
+	// AOS CSS
+	$handle = 'xten-vendor-aos-css';
+	if ( ! wp_style_is( $handle, 'registered' ) ) {
+		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/aos/aos.css', array(), $aos_version, 'all' );
+	}
+
+	// YouTube Iframe API.
+	$handle = 'xten-vendor-youtube-iframe';
+	if ( ! wp_script_is( $handle, 'registered' ) ) {
+		wp_register_script( $handle, 'https://www.youtube.com/iframe_api', array(), null, true );
+	}
+
 	// /Vendor
 
 	// Shared
@@ -93,6 +112,16 @@ function xten_section_assets() {
 		$handle,
 		$GLOBALS['xten-sections-uri'] . $file_path,
 		array( 'jquery', 'xten-vendor-fancybox-js' ),
+		xten_filemtime( $GLOBALS['xten-sections-dir'] . $file_path ),
+		true
+	);
+
+	$handle = 'xten-aos-js';
+	$file_path = 'assets/js/shared/xten-aos.js';
+	wp_register_script(
+		$handle,
+		$GLOBALS['xten-sections-uri'] . $file_path,
+		array( 'jquery', 'xten-vendor-aos-js' ),
 		xten_filemtime( $GLOBALS['xten-sections-dir'] . $file_path ),
 		true
 	);
@@ -114,9 +143,10 @@ function xten_section_assets() {
 	register_section_assets(
 		'component-hero',
 		array(
-			'css' => null,
+			'css' => array('xten-vendor-override-slick-css'),
 			'js'  => array(
-								'jquery'
+								'jquery',
+								'xten-vendor-slick-js'
 							 ),
 		)
 	);
@@ -166,8 +196,20 @@ function xten_section_assets() {
 	);
 
 	// /Sections
+
+	// Other Components
+	register_section_assets(
+		'component-modal',
+		array(
+			'css' => null,
+			'js'  => array(
+								'jquery'
+							 ),
+		)
+	);
+	// /Other Components
 }
-add_action( 'wp_enqueue_scripts', 'xten_section_assets' );
+add_action( 'wp_enqueue_scripts', 'xten_section_assets', 1 );
 
 function deregister_google_review_widget_assets() {
 	// Google Review Widget CSS
@@ -257,3 +299,6 @@ function add_to_wysiwyg_whitelist( $styles ) {
 add_filter( 'safe_style_css', 'add_to_wysiwyg_whitelist' );
 
 // require $GLOBALS['xten-sections-dir'] . '/inc/add-acf-block-location-rules.php';
+
+// Include Popups / Modals.
+require_once $GLOBALS['xten-sections-dir'] . '/render-templates/xten-popups.php';

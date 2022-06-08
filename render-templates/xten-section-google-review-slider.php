@@ -7,8 +7,7 @@
  * @package xten-sections
  */
 // Check to see if Widget Google Reviews Plugin is Activated.
-$plugin_file = 'widget-google-reviews/grw.php';
-if ( is_plugin_active( $plugin_file ) ) :
+if ( xten_check_for_reviews_plugins() ) :
 	// Store Block Configuration to pass to component.
 	$args                             = array();
 	$args['google_reviews_shortcode'] = get_field( 'google_reviews_shortcode' );

@@ -96,7 +96,7 @@
 	&[data-slide-method*="slide"] .xten-hero-slide-background {
 		background-position: 50% 50%;
 		background-repeat: no-repeat;
-		&:before {
+		> .xten-hero-slide-background-overlay {
 			position: absolute;
 			width: 100%;
 			height: 100%;
@@ -136,11 +136,8 @@
 	}
 	&[data-slide-method="default"] .xten-hero-slide[data-has-overlay='1'],
 	&[data-slide-method*="slide"] .xten-hero-slide[data-has-overlay='1'] .xten-hero-slide-background {
-		> * {
+		> .container-xten-component-hero {
 			position: relative;
-		}
-		&:before {
-			content: '';
 		}
 	}
 	/*   /Slide Background   */
@@ -195,6 +192,11 @@
 .container-xten-component-hero {
 	display: flex;
 }
+.xten-hero-slide {
+	&[data-has-video] {
+		overflow: hidden;
+	}
+}
 .xten-hero-slide-background {
   position: absolute;
   left: 0;
@@ -203,3 +205,53 @@
   height: 100%;
 	@include smoothest-transition;
 }
+	/*   Slide Background Video   */
+.xten-hero-slide-background-video-wrapper {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	&[data-video-type="external_video_type"] {
+		height: auto;
+		> * {
+			&:before {
+				content: '';
+				width: 100%;
+				padding-bottom: 56.25%;
+				display: block;
+			}
+			> * {
+				position: absolute;
+				width: 100%;
+				top: 50%;
+				transform: translateY(-50%);
+				&iframe {
+					height: auto;
+					/*   Hide unhidable controls out of the way   */
+					min-height: calc(100% + 110px);
+					margin-top: -60px;
+					
+				}
+				&.wp-video {
+					&,
+					.wp-video-shortcode {
+						width: 100% !important;
+						height: 100% !important;
+					}
+				}
+			}
+		}
+	}
+	&[data-video-type="uploaded_video_type"] {
+		.xten-hero-slide-background-video {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
+	.xten-hero-slide-background-video {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+}
+	/*   /Slide Background Video   */

@@ -73,6 +73,13 @@ gulp.task('watch', function () {
 	gulp.watch('./src/img/**/*', gulp.series('images'));
 });
 
+const firstRun = gulp.series('scripts', 'styles', 'images', 'watch');
+
+/**
+ * Run the whole thing.
+ */
+ exports.default = firstRun;
+
 
 // Run:
 // gulp watch-bs

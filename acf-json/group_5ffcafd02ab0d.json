@@ -1,0 +1,243 @@
+{
+    "key": "group_5ffcafd02ab0d",
+    "title": "Accordion Section Configuration",
+    "fields": [
+        {
+            "key": "field_5ffcb08976d40",
+            "label": "Accordions",
+            "name": "accordions_repeater",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_5ffcb19c76d41",
+            "min": 1,
+            "max": 0,
+            "layout": "block",
+            "button_label": "",
+            "sub_fields": [
+                {
+                    "key": "field_5ffcb19c76d41",
+                    "label": "Title",
+                    "name": "title",
+                    "type": "wysiwyg",
+                    "instructions": "This is what will show when the Accordion is collapsed.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "tabs": "all",
+                    "toolbar": "full",
+                    "media_upload": 1,
+                    "delay": 0
+                },
+                {
+                    "key": "field_5ffcb1e576d42",
+                    "label": "Content",
+                    "name": "content",
+                    "type": "wysiwyg",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "tabs": "all",
+                    "toolbar": "full",
+                    "media_upload": 1,
+                    "delay": 0
+                },
+                {
+                    "key": "field_5ffcb2b076d44",
+                    "label": "Text Color",
+                    "name": "color",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": ""
+                },
+                {
+                    "key": "field_5ffcb28f76d43",
+                    "label": "Background Color",
+                    "name": "background_color",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": ""
+                },
+                {
+                    "key": "field_5ffcc4b49f228",
+                    "label": "Icon",
+                    "name": "icon_fc",
+                    "type": "flexible_content",
+                    "instructions": "Choose Whether the Icon Associated with this Accordion is a Font Awesome Icon, an SVG, or a bitmap (PNG\/JPG).",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layouts": {
+                        "layout_5ffcc4be5d3d3": {
+                            "key": "layout_5ffcc4be5d3d3",
+                            "name": "font_awesome_icon",
+                            "label": "Font Awesome Icon",
+                            "display": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_5ffcc4e69f229",
+                                    "label": "Font Awesome Icon Handle",
+                                    "name": "font_awesome_icon_handle",
+                                    "type": "text",
+                                    "instructions": "Select from any <b>Font Awesome Icon<\/b> <a href=\"https:\/\/fontawesome.com\/icons?d=gallery\" target=\"_blank\">Listed Here<\/a>.<br\/>\r\nexample: User Icon = <code>user<\/code>",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "placeholder": "user",
+                                    "prepend": "fa-",
+                                    "append": "",
+                                    "maxlength": ""
+                                }
+                            ],
+                            "min": "",
+                            "max": ""
+                        },
+                        "layout_5ffcc5489f22b": {
+                            "key": "layout_5ffcc5489f22b",
+                            "name": "svg",
+                            "label": "SVG",
+                            "display": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_5ffcc54f9f22c",
+                                    "label": "SVG Path",
+                                    "name": "svg_path",
+                                    "type": "text",
+                                    "instructions": "Give the path for the SVG local to the Child Theme.",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "\/assets\/img\/",
+                                    "placeholder": "",
+                                    "prepend": ".\/xten-prose-legal\/",
+                                    "append": "",
+                                    "maxlength": ""
+                                }
+                            ],
+                            "min": "",
+                            "max": ""
+                        },
+                        "layout_5ffcc57d9f22d": {
+                            "key": "layout_5ffcc57d9f22d",
+                            "name": "bitmap",
+                            "label": "Bitmap",
+                            "display": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_5ffcc5879f22e",
+                                    "label": "Image",
+                                    "name": "image",
+                                    "type": "image",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "array",
+                                    "preview_size": "medium",
+                                    "library": "all",
+                                    "min_width": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "max_width": "",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "mime_types": ""
+                                }
+                            ],
+                            "min": "",
+                            "max": ""
+                        }
+                    },
+                    "button_label": "Add Icon Type",
+                    "min": "",
+                    "max": 1
+                }
+            ]
+        },
+        {
+            "key": "field_5ffcb2ed76d45",
+            "label": "Open Multiple?",
+            "name": "open_multiple",
+            "type": "true_false",
+            "instructions": "Select whether to allow multiple accordions to be open at a time.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/xten-section-accordion"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1610409320
+}

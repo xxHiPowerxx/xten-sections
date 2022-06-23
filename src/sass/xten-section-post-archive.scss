@@ -14,6 +14,17 @@
 		flex-wrap: wrap;
 		margin-left: auto;
 		margin-right: auto;
+		&.slickSlider {
+			.slick-track {
+				display: flex;
+				height: 100%;
+			}
+			.listed-post-inner {
+				height: 100%;
+				margin-left: 0;
+				margin-right: 0;
+			}
+		}
 	}
 	@for $i from 1 through 6 {
 		&[data-max-posts-per-row="#{$i}"] {
@@ -28,6 +39,8 @@
 		padding-bottom: $pad-xs;
 		min-width: 100%;
 		max-width: 100%;
+		margin-left: $pad-xs;
+		margin-right: $pad-xs;
 		.entry-title {
 			margin-bottom: 0;
 		}
@@ -35,8 +48,6 @@
 	.listed-post-inner {
 		width: 100%;
 		max-width: 45rem;
-		margin-left: $pad-xs;
-		margin-right: $pad-xs;
 	}
 	.etnry-header {
 		.post-link {
@@ -81,5 +92,11 @@
 		text-align: right;
 		padding-top: $pad-xs;
 		margin-top: auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.listed-post-post-type {
+			font-size: 1.8rem;
+		}
 	}
 }

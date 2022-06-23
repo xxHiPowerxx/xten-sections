@@ -9,7 +9,7 @@
 
 // Create id attribute allowing for custom "anchor" value.
 $section_name = str_replace( 'acf/', '', $block['name'] );
-$handle                     = 'hero';
+$handle                     = 'post-archive';
 // $section_name               = 'xten-section-' . $handle;
 $section_attrs              = array();
 $section_attrs['data-s-id'] = $section_name . '-' . $block['id'];
@@ -24,7 +24,11 @@ $section_attrs['class']    .= $block['className'] ?
 $section_selector           ='[data-s-id="' . $s_id . '"].' . $section_name;
 $styles                     = '';
 
-$posts_list_id = $id . '-posts-list';
+$posts_list_id = $s_id . '-posts-list';
+$posts_list_attrs = array(
+	'id'    => $posts_list_attrs,
+	'class' => 'post-archive posts-list',
+);
 
 // Type Of Archive
 $type_of_archive = esc_attr( get_field( 'type_of_archive' ) ); // DV = posts.
@@ -44,6 +48,12 @@ $container_class            = $section_container ?
 															esc_attr( 'container container-ext' ) :
 															esc_attr( 'container-fluid' );
 $max_number_of_posts        = get_field( 'max_number_of_posts' ); // ! DV.
+$max_number_of_posts        = (
+		$max_number_of_posts === '' ||
+		$max_number_of_posts === null
+	) ?
+	-1 :
+	$max_number_of_posts;
 $max_posts_per_row          = get_field( 'max_posts_per_row' ); // ! DV.
 $section_attrs['data-max-posts-per-row'] = $max_posts_per_row;
 $minimum_width_of_posts     = get_field( 'minimum_width_of_posts' ); // DV = 450 && Max = 450.
@@ -74,46 +84,29 @@ $max_description_length     = get_field( 'max_description_length' ); // ! DV.
 if ( $type_of_archive === 'posts' ) :
 
 	$posts_to_get = $posts_to_get === 'posts' ?
-									substr($posts_to_get, 0, -1) :
-									$posts_to_get;
-	$posts = query_posts(
+		substr( $posts_to_get, 0, -1 ) :
+		$posts_to_get;
+	// Split into an an array if delimited by comma.
+	$posts_to_get        = preg_split( "/\,/",  $posts_to_get );
+	$multiple_post_types = is_array( $posts_to_get );
+	$posts               = query_posts(
 		array(
-			'post_type' => $posts_to_get,
-			'showposts' => $max_number_of_posts,
-			'orderby' => 'date',
-			'order' => 'DESC' ,
+			'post_type'      => $posts_to_get,
+			'posts_per_page' => $max_number_of_posts,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
 			)
 	);
-	$posts_list = array();
+	$posts_list          = array();
 	foreach ( $posts as $post ) :
-		$listed_post               = array();
-		$post_id                   = $post->ID;
-		$listed_post['post_uid']   = $id . '-' . $posts_to_get . '-' .  $post_id;
-		$listed_post['post_link']  = esc_url( get_permalink( $post_id ) );
-		$listed_post['post_title'] = esc_html( $post->post_title );
-		$listed_post['post_date']  = xten_posted_on( $post_id );
-		$post_excerpt              = $post->post_excerpt;
-		// If no excerpt Look for Yoast or theme excerpts.
-		if ( ! $post_excerpt ) :
-			$yoast_meta = get_post_meta($post_id, '_yoast_wpseo_metadesc', true); 
-			setup_postdata( $post );
-			$meta_id = 'metadescription_17587';
-			$xten_seo_description = get_post_meta( $post_id, $meta_id, true );
-			if ( $yoast_meta ) :
-				$post_excerpt = $yoast_meta;
-			elseif (
-				$xten_seo_description !== '' &&
-				$xten_seo_description !== null
-			) : // else check theme's meta description field.
-				$post_excerpt = $xten_seo_description;
-			else : // else trim the content.
-				$post_excerpt = xten_trim_string(
-													$post->post_content,
-													30
-												);
-			endif; // endif ( $yoast_meta ) :
-		endif; // endif ( ! $post_excerpt ) :
-		$listed_post['post_description'] = $post_excerpt;
+		$listed_post                     = array();
+		$post_id                         = $post->ID;
+		$listed_post['post_uid']         = $s_id . '-' . $posts_to_get . '-' .  $post_id;
+		$listed_post['post_link']        = esc_url( get_permalink( $post_id ) );
+		$listed_post['post_title']       = esc_html( $post->post_title );
+		$listed_post['post_date']        = xten_posted_on( $post_id );
+		$post_description                = xten_get_post_meta_description( $post );
+		$listed_post['post_description'] = $post_description;
 		$listed_post['thumbnail_img']    = null;
 		if ( has_post_thumbnail( $post_id ) ) :
 			$listed_post['thumbnail_img'] = get_the_post_thumbnail(
@@ -123,7 +116,11 @@ if ( $type_of_archive === 'posts' ) :
 																					'title' => $listed_post['post_title']
 																				)
 																			);
-		endif;// endif ( $category_thumbnail ) :
+		endif;// endif ( has_post_thumbnail( $post_id ) ) :
+		if ( $multiple_post_types ) :
+			$singlular_post_type = get_post_type_labels( get_post_type_object( $post->post_type ) )->singular_name;
+			$listed_post['post_type_elm'] = '<div class="listed-post-post-type">' . $singlular_post_type . '</div>';
+		endif;
 
 		// Assign Listed Post to Posts List with key of post uid.
 		$posts_list[$listed_post['post_uid']] = $listed_post;
@@ -148,7 +145,7 @@ if ( $type_of_archive === 'categories' ) :
 	foreach ( $categories as $category ) :
 		$listed_post                     = array();
 		$category_id                     = $category->term_id;
-		$listed_post['post_uid']         = $id . '-category-' . $category_id;
+		$listed_post['post_uid']         = $s_id . '-category-' . $category_id;
 		$listed_post['post_link']        = esc_url( get_category_link( $category_id ) );
 		$listed_post['post_title']       = esc_html( $category->name );
 		$listed_post['post_description'] = $category->description;
@@ -180,8 +177,18 @@ if ( $type_of_archive === 'categories' ) :
 endif; // endif ( $type_of_archive === 'categories' ) :
 // /Type of Archive = Categories
 
+// Slider Configuration
+$enable_slider = get_field( 'enable_slider' );
+if ( $enable_slider ) :
+	$slider_config                         = xten_slider_configuration();
+	$posts_list_attrs['data-slick']         = $slider_config;
+	$posts_list_attrs['class']             .= ' slickSlider';
+endif;
+// /Slider Configuration
+
 // Render Section
-$section_attrs_s = xten_stringify_attrs( $section_attrs );
+$section_attrs_s    = xten_stringify_attrs( $section_attrs );
+$posts_list_attrs_s = xten_stringify_attrs( $posts_list_attrs );
 
 ?>
 <section <?php echo $section_attrs_s; ?>>
@@ -189,7 +196,7 @@ $section_attrs_s = xten_stringify_attrs( $section_attrs );
 		<div class="<?php echo $container_class; ?> container-<?php echo esc_attr( $section_name ); ?>">
 			<div class="xten-content">
 
-				<div id="<?php echo $posts_list_id; ?>" class="post-archive posts-list">
+				<div <?php echo $posts_list_attrs_s; ?>>
 					<?php
 					foreach ( $posts_list as $listed_post ) :
 						$listed_post['post_uid'];
@@ -232,6 +239,11 @@ $section_attrs_s = xten_stringify_attrs( $section_attrs );
 										</div>
 									<?php endif; // if ( $listed_post['post_description'] ) : ?>
 									<footer class="entry-footer xten-highlight-font">
+										<?php
+										if ( $listed_post['post_type_elm'] ) :
+											echo $listed_post['post_type_elm'];
+										endif;
+										?>
 										<a href="<?php echo $listed_post['post_link']; ?>" class="post-link" title="<?php echo $listed_post['post_title']; ?>">
 											<button class="btn btn-theme-style xten-btn theme-style-dark" type="button">Read More</button>
 										</a>

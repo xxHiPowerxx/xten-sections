@@ -194,6 +194,40 @@ function xten_acf_blocks_init() {
 		)
 	);
 
+	// Accordion - xten-section-accordion.
+	$handle       = 'accordion';
+	$section_name = 'xten-section-' . $handle;
+	$icon         = null;
+	if ( function_exists( 'xten_get_icon' ) ) :
+		$icon = xten_get_icon( $section_name );
+	endif;
+	acf_register_block_type(
+		array(
+			'name'              => $section_name,
+			'title'             => __('Accordion'),
+			'description'       => __('Collapsable content in an accordion layout.'),
+			'icon'              => $icon,
+			'render_template'   => $GLOBALS['xten-sections-dir'] . 'render-templates/' . $section_name . '.php',
+			'keywords'          => array(
+															'xten',
+															'section',
+															'accordion',
+															'collapse',
+															'toggle',
+															'open',
+															'close',
+														),
+			'supports'          => array(
+				'anchor' => true,
+			),
+			'category'          => 'xten-sections',
+			'enqueue_assets'    => function ($block) {
+																$section_name = str_replace( 'acf/', '', $block['name'] );
+																xten_enqueue_assets( $section_name );
+															}
+		)
+	);
+
 	endif; // endif( function_exists('acf_register_block_type') ) :
 }
 add_action('acf/init', 'xten_acf_blocks_init');

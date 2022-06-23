@@ -302,3 +302,8 @@ add_filter( 'safe_style_css', 'add_to_wysiwyg_whitelist' );
 
 // Include Popups / Modals.
 require_once $GLOBALS['xten-sections-dir'] . '/render-templates/xten-popups.php';
+
+/**
+ * Shortcodes
+ */
+require_once $GLOBALS['xten-sections-dir'] . '/inc/shortcodes.php';

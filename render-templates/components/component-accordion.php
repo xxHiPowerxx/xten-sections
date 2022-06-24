@@ -10,14 +10,12 @@ function component_accordion( $args ) {
 	$handle             = 'accordion';
 	$component_name     = 'xten-component-' . $handle;
 	$component_handle   = 'component-' . $handle;
-	$component_css_path = '/assets/css/' . $component_handle . '.min.css';
+	$component_css_path = 'assets/css/' . $component_name . '.css';
 	wp_register_style(
 		$component_handle . '-css',
-		get_theme_file_uri( $component_css_path ),
-		array(
-			'child-style',
-		),
-		filemtime( get_stylesheet_directory() . $component_css_path ),
+		$GLOBALS['xten-sections-uri'] . $component_css_path,
+		array(),
+		filemtime( $GLOBALS['xten-sections-dir'] . $component_css_path ),
 		'all'
 	);
 	wp_enqueue_style( $component_handle . '-css' );

@@ -117,6 +117,7 @@ if ( $type_of_archive === 'posts' ) :
 																				)
 																			);
 		endif;// endif ( has_post_thumbnail( $post_id ) ) :
+		$listed_post['post_type'] = $post->post_type;
 		if ( $multiple_post_types ) :
 			$singlular_post_type = get_post_type_labels( get_post_type_object( $post->post_type ) )->singular_name;
 			$listed_post['post_type_elm'] = '<div class="listed-post-post-type">' . $singlular_post_type . '</div>';
@@ -149,6 +150,7 @@ if ( $type_of_archive === 'categories' ) :
 		$listed_post['post_link']        = esc_url( get_category_link( $category_id ) );
 		$listed_post['post_title']       = esc_html( $category->name );
 		$listed_post['post_description'] = $category->description;
+		$listed_post['post_type']        = 'category';
 	
 		$category_thumbnail              = get_field( 'category_thumbnail', $category );
 		$listed_post['thumbnail_img']    = null;
@@ -205,7 +207,7 @@ $posts_list_attrs_s = xten_stringify_attrs( $posts_list_attrs );
 						$listed_post['post_description'];
 						$listed_post['thumbnail_img'];
 						?>
-						<div id="<?php echo $listed_post['post_uid']; ?>" class="listed-post">
+						<div id="<?php echo $listed_post['post_uid']; ?>" class="listed-post" data-post-type="<?php echo $listed_post['post_type'] ?>">
 							<div class="card-style display-flex flex-column listed-post-inner">
 								<?php if ( $listed_post['thumbnail_img'] ) : ?>
 									<div class="featured-image">
@@ -216,14 +218,21 @@ $posts_list_attrs_s = xten_stringify_attrs( $posts_list_attrs );
 								<?php endif; ?>
 								<div class="post-body display-flex flex-column">
 									<header class="entry-header">
-										<a class="post-link" href="<?php echo $listed_post['post_link']; ?>" rel="bookmark">
-											<h5 class="entry-title"><?php echo $listed_post['post_title']; ?></h5>
-										</a>
-										<?php if ( $listed_post['post_date'] ) : ?>
-											<div class="post-date">
-												<?php echo $listed_post['post_date'] ?>
-											</div>
-										<?php endif; // endif ( $type_of_archive === 'posts' ) : ?>
+										<div class="post-link-post-date-wrapper">
+											<a class="post-link" href="<?php echo $listed_post['post_link']; ?>" rel="bookmark">
+												<h3 class="entry-title xten-h5"><?php echo $listed_post['post_title']; ?></h3>
+											</a>
+											<?php if ( $listed_post['post_date'] ) : ?>
+												<div class="post-date">
+													<?php echo $listed_post['post_date'] ?>
+												</div>
+											<?php endif; // endif ( $type_of_archive === 'posts' ) : ?>
+										</div>
+										<?php
+										if ( $listed_post['post_type_elm'] ) :
+											echo $listed_post['post_type_elm'];
+										endif;
+										?>
 									</header><!-- /.entry-header -->
 									<?php 
 									if ( $listed_post['post_description'] ) : 
@@ -239,11 +248,6 @@ $posts_list_attrs_s = xten_stringify_attrs( $posts_list_attrs );
 										</div>
 									<?php endif; // if ( $listed_post['post_description'] ) : ?>
 									<footer class="entry-footer xten-highlight-font">
-										<?php
-										if ( $listed_post['post_type_elm'] ) :
-											echo $listed_post['post_type_elm'];
-										endif;
-										?>
 										<a href="<?php echo $listed_post['post_link']; ?>" class="post-link" title="<?php echo $listed_post['post_title']; ?>">
 											<button class="btn btn-theme-style xten-btn theme-style-dark" type="button">Read More</button>
 										</a>

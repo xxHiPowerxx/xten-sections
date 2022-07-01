@@ -49,9 +49,17 @@
 		width: 100%;
 		max-width: 45rem;
 	}
-	.etnry-header {
+	.entry-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		.post-link {
 			display: inline-block;
+		}
+		.listed-post-post-type {
+			font-size: 1.8rem;
+			font-weight: 700;
+			flex-shrink: 0;
 		}
 	}
 	.post-body {
@@ -95,8 +103,8 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		.listed-post-post-type {
-			font-size: 1.8rem;
+		.post-link {
+			margin-left: auto;
 		}
 	}
 }

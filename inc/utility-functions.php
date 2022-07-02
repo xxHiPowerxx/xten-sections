@@ -584,14 +584,14 @@ if ( ! function_exists( 'xten_kses_post' ) ) :
 		$kses_defaults = wp_kses_allowed_html( 'post' );
 		$svg_args = array(
 			'svg' => array(
-				'class' => true,
-				'aria-hidden' => true,
+				'class'           => true,
+				'aria-hidden'     => true,
 				'aria-labelledby' => true,
-				'role' => true,
-				'xmlns' => true,
-				'width' => true,
-				'height' => true,
-				'viewbox' => true, // <= Must be lower case!
+				'role'            => true,
+				'xmlns'           => true,
+				'width'           => true,
+				'height'          => true,
+				'viewbox'         => true, // <= Must be lower case!
 			),
 			'g'     => array( 'fill' => true ),
 			'title' => array( 'title' => true ),
@@ -601,7 +601,15 @@ if ( ! function_exists( 'xten_kses_post' ) ) :
 				'style' => true,
 			),
 		);
-		$allowed_tags = array_merge( $kses_defaults, $svg_args );
+		$iframe_args = array(
+			'iframe'  => array(
+				'src'     => true,
+				'class'   => true,
+				'style'   => true,
+				'loading' => true,
+			),
+		);
+		$allowed_tags = array_merge( $kses_defaults, $svg_args, $iframe_args );
 
 		foreach ( $allowed_tags as $key=>$allowed_tag ) :
 			$tabindex = array(

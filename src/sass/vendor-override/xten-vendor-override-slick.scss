@@ -58,6 +58,10 @@
 }
 
 .slick-dots {
+	@at-root .slick-slider.static-dots & {
+		position: static;
+		width: 100%;
+	}
 	font-size: 2rem;
 	display: flex;
 	justify-content: center;

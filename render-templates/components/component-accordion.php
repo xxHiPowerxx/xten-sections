@@ -87,7 +87,7 @@ function component_accordion( $args ) {
 				</span>
 			<?php endif; ?>
 			<?php if ( $title ) : ?>
-				<h3 class="accordion-title"><?php echo $title; ?></h3>
+				<span class="accordion-title"><?php echo $title; ?></span>
 			<?php endif; ?>
 			<span class="collapse-control-indicator fa fa-minus"></span>
 		</div>

@@ -634,13 +634,7 @@ if ( ! function_exists( 'xten_get_icon_fc' ) ) :
 		endif; // endif ( $row_layout === 'font_awesome_icon' ) :
 
 		if ( $row_layout === 'svg' ) :
-			$svg_path = get_sub_field( 'svg_path' );
-			if ( $svg_path ) :
-				$whole_path = get_stylesheet_directory() . $svg_path;
-				if ( file_exists( $whole_path ) ) :
-					$icon = file_get_contents( $whole_path );
-				endif;
-			endif;
+			$icon = xten_kses_post( get_sub_field( 'svg' ) );
 		endif; // endif ( $row_layout === 'svg' ) :
 
 		if ( $row_layout === 'bitmap' ) :

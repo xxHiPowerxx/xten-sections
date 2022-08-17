@@ -5,7 +5,7 @@
  * @package xten-sections
  */
 function component_image_gallery( $args = null ) {
-
+	// TODO: Connect Slider Configuration Field Group to this Component for extra Slick Slider Options
 	// Create id attribute allowing for custom "anchor" value.
 	$handle                       = 'image-gallery';
 	$component_name               = 'xten-component-' . $handle;

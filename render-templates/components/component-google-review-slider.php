@@ -4,6 +4,7 @@
  * @package xten
  */
 function component_google_review_slider( $args = null ) {
+	// TODO: Connect Slider Configuration Field Group to this Component for extra Slick Slider Options
 	// Check to see if Widget Google Reviews Plugin is not Activated.
 	if (
 		! xten_check_for_reviews_plugins() ||

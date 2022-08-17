@@ -19,8 +19,8 @@ $pad-xxl: 12rem;
 
 /*   Colors   */
 $primary-light: var(--xten-theme-color-light);
-$primary-fallback: rgb(39, 55, 115);
-$primary: var(--xten-theme-color, $primary-fallback);
+$primary-static: rgb(39, 55, 115);
+$primary: var(--xten-theme-color, $primary-static);
 $primary-dark: var(--xten-theme-color-dark);
 // $primary-darker: var(--xten-theme-color-darker);
 $secondary-light: var(--xten-secondary-theme-color-light);
@@ -29,8 +29,9 @@ $secondary-dark: var(--xten-secondary-theme-color-dark);
 $tertiary: rgb(242, 223, 104);
 $quartiary: rgb(51, 51, 51);
 $white: rgb(255, 255, 255);
+$light: var(--xten-theme-color-white);
 $off-white: rgb(245, 245, 245);
-$dark: rgb(51, 51, 51);
+$dark: var(--xten-theme-color-black);
 $darker: rgb(32, 32, 32);
 $black: rgb(0, 0, 0);
 /*   /Colors   */

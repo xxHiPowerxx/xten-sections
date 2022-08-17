@@ -203,7 +203,7 @@ if ( ! function_exists( 'xten_add_inline_style' ) ) :
 	 * Add Inline Style
 	 *
 	 * @param string $selector - Selector for Style Rule
-	 * @param array $rule_array - opacity value from customizer.
+	 * @param array $rule_array - array of css rules in name-value pairs..
 	 * @param string $validator - optional value for validation checking.
 	 * @param string|array $media_query - optional value for Media Query Breakpoint.
 	 * @return string $rule - The completed Style Rule.

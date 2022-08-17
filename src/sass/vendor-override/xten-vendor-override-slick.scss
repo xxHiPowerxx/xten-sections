@@ -1,5 +1,63 @@
 @import '../import/_variables';
 
+$arrow-width: 10%;
+.slick-slider {
+	&.arrows-outside {
+		.slick-list {
+			margin-left: $arrow-width;
+			margin-right: $arrow-width;
+		}
+	}
+	&.static-dots {
+		.slick-dots {
+			position: static;
+			width: 100%;
+		}
+	}
+	&.arrows-primary {
+		background-color: $primary;
+	}
+	&.arrows-primary-light {
+		background-color: $primary-dark;
+	}
+	&.arrows-primary-dark {
+		background-color: $primary-dark;
+	}
+	&.arrows-secondary {
+		background-color: $secondary;
+	}
+	&.arrows-secondary-light {
+		background-color: $secondary-light;
+	}
+	&.arrows-secondary-dark {
+		background-color: $secondary-dark;
+	}
+	&.arrows-dark {
+		.slick-arrow {
+			&:before {
+				color: $dark;
+			}
+		}
+	}
+	&.arrows-light {
+		.slick-arrow {
+			&:before {
+				color: $light;
+			}
+		}
+	}
+	&[class*="arrows-primary"],
+	&[class*="arrows-secondary"] {
+		.slick-arrow {
+			&,
+			&:focus,
+			&:hover {
+				background-image: none;
+			}
+		}
+	}
+}
+
 .slick-prev {
   left: 0;
 	&,
@@ -37,7 +95,7 @@
 .slick-arrow {
 	font-size: 3rem;
   height: 100%;
-  width: 10%;
+  width: $arrow-width;
 	@media( min-width: $vp_sm ) {
 		min-width: 2rem;
 	}
@@ -58,10 +116,6 @@
 }
 
 .slick-dots {
-	@at-root .slick-slider.static-dots & {
-		position: static;
-		width: 100%;
-	}
 	font-size: 2rem;
 	display: flex;
 	justify-content: center;

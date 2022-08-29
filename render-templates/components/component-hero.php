@@ -32,7 +32,10 @@ function component_hero( $args = null ) {
 			$slide_selector = "[data-s-id=\"$slide_id\"]";
 			$slide_attrs    = array();
 			$slide_attrs['data-s-id'] = $slide_id;
-			$slide_attrs['class']     = 'xten-hero-slide';
+			$additional_classes       = $slide['slide_classes'] ?
+				" $slide[slide_classes]" :
+				null;
+			$slide_attrs['class']     = "xten-hero-slide $additional_classes";
 
 			// Content
 			$content = $slide['content'];
@@ -147,8 +150,8 @@ function component_hero( $args = null ) {
 
 			// Background
 			$slide_background_selector = strpos( $component_attrs['data-slide-method'], 'slide' ) !== false ?
-			'.xten-component-hero[data-slide-method*="slide"] ' . $slide_selector . ' .xten-hero-slide-background' :
-			'.xten-component-hero[data-slide-method="default"] ' . $slide_selector;
+			".xten-component-hero[data-slide-method*=\"slide\"] $slide_selector .xten-hero-slide-background:before" :
+			".xten-component-hero[data-slide-method=\"default\"] $slide_selector:before";
 			$slide_background_style = array();
 
 			// Background Color
@@ -199,7 +202,20 @@ function component_hero( $args = null ) {
 			// Background Video
 			$background_video_fc = $slide['background_video_fc'];
 			$video_background_markup = null;
-			if ( ! empty( $background_video_fc ) ) :
+
+			if (
+				! empty( $background_video_fc ) &&
+				(// Do not add markup if no video is found in Flexible Content Row.
+					(
+						$background_video_fc[0]['uploaded_video'] &&
+						$background_video_fc[0]['uploaded_video'] !== false
+					) ||
+					(
+						$background_video_fc[0]['external_video'] &&
+						! empty( $background_video_fc[0]['external_video'])
+					)
+				)
+			) :
 				$loop_background_video = $slide['loop_background_video'] === null ?
 					true :
 					$slide['loop_background_video'];

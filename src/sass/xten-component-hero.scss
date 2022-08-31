@@ -220,6 +220,7 @@
 	height: 100%;
 	&[data-video-type="external_video_type"] {
 		height: auto;
+		min-height: 100%;
 		> * {
 			&:before {
 				content: '';

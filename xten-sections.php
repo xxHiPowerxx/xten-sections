@@ -39,7 +39,7 @@ function xten_section_assets() {
 	}
 
 	// Fontawesome.
-	$fontawesome_version = '6.1.1';
+	$fontawesome_version = '6.1.2';
 	$handle = 'xten-vendor-fontawesome-css';
 	if ( ! wp_style_is( $handle, 'registered' ) ) {
 		wp_register_style( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/fontawesome/css/all.min.css', array(), $fontawesome_version, 'all' );

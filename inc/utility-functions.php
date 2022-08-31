@@ -521,6 +521,13 @@ if ( ! function_exists( 'xten_get_optimal_image_size' ) ) :
 		$image_width         = $image_details[1];
 		$image_height        = $image_details[2];
 
+		if ( $size === 'full' ) :
+			$size = array(
+				$image_width,
+				$image_height
+			);
+		endif;
+
 		// Determine whether min_height is at least 56.25% of min_width
 		$min_width           = $size[0];
 		$min_height          = $size[1];

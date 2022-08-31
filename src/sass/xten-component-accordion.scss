@@ -1,5 +1,16 @@
 @import './import/variables';
 
+
+.component-accordions-list {
+	&[data-swap-icons="1"] {
+		.collapse-control-indicator {
+			order: 3;
+		}
+		.collapse-control-icon {
+			order: -1;
+		}
+	}
+}
 .component-accordion {
 	.collapse-control-icon,
 	.collapse-control-indicator {
@@ -15,6 +26,15 @@
 	align-items: stretch;
 	justify-content: space-between;
 	font-size: 3.9rem;
+	&:not([aria-expanded="true"]) {
+		.collapse-control-indicator {
+			&.fa-minus {
+				&:before {
+					content: '\f067';
+				}
+			}
+		}
+	}
 	> * {
 		padding: .5em;
 	}
@@ -22,14 +42,8 @@
 .accordion-title {
 	line-height: 1;
 	flex: 1 1 auto;
-	text-align: center;
-	margin-bottom: 0;
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	@media( max-width: $vp_xs ) {
-		font-size: 2.7rem;
-	}
 }
 
 .accordion-content {

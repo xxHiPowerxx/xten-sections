@@ -62,6 +62,7 @@ function component_accordion( $args ) {
 	$control_attrs_a['aria-expanded']    = $open ? 'true' : 'false';
 	$control_attrs_a['aria-label']       = 'Toggle ' . wp_strip_all_tags( $title );
 	$control_attrs_a['tabindex']         = '0';
+	$control_attrs_a['data-icon-type']   = $args['icon_type'];
 
 	$collapse_attrs_a                    = array();
 	$collapse_attrs_a['id']              = $target;
@@ -81,15 +82,15 @@ function component_accordion( $args ) {
 	?>
 	<div <?php echo $component_attrs_s; ?>>
 		<div <?php echo $control_attrs_s; ?>>
+			<span class="collapse-control-indicator fa fa-minus"></span>
+			<?php if ( $title ) : ?>
+				<span class="accordion-title"><?php echo $title; ?></span>
+			<?php endif; ?>
 			<?php if ( $icon ) : ?>
 				<span class="collapse-control-icon">
 					<?php echo $icon; ?>
 				</span>
 			<?php endif; ?>
-			<?php if ( $title ) : ?>
-				<span class="accordion-title"><?php echo $title; ?></span>
-			<?php endif; ?>
-			<span class="collapse-control-indicator fa fa-minus"></span>
 		</div>
 		<div <?php echo $collapse_attrs_s; ?>>
 			<?php

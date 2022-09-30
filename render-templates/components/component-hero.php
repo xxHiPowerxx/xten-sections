@@ -373,11 +373,16 @@ function component_hero( $args = null ) {
 
 	// Minimum Height
 	$minimum_height       = esc_attr( $args['minimum_height_group']['minimum_height'] );
-	$sizeHero                 = null;
+	$sizeHero             = null;
 	if ( $minimum_height ) :
-		$minimum_height_unit     = esc_attr( $args['minimum_height_unit'] ) ? : '%'; // DV = '%'
+		$minimum_height_unit     = esc_attr( $args['minimum_height_group']['minimum_height_unit'] ) ? : '%'; // DV = '%'
 		$minimum_height_attr_val = $minimum_height . $minimum_height_unit;
 		$component_attrs['data-minimum-height'] = $minimum_height_attr_val;
+
+		if ( $args['ignore_site_header_on_min_height_calculation'] ) :
+			$component_attrs['data-ignore-site-header'] = $args['ignore_site_header_on_min_height_calculation'];
+		endif;
+
 		if ( $minimum_height_unit === '%' ) :
 			$component_attrs['class'] .= ' sizeHero';
 		else :

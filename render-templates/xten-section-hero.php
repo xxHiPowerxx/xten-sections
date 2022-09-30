@@ -101,6 +101,16 @@ else :
 	$args['slide_method']            = get_field( 'slide_method' );
 	$args['slider_background_color'] = get_field( 'slider_background_color' );
 
+	if (
+		$args['minimum_height_group']['minimum_height'] == 100 &&
+		(
+			$args['minimum_height_group']['minimum_height_unit'] === '%' ||
+			$args['minimum_height_group']['minimum_height_unit'] === 'vh'
+		)
+	) :
+		$args['ignore_site_header_on_min_height_calculation'] = get_field( 'ignore_site_header_on_min_height_calculation' );
+	endif;
+
 	$section_container               = get_field( 'section_container' ); // DV] true (Fixed Width).
 	$container_class                 = $section_container ?
 		esc_attr( 'container container-ext' ) :

@@ -35,11 +35,11 @@
 					$inners = $slides.find('.sizeHeroInner'),
 					tallestInnerHeight = 0,
 					componentOffsetTop = $component.offset().top;
-					console.log('viewPortHeight', viewPortHeight);
-					console.log('headerHeightForSpaceAvail', headerHeightForSpaceAvail);
-					console.log('adminBarHeight', adminBarHeight);
-					console.log('componentPaddings', componentPaddings);
-					console.log('spaceAvailable', spaceAvailable);
+					// console.log('viewPortHeight', viewPortHeight);
+					// console.log('headerHeightForSpaceAvail', headerHeightForSpaceAvail);
+					// console.log('adminBarHeight', adminBarHeight);
+					// console.log('componentPaddings', componentPaddings);
+					// console.log('spaceAvailable', spaceAvailable);
 
 				// Find Tallest Inner Height.
 				$inners.each(function(){
@@ -51,14 +51,14 @@
 						paddingTop = thisOffsetTop - componentOffsetTop,
 						thisHeightFromTop = paddingTop + thisOuterHeight;
 					if ( thisHeightFromTop > tallestInnerHeight ) {
-						console.log('thisHeightFromTop', thisHeightFromTop);
+						// console.log('thisHeightFromTop', thisHeightFromTop);
 						tallestInnerHeight = Math.round(thisHeightFromTop);
 					}
 				});
 				// If tallest Inner Height found is be taller than sizeHero,
 				// Remove Height and Class.
-				console.log('tallestInnerHeight', tallestInnerHeight);
-				console.log('calculatedHeight', calculatedHeight);
+				// console.log('tallestInnerHeight', tallestInnerHeight);
+				// console.log('calculatedHeight', calculatedHeight);
 				if ( tallestInnerHeight > calculatedHeight ) {
 					$component.css({
 						'height': ''

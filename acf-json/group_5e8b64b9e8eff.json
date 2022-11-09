@@ -129,7 +129,9 @@
                                 "width_100": "100% Width",
                                 "height_100": "100% Height"
                             },
-                            "default_value": "auto",
+                            "default_value": [
+                                "auto"
+                            ],
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 1,
@@ -474,7 +476,9 @@
                                 "vmin": "vmin",
                                 "vmax": "vmax"
                             },
-                            "default_value": "%",
+                            "default_value": [
+                                "%"
+                            ],
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 1,
@@ -584,7 +588,9 @@
                                 "middle": "Middle",
                                 "bottom": "Bottom"
                             },
-                            "default_value": "middle",
+                            "default_value": [
+                                "middle"
+                            ],
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 0,
@@ -610,7 +616,9 @@
                                 "middle": "Middle",
                                 "right": "Right"
                             },
-                            "default_value": "middle",
+                            "default_value": [
+                                "middle"
+                            ],
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 0,
@@ -789,7 +797,9 @@
                         "vmin": "vmin",
                         "vmax": "vmax"
                     },
-                    "default_value": "%",
+                    "default_value": [
+                        "%"
+                    ],
                     "allow_null": 0,
                     "multiple": 0,
                     "ui": 1,
@@ -798,6 +808,50 @@
                     "placeholder": ""
                 }
             ]
+        },
+        {
+            "key": "field_633616dc8118f",
+            "label": "Ignore Site Header on Min-Height Calculation?",
+            "name": "ignore_site_header_on_min_height_calculation",
+            "type": "true_false",
+            "instructions": "This will allow the Hero Section to bleed into the Header if necessary.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5e8b64d621a77",
+                        "operator": "==",
+                        "value": "100"
+                    },
+                    {
+                        "field": "field_5e8b651021a78",
+                        "operator": "==",
+                        "value": "%"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_5e8b64d621a77",
+                        "operator": "==",
+                        "value": "100"
+                    },
+                    {
+                        "field": "field_5e8b651021a78",
+                        "operator": "==",
+                        "value": "vh"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
         },
         {
             "key": "field_5e8b73e9a1e5c",
@@ -834,7 +888,9 @@
                 "slide_content_fade_background": "Slide Content, Fade Background",
                 "slide_background_fade_content": "Slide Background, Fade Content"
             },
-            "default_value": "default",
+            "default_value": [
+                "default"
+            ],
             "allow_null": 0,
             "multiple": 0,
             "ui": 1,
@@ -873,7 +929,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": true,
+    "active": 1,
     "description": "",
-    "modified": 1661540894
+    "modified": 1664489514
 }

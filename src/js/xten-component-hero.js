@@ -15,15 +15,19 @@
 				var $component = $(this),
 					minHeight = $component.attr('data-minimum-height'),
 					viewPortHeight = window.innerHeight,
+					ignoreHeaderHeight = $component.attr('data-ignore-site-header'),
 					headerHeight = window.siteHeaderHeight || $('.site-header')[0].getBoundingClientRect().height,
 					headerHeight = parseFloat(headerHeight),
+					headerHeightForSpaceAvail = ignoreHeaderHeight ?
+						0 :
+						headerHeight,
 					adminBar = document.getElementById('wpadminbar'),
 					adminBarHeight = adminBar ?
 						adminBar.getBoundingClientRect().height :
 						0,
 					componentComputedStyle = getComputedStyle($component[0]),
 					componentPaddings = parseFloat(componentComputedStyle.paddingTop) + parseFloat(componentComputedStyle.paddingBottom),
-					spaceAvailable = viewPortHeight - headerHeight - adminBarHeight - componentPaddings,
+					spaceAvailable = viewPortHeight - headerHeightForSpaceAvail - adminBarHeight - componentPaddings,
 					minHeightNum = parseFloat(minHeight),
 					minHeightPercent = minHeightNum / 100,
 					calculatedHeight = spaceAvailable * minHeightPercent,
@@ -31,6 +35,12 @@
 					$inners = $slides.find('.sizeHeroInner'),
 					tallestInnerHeight = 0,
 					componentOffsetTop = $component.offset().top;
+					// console.log('viewPortHeight', viewPortHeight);
+					// console.log('headerHeightForSpaceAvail', headerHeightForSpaceAvail);
+					// console.log('adminBarHeight', adminBarHeight);
+					// console.log('componentPaddings', componentPaddings);
+					// console.log('spaceAvailable', spaceAvailable);
+
 				// Find Tallest Inner Height.
 				$inners.each(function(){
 					// Inner Height can be offset from actual component which would Padding
@@ -41,19 +51,26 @@
 						paddingTop = thisOffsetTop - componentOffsetTop,
 						thisHeightFromTop = paddingTop + thisOuterHeight;
 					if ( thisHeightFromTop > tallestInnerHeight ) {
-						tallestInnerHeight = thisHeightFromTop;
+						// console.log('thisHeightFromTop', thisHeightFromTop);
+						tallestInnerHeight = Math.round(thisHeightFromTop);
 					}
 				});
 				// If tallest Inner Height found is be taller than sizeHero,
 				// Remove Height and Class.
+				// console.log('tallestInnerHeight', tallestInnerHeight);
+				// console.log('calculatedHeight', calculatedHeight);
 				if ( tallestInnerHeight > calculatedHeight ) {
 					$component.css({
 						'height': ''
 					}).removeClass('heroSized');
 				} else {
 					$component.css({
-						'height': calculatedHeight + 'px'
+						'height': calculatedHeight + 'px',
 					}).addClass('heroSized');
+				}
+				if ( ignoreHeaderHeight ) {
+					var marginTop = - headerHeight + 'px';
+					$component.css({'margin-top': marginTop});
 				}
 
 				finishWork(this);

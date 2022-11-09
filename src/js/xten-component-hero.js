@@ -67,10 +67,10 @@
 					$component.css({
 						'height': calculatedHeight + 'px',
 					}).addClass('heroSized');
-					if ( ignoreHeaderHeight ) {
-						var marginTop = - headerHeight + 'px';
-						$component.css({'margin-top': marginTop});
-					}
+				}
+				if ( ignoreHeaderHeight ) {
+					var marginTop = - headerHeight + 'px';
+					$component.css({'margin-top': marginTop});
 				}
 
 				finishWork(this);

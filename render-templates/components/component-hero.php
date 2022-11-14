@@ -247,6 +247,24 @@ function component_hero( $args = null ) {
 					if ( $video_type === 'external_video_type' ) :
 						$external_video_url = $background_video_fc[0]['external_video'];
 						if ( $external_video_url ) :
+							// Enqueue Hero Video JS
+							$video_handle      = "hero-video";
+							$video_js_path = "/assets/js/helpers/$video_handle.js";
+							$video_js_file = $GLOBALS['xten-sections-dir'] . $video_js_path;
+							if (
+								! wp_script_is( "$video_name-js", 'enqueued' ) &&
+								file_exists( $video_js_file )
+							) :
+								wp_register_script(
+									"$video_name-js",
+									$GLOBALS['xten-sections-uri'] . $video_js_path,
+									array(),
+									filemtime( $video_js_file ),
+									'all'
+								);
+								wp_enqueue_script( "$video_name-js" );
+							endif;
+
 							$oembed   = _wp_oembed_get_object();
 							$provider = $oembed->get_provider( $external_video_url );
 							if ( $provider !== false ) :

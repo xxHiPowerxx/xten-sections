@@ -307,3 +307,16 @@ require_once $GLOBALS['xten-sections-dir'] . '/render-templates/xten-popups.php'
  * Shortcodes
  */
 require_once $GLOBALS['xten-sections-dir'] . '/inc/shortcodes.php';
+
+/**
+ * Add class to body if front page.
+ */
+function xten_sections_add_classes_to_body( $classes ) {
+	// Add class to body if device is mobile.
+	if ( wp_is_mobile() ) :
+		$classes[] = 'is-mobile wp-is-mobile';
+	endif;
+
+	return $classes;
+}
+add_filter( 'body_class', 'xten_sections_add_classes_to_body' );

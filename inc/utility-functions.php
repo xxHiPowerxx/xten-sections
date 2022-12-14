@@ -314,7 +314,14 @@ if ( ! function_exists( 'xten_get_post_meta_description' ) ) :
 		endif;
 
 		$post_id     = $post->ID;
-		$description = get_post_meta($post_id, '_yoast_wpseo_metadesc', true);
+		$description;
+		// Check if Rank Math is being used before checking if YOAST SEO Meta Description exists.
+		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) :
+			$description = get_post_meta( $post_id, '_yoast_wpseo_metadesc', true );
+		elseif ( is_plugin_active( 'seo-by-rank-math/rank-math.php' ) ) :
+			$description = get_post_meta( $post_id, 'rank_math_description', true );
+		endif;
+		
 
 		if ( empty( $description ) ) :
 			setup_postdata( $post );

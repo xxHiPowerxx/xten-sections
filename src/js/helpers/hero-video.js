@@ -2,7 +2,6 @@
 	jQuery(document).on('ready', function() {
 		var funcs = {},
 			readyFuncs = {},
-			resizeFuncs = {},
 			$body = $('body'),
 			isMobileChecked = false;
 
@@ -36,29 +35,14 @@
 		}
 
 		funcs.playYTVideo = function(player) {
+			// DEBUG:
 			// console.log('player', player);
 			// console.log('typeof player', typeof player);
 			
 			// if player is not a yt player yet, wait until it is.
 			if (typeof player.mute !== 'function') {
-			// 	var $parentSlide = $(player).closest('.xten-hero-slide');
-			// 	$parentSlide.on('ytvideoready', function(e, ytPlayer){
-			// 		console.log(e, 'e');
-			// 		console.log(ytPlayer, 'ytPlayer');
-			// 		ytPlayer.mute().playVideo();
-			// 	});
-			// 	return player;
-			// } else {
-				// Video must be muted to autoplay.
-				// window.YT.ready(function(e) {
-				// window.onPlayerReady = function(e) {
-				// 	console.log('e.target inside playYTVideo', e.target);
-				// 	console.log('e.target.videoTitle inside playYTVideo', e.target.videoTitle);
-				// 	alert();
-				// 	console.log('e.target inside playYTVideo', e.target);
-				// 	return player.mute().playVideo();
-				// }
 				player.addEventListener('onReady', function(e) {
+					// DEBUG:
 					// console.log('e.target inside playYTVideo', e.target);
 					// console.log('e.target.videoTitle inside playYTVideo', e.target.videoTitle);
 					// console.log('e.target inside playYTVideo', e.target);
@@ -107,9 +91,6 @@
 						autoplay: 1,
 						loop: loopBackGroundVideo,
 						playlist: videoId,
-						// playerVars: {
-							// 'playsinline': 1
-						// },
 						events: {
 							'onReady': function(event) {
 								var iframe = event.target.getIframe(),
@@ -132,6 +113,7 @@
 										}
 									break;
 								}
+								// DEBUG:
 								// console.log('YT.PlayerState', YT.PlayerState);
 								// console.log('event', event);
 								// console.log('event.data', event.data);
@@ -164,8 +146,6 @@
 					var $slideIframe = $slide.find('.youtube-iframe').first(),
 					slideIframeYTPlayer = YT.get($slideIframe[0].id);
 					// console.log($slideIframe[0], 'playVideo');
-					// funcs.commandYTVideo($slideIframe[0], 'playVideo');
-					// funcs.configYTPlayer($slide);
 					funcs.playYTVideo(slideIframeYTPlayer);
 				break;
 				case 'internal-video':
@@ -185,6 +165,7 @@
 					$slides = $(this).find('.slick-slide:not(.slick-cloned)');
 				funcs.pauseAllBackgroundVideos($slides);
 				funcs.playBackgroundVideo($nextSlide);
+				// DEBUG:
 				// console.log('event', event);
 				// console.log('slick', slick);
 				// console.log('currentSlide', currentSlide);
@@ -208,36 +189,30 @@
 		readyFuncs.listenForEndOfVideo = funcs.listenForEndOfVideo;
 
 		funcs.handleVideosOnSlickInit = function($slider) {
-			// $(window).on('init', function(e){
 				// Pause Any background videos that may be autoplaying.
-				$slider.on('init', function(){
-					var $slides = $(this).find('.slick-slide'),
-						$clones = $slides.filter('.slick-cloned'),
-						$slidesSansClones = $slides.not($clones),
-						$currentSlide = $slidesSansClones.filter('.slick-current'),
-						$slidesBesidesCurrent = $slidesSansClones.not('.slick-current'),
-						// $backgroundVideos = $slidesBesidesCurrent.find('.xten-hero-slide-background-video-wrapper'),
-						$clonesWithSrc = $clones.find('[src]');
+			$slider.on('init', function(){
+				var $slides = $(this).find('.slick-slide'),
+					$clones = $slides.filter('.slick-cloned'),
+					$slidesSansClones = $slides.not($clones),
+					$currentSlide = $slidesSansClones.filter('.slick-current'),
+					$slidesBesidesCurrent = $slidesSansClones.not('.slick-current'),
+					$clonesWithSrc = $clones.find('[src]');
 
-					// Remove Source from Clones so they do load iframes unnecessarily.
-					$clonesWithSrc.removeAttr('src');
-					funcs.pauseAllBackgroundVideos($slidesBesidesCurrent);
-					funcs.pauseYTVideoOnSlideChange();
-					$currentSlide.each(function(){
-						// funcs.configYTPlayer($(this));
-						var $that = $(this);
-						window.YT.ready(function(e) {
-							var $yTIFrame = $that.find('.youtube-iframe').first(),
-								YTPlayer = YT.get($yTIFrame[0].id);
-							// funcs.playYTVideo(YTPlayer);
-						});
-						// var $slideIframe = $(this).find('.youtube-iframe');
-						// funcs.playYTVideo($slideIframe[0]);
+				// Remove Source from Clones so they do load iframes unnecessarily.
+				$clonesWithSrc.removeAttr('src');
+				funcs.pauseAllBackgroundVideos($slidesBesidesCurrent);
+				funcs.pauseYTVideoOnSlideChange();
+				$currentSlide.each(function(){
+					var $that = $(this);
+					window.YT.ready(function(e) {
+						var $yTIFrame = $that.find('.youtube-iframe').first(),
+							YTPlayer = YT.get($yTIFrame[0].id);
 					});
 				});
-			// });
+			});
 		}
 
+		// TODO: Move this into shared xten-sections.js file.
 		funcs.isMobile = function() {
 			var isMobile = false; //initiate as false
 			// device detection
@@ -270,6 +245,7 @@
 						window.YT.ready(function(e) {
 							var $yTIFrame = $that.find('.youtube-iframe').first(),
 								YTPlayer = YT.get($yTIFrame[0].id);
+							// DEBUG:
 							// console.log('YTPlayer', YTPlayer);
 							// console.log('$yTIFrame', $yTIFrame);
 							// console.log('$yTIFrame[0].id', $yTIFrame[0].id);
@@ -333,11 +309,11 @@
 					funcs.stretchIframeWidthToFillSlideHeight($(this));
 					// Listen for resize and fire stretchIframeWidthToFillSlideHeight();
 					var $slider = $(this).closest('.slick-slider');
+					// DEBUG:
 					// console.log('$slider', $slider);
 					// console.log('$slider[0].slick.instanceUid', $slider[0].slick.instanceUid);
 					// console.log( $slider.length && $slider[0].slick !== undefined);
 					if ( $slider.length && $slider[0].slick !== undefined ) {
-						
 						$(window).on('resize.slick.slick-' + $slider[0].slick.instanceUid, function(){
 							funcs.stretchIframeWidthToFillSlideHeight($iFrame);
 						});
@@ -357,12 +333,7 @@
 			}
 		}
 		readyFuncs.bindStretchIframeWidthToFillSlideHeight = funcs.bindStretchIframeWidthToFillSlideHeight;
-		// resizeFuncs.stretchIframeWidthToFillSlideHeight = funcs.stretchIframeWidthToFillSlideHeight;
 
 		funcs.executeFuncs(readyFuncs);
-
-		// $(window).on('resize', function(){
-		// 	funcs.executeFuncs(resizeFuncs)
-		// });
 	});
 })(jQuery);

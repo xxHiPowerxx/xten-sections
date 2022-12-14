@@ -247,83 +247,47 @@ function component_hero( $args = null ) {
 					if ( $video_type === 'external_video_type' ) :
 						$external_video_url = $background_video_fc[0]['external_video'];
 						if ( $external_video_url ) :
-							// Enqueue Hero Video JS
-							$video_handle      = "hero-video";
-							$video_js_path = "/assets/js/helpers/$video_handle.js";
-							$video_js_file = $GLOBALS['xten-sections-dir'] . $video_js_path;
-							if (
-								! wp_script_is( "$video_name-js", 'enqueued' ) &&
-								file_exists( $video_js_file )
-							) :
-								wp_register_script(
-									"$video_name-js",
-									$GLOBALS['xten-sections-uri'] . $video_js_path,
-									array(),
-									filemtime( $video_js_file ),
-									'all'
-								);
-								wp_enqueue_script( "$video_name-js" );
-							endif;
-
 							$oembed   = _wp_oembed_get_object();
 							$provider = $oembed->get_provider( $external_video_url );
 							if ( $provider !== false ) :
 								$slide_attrs['data-video-provider'] = $provider;
 
-								$external_video_iframe = wp_oembed_get( $external_video_url );
-								// Don't autoplay if we're in the editor.
-								if ( ! is_admin() ) :
-									// Add autoplay functionality to the video code
-									if ( preg_match( '/src="(.+?)"/', $external_video_iframe, $matches ) ) :
-										// Video source URL
-										$src = $matches[1];
-
-										// Determine where video url is sourced.
-										// TODO: Find out if using $provider is more efficient/foolproof than video type given from the xten_determine_video_url_type function.
-										$video_data     = xten_determine_video_url_type( $src );
-										$video_url_type = $video_data['video_type'];
-
-										// Determine if .
-										if ( $video_url_type === 'youtube' ) :
-											// Enqueue YouTube Iframe API.
-											$handle = 'xten-vendor-youtube-iframe';
-											if ( ! wp_script_is( $handle, 'registered' ) ) {
-												wp_register_script( $handle, 'https://www.youtube.com/iframe_api', array('xten-component-hero-js'), null, true );
-											}
-											// wp_enqueue_script( $handle );
-
-											$youtube_video_id = $video_data['video_id'];
-
-											// Add option to hide controls, enable HD, and do autoplay -- depending on provider
-											$params = array(
-												'controls'    => 0,
-												'hd'          => 1,
-												'autoplay'    => 1,
-												'mute'        => 1,
-												'loop'        => $loop_background_video,
-												'enablejsapi' => 1,
-												'playlist'    => $youtube_video_id,
-											);
-
-											$new_src = add_query_arg($params, $src);
-
-											$external_video_iframe = str_replace($src, $new_src, $external_video_iframe);
-
-											// add extra attributes to iframe html
-											$attributes = 'class="youtube-iframe" frameborder="0"';
-
-											$external_video_iframe = str_replace('></iframe>', ' ' . $attributes . '></iframe>', $external_video_iframe);
-										endif; // endif ( $video_url_type === 'youtube' ) :
+								if ( strpos($provider, 'youtube') ) :
+									// Enqueue YouTube Iframe API.
+									$yt_api_handle = 'xten-vendor-youtube-iframe';
+									if ( ! wp_script_is( $yt_api_handle, 'registered' ) ) :
+										wp_register_script( $yt_api_handle, 'https://www.youtube.com/iframe_api', null, true );
 									endif;
-								endif; // endif ( is_admin() ) :
-								// Safe to echo if no video is found, wp_obembed_get returns false.
-								?>
-								<div class="xten-hero-slide-background-video-inner" data-video-provider="<?php echo esc_attr( $provider ); ?>">
-									<?php echo $external_video_iframe; ?>
-								</div>
-								<?php
-							endif; //endif ( $provider !== false ) :
-						endif; //endif ( $external_video_url ) :
+									wp_enqueue_script( $yt_api_handle );
+									// Enqueue Hero Video JS
+									$video_handle      = "hero-video";
+									$video_js_path = "/assets/js/helpers/$video_handle.js";
+									$video_js_file = $GLOBALS['xten-sections-dir'] . $video_js_path;
+									if (
+										! wp_script_is( "$video_handle-js", 'enqueued' ) &&
+										file_exists( $video_js_file )
+									) :
+										wp_register_script(
+											"$video_handle-js",
+											$GLOBALS['xten-sections-uri'] . $video_js_path,
+											array($yt_api_handle),
+											filemtime( $video_js_file ),
+											'all'
+										);
+										wp_enqueue_script( "$video_handle-js" );
+									endif;
+
+									$video_data       = xten_determine_video_url_type( $external_video_url );
+									$youtube_video_id = $video_data['video_id'];
+									$slide_attrs['data-background-video-id'] = $youtube_video_id;
+									?>
+									<div class="xten-hero-slide-background-video-inner">
+										<div class="youtube-iframe"></div>
+									</div>
+									<?php
+								endif; // endif ( strpos($provider, 'youtube') ) :
+							endif; // endif ( $provider !== false ) :
+						endif; // endif ( $external_video_url ) :
 					endif; // endif ( $video_type === 'external_video_type' ) :
 					// /External Video Type
 					?>

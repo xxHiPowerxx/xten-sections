@@ -1200,3 +1200,38 @@ if ( ! function_exists( 'xten_check_for_reviews_plugins' ) ) :
 		return $reviews_plugin_file_found;
 	}
 endif; // endif ( ! function_exists( 'xten_check_for_reviews_plugins' ) ) :
+
+if ( ! function_exists( 'array_filter_key' ) ) :
+	/**
+	 * Filtering a array by its keys using a callback.
+	 * 
+	 * @param $array array The array to filter
+	 * @param $callback Callback The filter callback, that will get the key as first argument.
+	 * 
+	 * @return array The remaining key => value combinations from $array.
+	 */
+	function array_filter_key(array $array = null, $callback) {
+		if ( ! $array && ! is_array( $array ) ) :
+			return;
+		endif;
+		$matchedKeys = array_filter( array_keys( $array ), $callback);
+
+		return array_intersect_key( $array, array_flip( $matchedKeys ) );
+	}
+endif; // endif ( ! function_exists( 'array_filter_key' ) ) :
+
+if ( ! function_exists( 'xten_get_cf7' ) ) :
+	/**
+	 * Get Contact Form 7 Markup from Object.
+	 * @param obj - $contact_form Contact Form 7 WP_Object
+	 * @return string - Contact Form 7 markup rendered by shortcode.
+	 */
+	function xten_get_cf7( $contact_form ) {
+		if ( is_object( $contact_form ) ) :
+			$contact_form_id = $contact_form->ID;
+		elseif ( is_numeric( $contact_form ) ) :
+			$contact_form_id = $contact_form;
+		endif;
+		return do_shortcode( '[contact-form-7 id="' . $contact_form_id . '"]' );
+	}
+endif; // endif ( ! function_exists( 'xten_get_cf7' ) ) :

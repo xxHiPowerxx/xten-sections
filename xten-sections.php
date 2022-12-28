@@ -218,8 +218,13 @@ function deregister_google_review_widget_assets() {
 		wp_deregister_style( $handle );
 	}
 
-	// Business Reviews Bundle CSS
+	// Business Reviews Bundle CSS - Old
 	$handle = 'rplg-css';
+	if ( wp_style_is( $handle, 'registered' ) ) {
+		wp_deregister_style( $handle );
+	}
+	// Business Reviews Bundle CSS - New
+	$handle = 'brb-public-main-css';
 	if ( wp_style_is( $handle, 'registered' ) ) {
 		wp_deregister_style( $handle );
 	}

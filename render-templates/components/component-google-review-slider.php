@@ -4,6 +4,7 @@
  * @package xten
  */
 function component_google_review_slider( $args = null ) {
+	// TODO: Connect Slider Configuration Field Group to this Component for extra Slick Slider Options
 	// Check to see if Widget Google Reviews Plugin is not Activated.
 	if (
 		! xten_check_for_reviews_plugins() ||
@@ -17,15 +18,13 @@ function component_google_review_slider( $args = null ) {
 		$component_handle   = 'component-' . $handle;
 		$component_attrs    = array();
 
-		$component_css_path = '/assets/css/' . $component_handle . '.min.css';
-		$component_css_file = get_stylesheet_directory() . $component_css_path;
+		$component_css_path = 'assets/css/' . $component_name . '.css';
+		$component_css_file = $GLOBALS['xten-sections-dir'] . $component_css_path;
 		if ( file_exists( $component_css_file ) ) :
 			wp_register_style(
 				$component_handle . '-css',
-				get_theme_file_uri( $component_css_path ),
-				array(
-					'child-style',
-				),
+				$GLOBALS['xten-sections-uri'] . $component_css_path,
+				array(),
 				filemtime( $component_css_file ),
 				'all'
 			);

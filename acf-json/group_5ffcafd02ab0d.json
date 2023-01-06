@@ -229,6 +229,25 @@
                     "button_label": "Add Icon Type",
                     "min": "",
                     "max": 1
+                },
+                {
+                    "key": "field_630fc5e2e63ca",
+                    "label": "Open?",
+                    "name": "open",
+                    "type": "true_false",
+                    "instructions": "Select whether this Accordion is open on Load.<br \/>\r\n<b>Note<\/b> that if <b>Multiple<\/b> is <i>Not<\/i> Set to <b>Yes<\/b> then only the first Accordion will be open on Load.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
                 }
             ]
         },
@@ -238,6 +257,25 @@
             "name": "open_multiple",
             "type": "true_false",
             "instructions": "Select whether to allow multiple accordions to be open at a time.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_630fc512d87d1",
+            "label": "Swap Icons?",
+            "name": "swap_icons",
+            "type": "true_false",
+            "instructions": "Swap <b>Control Indicator <i>(plus minus icon)<\/i><\/b> with Icon?<br\/>\r\nDefault Orientaion: Control Indicator on Left, Custom Icon on Right.<br\/>\r\nEG: + Accordion Title 🙂",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {

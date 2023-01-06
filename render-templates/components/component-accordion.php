@@ -10,14 +10,12 @@ function component_accordion( $args ) {
 	$handle             = 'accordion';
 	$component_name     = 'xten-component-' . $handle;
 	$component_handle   = 'component-' . $handle;
-	$component_css_path = '/assets/css/' . $component_handle . '.min.css';
+	$component_css_path = 'assets/css/' . $component_name . '.css';
 	wp_register_style(
 		$component_handle . '-css',
-		get_theme_file_uri( $component_css_path ),
-		array(
-			'child-style',
-		),
-		filemtime( get_stylesheet_directory() . $component_css_path ),
+		$GLOBALS['xten-sections-uri'] . $component_css_path,
+		array(),
+		filemtime( $GLOBALS['xten-sections-dir'] . $component_css_path ),
 		'all'
 	);
 	wp_enqueue_style( $component_handle . '-css' );
@@ -84,6 +82,7 @@ function component_accordion( $args ) {
 	$control_attrs_a['aria-expanded']    = $open ? 'true' : 'false';
 	$control_attrs_a['aria-label']       = 'Toggle ' . wp_strip_all_tags( $title );
 	$control_attrs_a['tabindex']         = '0';
+	$control_attrs_a['data-icon-type']   = $args['icon_type'];
 
 	$collapse_attrs_a                    = array();
 	$collapse_attrs_a['id']              = $target;
@@ -103,15 +102,15 @@ function component_accordion( $args ) {
 	?>
 	<div <?php echo $component_attrs_s; ?>>
 		<div <?php echo $control_attrs_s; ?>>
+			<span class="collapse-control-indicator fa fa-minus"></span>
+			<?php if ( $title ) : ?>
+				<span class="accordion-title"><?php echo $title; ?></span>
+			<?php endif; ?>
 			<?php if ( $icon ) : ?>
 				<span class="collapse-control-icon">
 					<?php echo $icon; ?>
 				</span>
 			<?php endif; ?>
-			<?php if ( $title ) : ?>
-				<h3 class="accordion-title"><?php echo $title; ?></h3>
-			<?php endif; ?>
-			<span class="collapse-control-indicator fa fa-minus"></span>
 		</div>
 		<div <?php echo $collapse_attrs_s; ?>>
 			<?php

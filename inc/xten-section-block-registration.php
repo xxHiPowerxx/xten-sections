@@ -227,6 +227,39 @@ function xten_acf_blocks_init() {
 															}
 		)
 	);
+	// /Accordion - xten-section-accordion.
+
+	// Contact Info - xten-section-contact-info.
+	$handle       = 'contact-info';
+	$section_name = 'xten-section-' . $handle;
+	acf_register_block_type(
+		array(
+			'name'              => $section_name,
+			'title'             => __('Contact Info Block'),
+			'description'       => __('Contact Info Block which Renders a List of Contact Information and places them in an accordion.'),
+			'icon'              => xten_get_icon($section_name),
+			'render_template'   => $GLOBALS['xten-sections-dir'] . 'render-templates/' . $section_name . '.php',
+			'keywords'          => array(
+															'xten',
+															'section',
+															'contact',
+															'info',
+															'information',
+															'location',
+															'office',
+														),
+			'supports'          => array(
+				'anchor' => true,
+			),
+			'category'          => 'xten-sections',
+			// 'enqueue_assets'    => function ($block) {
+			// 													$section_name = str_replace( 'acf/', '', $block['name'] );
+			// 													xten_enqueue_assets( $section_name );
+			// 												}
+		)
+	);
+	// Contact Info - xten-section-contact-info.
+
 
 	endif; // endif( function_exists('acf_register_block_type') ) :
 }

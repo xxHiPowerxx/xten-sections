@@ -203,7 +203,7 @@ if ( ! function_exists( 'xten_add_inline_style' ) ) :
 	 * Add Inline Style
 	 *
 	 * @param string $selector - Selector for Style Rule
-	 * @param array $rule_array - opacity value from customizer.
+	 * @param array $rule_array - array of css rules in name-value pairs..
 	 * @param string $validator - optional value for validation checking.
 	 * @param string|array $media_query - optional value for Media Query Breakpoint.
 	 * @return string $rule - The completed Style Rule.
@@ -287,20 +287,58 @@ if ( ! function_exists( 'xten_posted_on' ) ) :
 	}
 endif; // endif ( ! function_exists( 'xten_posted_on' ) ) :
 
-/**
- * Trim String and use Excerpt apply ellipsis on end.
- *
- * @param string $string - String to be trimmed.
- * @param int $max_words - Number of words before string is trimmed.
- */
 if ( ! function_exists( 'xten_trim_string' ) ) :
+	/**
+	 * Trim String and use Excerpt apply ellipsis on end.
+	 *
+	 * @param string $string - String to be trimmed.
+	 * @param int $max_words - Number of words before string is trimmed.
+	 */
 	function xten_trim_string($string, $max_words) {
-		$stripped_content                = strip_tags( $string );
-		$excerpt_length                  = apply_filters( 'excerpt_length', $max_words );
-		$excerpt_more                    = apply_filters( 'excerpt_more', ' [...]' );
+		$stripped_content = strip_tags( $string );
+		$excerpt_length   = apply_filters( 'excerpt_length', $max_words );
+		$excerpt_more     = apply_filters( 'excerpt_more', ' [...]' );
 		return wp_trim_words( $stripped_content, $excerpt_length, $excerpt_more );
 	}
 endif; // endif ( ! function_exists( 'xten_trim_string' ) ) :
+
+if ( ! function_exists( 'xten_get_post_meta_description' ) ) :
+	/**
+	 * Get Meta Description, Excerpt, or create an excerpt.
+	 * @param obj - $post Post Object
+	 * @return string - post Meta Description, Excerpt, or create an excerpt.
+	 */
+	function xten_get_post_meta_description( $post = null ) {
+		if ( ! $post ) :
+			global $post;
+		endif;
+
+		$post_id     = $post->ID;
+		$description = get_post_meta($post_id, '_yoast_wpseo_metadesc', true);
+
+		if ( empty( $description ) ) :
+			setup_postdata( $post );
+			$meta_id = 'metadescription_17587';
+			$xten_seo_description = get_post_meta( $post_id, $meta_id, true );
+			$description = ! empty( $xten_seo_description ) ?
+				$xten_seo_description :
+				null;
+		endif;
+
+		if ( empty( $description ) ) :
+			$description = $post->post_excerpt;
+		endif;
+
+		if ( empty( $description ) ) :
+			$description = xten_trim_string(
+				$post->post_content,
+				30
+			);
+		endif;
+
+		return $description;
+	}
+endif; // endif ( ! function_exists( 'xten_get_post_meta_description' ) ) :
 
 /**
  * Get Icon from Global Variable
@@ -483,6 +521,13 @@ if ( ! function_exists( 'xten_get_optimal_image_size' ) ) :
 		$image_width         = $image_details[1];
 		$image_height        = $image_details[2];
 
+		if ( $size === 'full' ) :
+			$size = array(
+				$image_width,
+				$image_height
+			);
+		endif;
+
 		// Determine whether min_height is at least 56.25% of min_width
 		$min_width           = $size[0];
 		$min_height          = $size[1];
@@ -546,14 +591,14 @@ if ( ! function_exists( 'xten_kses_post' ) ) :
 		$kses_defaults = wp_kses_allowed_html( 'post' );
 		$svg_args = array(
 			'svg' => array(
-				'class' => true,
-				'aria-hidden' => true,
+				'class'           => true,
+				'aria-hidden'     => true,
 				'aria-labelledby' => true,
-				'role' => true,
-				'xmlns' => true,
-				'width' => true,
-				'height' => true,
-				'viewbox' => true, // <= Must be lower case!
+				'role'            => true,
+				'xmlns'           => true,
+				'width'           => true,
+				'height'          => true,
+				'viewbox'         => true, // <= Must be lower case!
 			),
 			'g'     => array( 'fill' => true ),
 			'title' => array( 'title' => true ),
@@ -563,7 +608,15 @@ if ( ! function_exists( 'xten_kses_post' ) ) :
 				'style' => true,
 			),
 		);
-		$allowed_tags = array_merge( $kses_defaults, $svg_args );
+		$iframe_args = array(
+			'iframe'  => array(
+				'src'     => true,
+				'class'   => true,
+				'style'   => true,
+				'loading' => true,
+			),
+		);
+		$allowed_tags = array_merge( $kses_defaults, $svg_args, $iframe_args );
 
 		foreach ( $allowed_tags as $key=>$allowed_tag ) :
 			$tabindex = array(
@@ -588,13 +641,7 @@ if ( ! function_exists( 'xten_get_icon_fc' ) ) :
 		endif; // endif ( $row_layout === 'font_awesome_icon' ) :
 
 		if ( $row_layout === 'svg' ) :
-			$svg_path = get_sub_field( 'svg_path' );
-			if ( $svg_path ) :
-				$whole_path = get_stylesheet_directory() . $svg_path;
-				if ( file_exists( $whole_path ) ) :
-					$icon = file_get_contents( $whole_path );
-				endif;
-			endif;
+			$icon = xten_kses_post( get_sub_field( 'svg' ) );
 		endif; // endif ( $row_layout === 'svg' ) :
 
 		if ( $row_layout === 'bitmap' ) :
@@ -777,7 +824,7 @@ if ( ! function_exists( 'filter_slick_defaults' ) ) :
 			return;
 		endif;
 		foreach ( $settings as $key=>$setting ) :
-			if ( $settings[$key] == $defaults[$key] ) :
+			if ( $settings[$key] === $defaults[$key] ) :
 				unset( $settings[$key] );
 			endif;
 		endforeach;

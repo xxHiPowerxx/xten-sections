@@ -50,10 +50,12 @@
 	.wp-google-text,
 	.rplg-review-text {
 		overflow: hidden;
-		white-space: pre-wrap;
 		word-break: break-word;
 		clear: none;
 		clip: auto;
+	}
+	.wp-google-text {
+		white-space: pre-wrap;
 	}
 	.wp-more,
 	.rplg-more {

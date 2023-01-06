@@ -24,8 +24,12 @@
 				$(selector).on('click', function(e){
 					e.preventDefault();
 					e.stopPropagation();
-					var id = $(this).attr('href');
-					$(id).modal('show');
+					var id = $(this).attr('href'),
+					options = {
+						'backdrop': $(this).attr('data-backdrop'),
+						'keyboard': $(this).attr('data-keyboard'),
+					};
+					$(id).modal(options);
 				});
 			}
 

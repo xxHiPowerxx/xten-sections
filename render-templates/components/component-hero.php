@@ -32,7 +32,10 @@ function component_hero( $args = null ) {
 			$slide_selector = "[data-s-id=\"$slide_id\"]";
 			$slide_attrs    = array();
 			$slide_attrs['data-s-id'] = $slide_id;
-			$slide_attrs['class']     = 'xten-hero-slide';
+			$additional_classes       = $slide['slide_classes'] ?
+				" $slide[slide_classes]" :
+				null;
+			$slide_attrs['class']     = "xten-hero-slide $additional_classes";
 
 			// Content
 			$content = $slide['content'];
@@ -146,9 +149,9 @@ function component_hero( $args = null ) {
 			// /Content
 
 			// Background
-			$slide_background_selector = strpos( $component_attrs['data-slide-method'], 'slide' ) !== false ?
-			'.xten-component-hero[data-slide-method*="slide"] ' . $slide_selector . ' .xten-hero-slide-background' :
-			'.xten-component-hero[data-slide-method="default"] ' . $slide_selector;
+			$slide_background_elm = strpos( $component_attrs['data-slide-method'], 'slide' ) !== false ?
+			".xten-component-hero[data-slide-method*=\"slide\"] $slide_selector .xten-hero-slide-background" :
+			".xten-component-hero[data-slide-method=\"default\"] $slide_selector";
 			$slide_background_style = array();
 
 			// Background Color
@@ -199,7 +202,20 @@ function component_hero( $args = null ) {
 			// Background Video
 			$background_video_fc = $slide['background_video_fc'];
 			$video_background_markup = null;
-			if ( ! empty( $background_video_fc ) ) :
+
+			if (
+				! empty( $background_video_fc ) &&
+				(// Do not add markup if no video is found in Flexible Content Row.
+					(
+						$background_video_fc[0]['uploaded_video'] &&
+						$background_video_fc[0]['uploaded_video'] !== false
+					) ||
+					(
+						$background_video_fc[0]['external_video'] &&
+						! empty( $background_video_fc[0]['external_video'])
+					)
+				)
+			) :
 				$loop_background_video = $slide['loop_background_video'] === null ?
 					true :
 					$slide['loop_background_video'];
@@ -302,7 +318,7 @@ function component_hero( $args = null ) {
 			// Set Background Styles.
 			if ( ! empty( $slide_background_style ) ) :
 				$styles .= xten_add_inline_style(
-					$slide_background_selector,
+					"$slide_background_elm:before",
 					$slide_background_style
 				);
 			endif;
@@ -316,7 +332,7 @@ function component_hero( $args = null ) {
 				$background_overlay_opacity      = $background_overlay_group['background_overlay_opacity'] ? : 100; // DV = 100
 				$background_overlay_color_rgba   = esc_attr( convert_hex_to_rgb( $background_overlay_color, $background_overlay_opacity ) );
 				$styles .= xten_add_inline_style(
-					$slide_background_selector . '>.xten-hero-slide-background-overlay',
+					$slide_background_elm . '>.xten-hero-slide-background-overlay',
 					array(
 						'background-color' => $background_overlay_color_rgba
 					)

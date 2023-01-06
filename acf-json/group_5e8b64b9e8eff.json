@@ -655,6 +655,59 @@
                     "open": 0,
                     "multi_expand": 0,
                     "endpoint": 1
+                },
+                {
+                    "key": "field_630919767de2d",
+                    "label": "Advanced",
+                    "name": "",
+                    "type": "accordion",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "open": 0,
+                    "multi_expand": 0,
+                    "endpoint": 0
+                },
+                {
+                    "key": "field_6309199c7de2f",
+                    "label": "Additional Class(es)",
+                    "name": "slide_classes",
+                    "type": "text",
+                    "instructions": "This class will accompany the .xten-hero-slide Class on the Slide",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_630919887de2e",
+                    "label": "Advanced Accordion Endpoint",
+                    "name": "",
+                    "type": "accordion",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "open": 0,
+                    "multi_expand": 0,
+                    "endpoint": 1
                 }
             ]
         },
@@ -822,5 +875,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "modified": 1653513629
+    "modified": 1661540894
 }

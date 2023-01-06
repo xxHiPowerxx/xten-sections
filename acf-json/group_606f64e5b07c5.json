@@ -331,9 +331,7 @@
                                 "px": "px",
                                 "%": "%"
                             },
-                            "default_value": [
-                                "px"
-                            ],
+                            "default_value": "px",
                             "allow_null": 0,
                             "multiple": 0,
                             "ui": 0,
@@ -741,9 +739,7 @@
                 "slider": "Slider",
                 "min": "The Smaller of the Two Above"
             },
-            "default_value": [
-                "window"
-            ],
+            "default_value": "window",
             "allow_null": 0,
             "multiple": 0,
             "ui": 0,
@@ -837,6 +833,13 @@
                 "operator": "==",
                 "value": "acf\/xten-section-hero"
             }
+        ],
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/xten-section-post-archive"
+            }
         ]
     ],
     "menu_order": 0,
@@ -845,7 +848,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": 1,
+    "active": true,
     "description": "This Field Group will set up options for the Slick Slider",
-    "modified": 1619546749
+    "modified": 1655842830
 }

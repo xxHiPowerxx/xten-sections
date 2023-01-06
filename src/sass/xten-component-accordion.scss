@@ -1,4 +1,4 @@
-@import 'variables';
+@import './import/variables';
 
 .component-accordion {
 	.collapse-control-icon,
@@ -14,7 +14,10 @@
 	display: flex;
 	align-items: stretch;
 	justify-content: space-between;
-	font-size: 3.9rem;
+	font-size: 3rem;
+	@media (min-width: $vp_sm) {
+		font-size: 3.9rem;
+	}
 	> * {
 		padding: .5em;
 	}
@@ -27,14 +30,21 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	@media( max-width: $vp_xs ) {
-		font-size: 2.7rem;
-	}
+	font-size: 1em;
 }
 
 .accordion-content {
 	padding: 3rem;
 	> :last-child {
 		margin-bottom: 0;
+	}
+}
+.collapse-control-icon {
+	svg {
+		fill: currentColor;
+		width: auto;
+		height: auto;
+		max-width: 1em;
+		max-height: 1em;
 	}
 }

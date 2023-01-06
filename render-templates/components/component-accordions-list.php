@@ -14,13 +14,15 @@ function component_accordions_list( $post_id = null ) {
 		$parent = get_field( 'open_multiple', $post_id ) === true ? null : $component_id;
 		while ( have_rows( 'accordions_repeater', $post_id ) ) :
 			the_row();
-			$args                     = array();
-			$args['parent']           = $parent;
-			$args['open']             = get_row_index() === 1 ? true : false;
-			$args['content']          = get_sub_field( 'content' );
-			$args['title']            = get_sub_field( 'title', false );
-			$args['color']            = get_sub_field( 'color' );
-			$args['background_color'] = get_sub_field( 'background_color' );
+			$args                           = array();
+			$args['parent']                 = $parent;
+			$args['open']                   = get_row_index() === 1 ? true : false;
+			$args['title']                  = get_sub_field( 'title', false );
+			$args['title_color']            = get_sub_field( 'title_color' );
+			$args['title_background_color'] = get_sub_field( 'title_background_color' );
+			$args['content']                = get_sub_field( 'content' );
+			$args['color']                  = get_sub_field( 'color' );
+			$args['background_color']       = get_sub_field( 'background_color' );
 
 			if ( have_rows( 'icon_fc' ) ) :
 				while ( have_rows( 'icon_fc' ) ) :

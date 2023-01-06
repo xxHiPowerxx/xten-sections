@@ -41,6 +41,36 @@
                     "delay": 0
                 },
                 {
+                    "key": "field_63acc2a1cca75",
+                    "label": "Title Text Color",
+                    "name": "title_color",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": ""
+                },
+                {
+                    "key": "field_63acc2b9cca76",
+                    "label": "Title Background Color",
+                    "name": "title_background_color",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": ""
+                },
+                {
                     "key": "field_5ffcb1e576d42",
                     "label": "Content",
                     "name": "content",
@@ -61,7 +91,7 @@
                 },
                 {
                     "key": "field_5ffcb2b076d44",
-                    "label": "Text Color",
+                    "label": "Content Text Color",
                     "name": "color",
                     "type": "color_picker",
                     "instructions": "",
@@ -76,7 +106,7 @@
                 },
                 {
                     "key": "field_5ffcb28f76d43",
-                    "label": "Background Color",
+                    "label": "Content Background Color",
                     "name": "background_color",
                     "type": "color_picker",
                     "instructions": "",
@@ -237,7 +267,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": 1,
+    "active": true,
     "description": "",
-    "modified": 1610409320
+    "modified": 1672880233
 }

@@ -53,6 +53,26 @@ function component_accordion( $args ) {
 		);
 	endif;
 
+	$title_color            = esc_attr( $args['title_color'] );
+	$accordion_control_selector = "$component_selector .accordion-control";
+	if ( $title_color ) :
+		$styles .= xten_add_inline_style(
+			$accordion_control_selector,
+			array(
+				'color' => $title_color,
+			)
+		);
+	endif;
+	$title_background_color = esc_attr( $args['title_background_color'] );
+	if ( $title_background_color ) :
+		$styles .= xten_add_inline_style(
+			$accordion_control_selector,
+			array(
+				'background-color' => $title_background_color,
+			)
+		);
+	endif;
+
 	$icon = $args['icon'];
 
 	$control_attrs_a                     = array();

@@ -22,17 +22,18 @@ function component_accordions_list( $args ) {
 		$args['swap_icons'] = $args['swap_icons'] ? : get_field( 'swap_icons', $post_id );
 		while ( have_rows( 'accordions_repeater', $post_id ) ) :
 			the_row();
-			$_args                     = array();
-			$_args['parent']           = $parent;
-			// $_args['open']             = get_row_index() === 1 ? true : false;
-			$_args['content']          = get_sub_field( 'content' );
-			$_args['title']            = get_sub_field( 'title', false );
-			$_args['color']            = get_sub_field( 'color' );
-			$_args['background_color'] = get_sub_field( 'background_color' );
+			$_args                          = array();
+			$_args['parent']                = $parent;
+			$_args['title']                  = get_sub_field( 'title', false );
+			$_args['title_color']            = get_sub_field( 'title_color' );
+			$_args['title_background_color'] = get_sub_field( 'title_background_color' );
+			$_args['content']                = get_sub_field( 'content' );
+			$_args['color']                  = get_sub_field( 'color' );
+			$_args['background_color']       = get_sub_field( 'background_color' );
 			// Do not open if not First Accordion and Open Multiple is Not Enabled.
-			$_args['open']             = get_row_index() !== 1 && $open_multiple !== true ?
+			$_args['open']                  = get_row_index() !== 1 && $open_multiple !== true ?
 				false :
-				get_sub_field( 'open' );;
+				get_sub_field( 'open' );
 
 			if ( have_rows( 'icon_fc' ) ) :
 				while ( have_rows( 'icon_fc' ) ) :

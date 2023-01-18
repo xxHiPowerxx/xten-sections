@@ -63,10 +63,16 @@
 					$component.css({
 						'height': ''
 					}).removeClass('heroSized');
+					// console.log('remove heroSized');
+					// console.log('tallestInnerHeight',tallestInnerHeight);
+					// console.log('calculatedHeight',calculatedHeight);
 				} else {
 					$component.css({
 						'height': calculatedHeight + 'px',
 					}).addClass('heroSized');
+					// console.log('add heroSized');
+					// console.log('tallestInnerHeight',tallestInnerHeight);
+					// console.log('calculatedHeight',calculatedHeight);
 				}
 				if ( ignoreHeaderHeight ) {
 					var marginTop = - headerHeight + 'px';
@@ -134,6 +140,12 @@
 				}
 			});
 		}
+		function dispatchResize() {
+			// console.log('resize');
+			var resizeEvent = window.document.createEvent('UIEvents');
+			resizeEvent.initUIEvent('resize', true, false, window, 0);
+			window.dispatchEvent(resizeEvent);
+		}
 
 
 		function readyFuncs() {
@@ -141,6 +153,8 @@
 			listenForImageLoad();
 			setLoadedIframeClass();
 			initSlick();
+			listenForEndOfVideo();
+			dispatchResize();
 		}
 		readyFuncs();
 		function resizeFuncs() {

@@ -25,7 +25,10 @@
 	display: flex;
 	align-items: stretch;
 	justify-content: space-between;
-	font-size: 3.9rem;
+	font-size: 3rem;
+	@media (min-width: $vp_sm) {
+		font-size: 3.9rem;
+	}
 	&:not([aria-expanded="true"]) {
 		.collapse-control-indicator {
 			&.fa-minus {
@@ -44,11 +47,21 @@
 	flex: 1 1 auto;
 	display: flex;
 	align-items: center;
+	font-size: 1em;
 }
 
 .accordion-content {
 	padding: 3rem;
 	> :last-child {
 		margin-bottom: 0;
+	}
+}
+.collapse-control-icon {
+	svg {
+		fill: currentColor;
+		width: auto;
+		height: auto;
+		max-width: 1em;
+		max-height: 1em;
 	}
 }

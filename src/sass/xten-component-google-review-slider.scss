@@ -114,6 +114,10 @@
 	width: auto;
 	display: inline-block;
 	text-align: left;
+	> * {
+		display: flex;
+		align-items: center;
+	}
 }
 .wp-google-rating,
 .rplg-biz-rating {
@@ -124,7 +128,16 @@
 	margin-top: 1.5em;
 	text-decoration: none;
 }
-
+.wp-google-stars {
+  margin-left: 0.25em;
+	.wp-star > svg {
+		width: 1.7em;
+		height: auto;
+	}
+}
+.wp-google-powered {
+  width: 8.602em;
+}
 
 .rplg {
 	.rplg-row {

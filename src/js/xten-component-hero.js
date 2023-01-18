@@ -50,10 +50,16 @@
 					$component.css({
 						'height': ''
 					}).removeClass('heroSized');
+					// console.log('remove heroSized');
+					// console.log('tallestInnerHeight',tallestInnerHeight);
+					// console.log('calculatedHeight',calculatedHeight);
 				} else {
 					$component.css({
 						'height': calculatedHeight + 'px'
 					}).addClass('heroSized');
+					// console.log('add heroSized');
+					// console.log('tallestInnerHeight',tallestInnerHeight);
+					// console.log('calculatedHeight',calculatedHeight);
 				}
 
 				finishWork(this);
@@ -205,6 +211,12 @@
 				}
 			});
 		}
+		function dispatchResize() {
+			// console.log('resize');
+			var resizeEvent = window.document.createEvent('UIEvents');
+			resizeEvent.initUIEvent('resize', true, false, window, 0);
+			window.dispatchEvent(resizeEvent);
+		}
 
 		function readyFuncs() {
 			sizeHero();
@@ -212,6 +224,7 @@
 			setLoadedIframeClass();
 			initSlick();
 			listenForEndOfVideo();
+			dispatchResize();
 		}
 		readyFuncs();
 		function resizeFuncs() {

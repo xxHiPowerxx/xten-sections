@@ -853,47 +853,50 @@ if ( ! function_exists( 'xten_slider_configuration' ) ) :
 		$s = array();
 
 		// General
-		$s['adaptive_height']     = get_field( 'adaptive_height', $post );
-		$s['variable_width']      = get_field( 'variable_width', $post );
+		$s['adaptive_height']     = (bool)get_field( 'adaptive_height', $post );
+		$s['variable_width']      = (bool)get_field( 'variable_width', $post );
 		$autoplay_group           = get_field( 'autoplay_group', $post );
-		$s['autoplay']            = $autoplay_group['autoplay'];
-		$s['autoplay_speed']      = $autoplay_group['autoplay_speed'];
-		$s['pause_on_focus']      = $autoplay_group['pause_on_focus'];
-		$s['pause_on_hover']      = $autoplay_group['pause_on_hover'];
-		$s['pause_on_dots_hover'] = $autoplay_group['pause_on_dots_hover'];
+		$s['autoplay']            = (bool)$autoplay_group['autoplay'];
+		$s['autoplay_speed']      = (int)$autoplay_group['autoplay_speed'];
+		$s['pause_on_focus']      = (bool)$autoplay_group['pause_on_focus'];
+		$s['pause_on_hover']      = (bool)$autoplay_group['pause_on_hover'];
+		$s['pause_on_dots_hover'] = (bool)$autoplay_group['pause_on_dots_hover'];
 		$s['css_ease']            = get_field( 'css_ease', $post );
-		$s['speed']               = get_field( 'speed', $post );
+		$s['speed']               = (int)get_field( 'speed', $post );
 		$s['as_nav_for']          = get_field( 'as_nav_for', $post );
 		$center_mode_group        = get_field( 'center_mode_group', $post );
-		$s['center_mode']         = $center_mode_group['center_mode'];
+		$s['center_mode']         = (bool)$center_mode_group['center_mode'];
+		// TODO: Remove center_padding_unit and move center_padding out of center_padding_group
+		// Then handle orphaned meta data and previous options.
+		// Note: the ' ' in  $center_padding_group[' center_padding_unit'] is causing the string not to concat as expected.
 		$center_padding_group     = $center_mode_group['center_padding_group'];
 		$s['center_padding']      = $center_padding_group['center_padding'] .
 			$center_padding_group[' center_padding_unit'];
-		$s['draggable']           = get_field( 'draggable', $post );
-		$s['swipe']               = get_field( 'swipe', $post );
-		$s['swipe_to_slide']      = get_field( 'swipe_to_slide', $post );
-		$s['vertical']            = get_field( 'vertical', $post );
-		$s['rtl']                 = get_field( 'rtl', $post );
-		$s['wait_for_animate']    = get_field( 'wait_for_animate', $post );
+		$s['draggable']           = (bool)get_field( 'draggable', $post );
+		$s['swipe']               = (bool)get_field( 'swipe', $post );
+		$s['swipe_to_slide']      = (bool)get_field( 'swipe_to_slide', $post );
+		$s['vertical']            = (bool)get_field( 'vertical', $post );
+		$s['rtl']                 = (bool)get_field( 'rtl', $post );
+		$s['wait_for_animate']    = (bool)get_field( 'wait_for_animate', $post );
 		// /General
 
 		// Nav
-		$s['arrows']              = get_field( 'arrows', $post );
-		$s['dots']                = get_field( 'dots', $post );
+		$s['arrows']              = (bool)get_field( 'arrows', $post );
+		$s['dots']                = (bool)get_field( 'dots', $post );
 		// /Nav
 
 		// Slides
-		$s['fade']                = get_field( 'fade', $post );
-		$s['focus_on_select']     = get_field( 'focus_on_select', $post );
-		$s['infinite']            = get_field( 'infinite', $post );
-		$s['initial_slide']       = get_field( 'initial_slide', $post );
-		$s['slides_to_scroll']    = get_field( 'slides_to_scroll', $post );
-		$s['slides_to_show']      = get_field( 'slides_to_show', $post ) ? : $d;
+		$s['fade']                = (bool)get_field( 'fade', $post );
+		$s['focus_on_select']     = (bool)get_field( 'focus_on_select', $post );
+		$s['infinite']            = (bool)get_field( 'infinite', $post );
+		$s['initial_slide']       = (int)get_field( 'initial_slide', $post );
+		$s['slides_to_scroll']    = (int)get_field( 'slides_to_scroll', $post );
+		$s['slides_to_show']      = (int)get_field( 'slides_to_show', $post ) ? : $d;
 		// /Slides
 
 		// Grid
-		$s['rows']                = get_field( 'rows', $post );
-		$s['slides_per_row']      = get_field( 'slides_per_row', $post );
+		$s['rows']                = (int)get_field( 'rows', $post );
+		$s['slides_per_row']      = (int)get_field( 'slides_per_row', $post );
 		// /Grid
 
 		// Responsive

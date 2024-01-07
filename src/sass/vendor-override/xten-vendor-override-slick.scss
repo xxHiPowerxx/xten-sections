@@ -15,22 +15,57 @@ $arrow-width: 10%;
 		}
 	}
 	&.arrows-primary {
-		background-color: $primary;
+		& .slick-arrow,
+		&.circle-arrows .slick-arrow:before {
+			background-color: $primary;
+		}
 	}
 	&.arrows-primary-light {
-		background-color: $primary-dark;
+		& .slick-arrow,
+		&.circle-arrows .slick-arrow:before {
+			background-color: $primary-dark;
+		}
 	}
 	&.arrows-primary-dark {
-		background-color: $primary-dark;
+		& .slick-arrow,
+		&.circle-arrows .slick-arrow:before {
+			background-color: $primary-dark;
+		}
 	}
 	&.arrows-secondary {
-		background-color: $secondary;
+		& .slick-arrow,
+		&.circle-arrows .slick-arrow:before {
+			background-color: $secondary;
+		}
 	}
 	&.arrows-secondary-light {
-		background-color: $secondary-light;
+		& .slick-arrow,
+		&.circle-arrows .slick-arrow:before {
+			background-color: $secondary-light;
+		}
 	}
 	&.arrows-secondary-dark {
-		background-color: $secondary-dark;
+		& .slick-arrow,
+		&.circle-arrows .slick-arrow:before {
+			background-color: $secondary-dark;
+		}
+	}
+	&.circle-arrows {
+		.slick-arrow {
+			background: transparent;
+			&:before {
+				background-color: $off-white;
+				color: $dark;
+				border-radius: 50%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 1.5em;
+				height: 1.5em;
+				margin: auto;
+				box-shadow: 0 .025em .1em rgba($black, 1);
+			}
+		}
 	}
 	&.arrows-dark {
 		.slick-arrow {
@@ -46,6 +81,7 @@ $arrow-width: 10%;
 			}
 		}
 	}
+	// when background-color is defined, no need for gradient.
 	&[class*="arrows-primary"],
 	&[class*="arrows-secondary"] {
 		.slick-arrow {

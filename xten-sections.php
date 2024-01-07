@@ -50,7 +50,7 @@ function xten_section_assets() {
 	$slick_version = '1.8.0';
 	$handle = 'xten-vendor-slick-js';
 	if ( ! wp_script_is( $handle, 'registered' ) ) {
-		wp_register_script( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/slick/slick.min.js', array( 'jquery' ), $slick_version, true );
+		wp_register_script( $handle, $GLOBALS['xten-sections-uri'] . 'vendor/slick/slick.min.js', array( 'jquery', 'xten-slick-js' ), $slick_version, true );
 	}
 	// Slick CSS
 	$handle = 'xten-vendor-slick-css';
@@ -105,6 +105,18 @@ function xten_section_assets() {
 	// /Vendor
 
 	// Shared
+
+	// This shared file is a bit differnt from the others.
+	// It is the depency for the vendor file rather than vice-versa.
+	$handle = 'xten-slick-js';
+	$file_path = 'assets/js/shared/xten-slick.js';
+	wp_register_script(
+		$handle,
+		$GLOBALS['xten-sections-uri'] . $file_path,
+		array( 'jquery' ),
+		xten_filemtime( $GLOBALS['xten-sections-dir'] . $file_path ),
+		true
+	);
 
 	$handle = 'xten-fancybox-js';
 	$file_path = 'assets/js/shared/xten-fancybox.js';

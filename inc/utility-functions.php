@@ -349,7 +349,11 @@ endif; // endif ( ! function_exists( 'xten_get_post_meta_description' ) ) :
 if ( ! function_exists( 'xten_get_icon' ) ) :
 	function xten_get_icon( $section_name ) {
 		$placeholder_icon = $GLOBALS['xten-section-icon']['xten-sections'];
-		return $GLOBALS['xten-section-icon'][$section_name] ?: $placeholder_icon;
+		if ( isset( $GLOBALS['xten-section-icon'][$section_name] ) ) :
+			return $GLOBALS['xten-section-icon'][$section_name] ?: $placeholder_icon;
+		else:
+			return '';
+		endif;
 	}
 endif; // endif ( ! function_exists( 'xten_get_icon' ) ) :
 
@@ -642,6 +646,13 @@ if ( ! function_exists( 'xten_get_icon_fc' ) ) :
 
 		if ( $row_layout === 'svg' ) :
 			$icon = xten_kses_post( get_sub_field( 'svg' ) );
+			// Legacy - if no svg, attempt to get svg_path.
+			if ( ! $icon && $svg_path = get_sub_field( 'svg_path' ) ) :
+				$whole_path = get_stylesheet_directory() . $svg_path;
+				if ( file_exists( $whole_path ) ) :
+					$icon = file_get_contents( $whole_path );
+				endif;
+			endif;
 		endif; // endif ( $row_layout === 'svg' ) :
 
 		if ( $row_layout === 'bitmap' ) :
@@ -880,7 +891,8 @@ if ( ! function_exists( 'xten_slider_configuration' ) ) :
 		$s['infinite']            = get_field( 'infinite', $post );
 		$s['initial_slide']       = get_field( 'initial_slide', $post );
 		$s['slides_to_scroll']    = get_field( 'slides_to_scroll', $post );
-		$s['slides_to_show']      = get_field( 'slides_to_show', $post ) ? : $d;
+		// $s['slides_to_show']      = get_field( 'slides_to_show', $post ) ? : $d;
+		$s['slides_to_show']      = (int)get_field( 'slides_to_show', $post ) ? : $d;
 		// /Slides
 
 		// Grid

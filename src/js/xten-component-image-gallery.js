@@ -34,6 +34,12 @@
 		}
 		function slideSlickOnFancyClick() {
 			$document.on('afterLoad.fb', function(e, instance) {
+				console.log('e', e);
+				console.log('instance', instance);
+				// Bail early if no $trigger element is defined
+				if ( instance.$trigger === undefined ) {
+					return false;
+				}
 				var $mainSlider = instance.$trigger.closest('.main-slider'),
 					currIndex = instance.currIndex;
 				if ( $mainSlider.slick('slickCurrentSlide') !== currIndex ) {
@@ -43,6 +49,10 @@
 		}
 		function pauseSlickAutoPlayOnFancy() {
 			$document.on('afterClose.fb', function(e,instance){
+				// Bail early if no trigger is defined
+				if ( instance.$trigger === undefined ) {
+					return false;
+				}
 				var $mainSlider = instance.$trigger.closest('.main-slider'),
 					autoPlay = $mainSlider.slick('slickGetOption', 'autoplay');
 				if ( ! autoPlay ) {

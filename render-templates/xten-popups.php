@@ -19,19 +19,21 @@ function xten_popups() {
 		if ( $row_layout == 'simplified_popup' ) :
 			$popup_title      = esc_attr( get_sub_field( 'popup_title' ) );
 			$popup_sub_title  = esc_attr( get_sub_field( 'popup_sub_title' ) );
-			$popup_content    = xten_kses_post( get_sub_field( 'popup_content' ) );
+			$popup_content    = xten_kses_post( get_sub_field( 'popup_content', false ) );
 			ob_start();
 			?>
 			<div class="modal-content">
 				<div class="modal-header">
-					<div class="modal-title-wrapper">
-						<?php if ( $popup_title ) : ?>
-							<h2 class="modal-title"><?php echo $popup_title; ?></h5>
-						<?php endif; ?>
-						<?php if ( $popup_sub_title ) : ?>
-							<h3 class="modal-sub-title"><?php echo $popup_sub_title; ?></h3>
-						<?php endif; ?>
-					</div>
+					<?php if ( $popup_title || $popup_sub_title ) : ?>
+						<div class="modal-title-wrapper">
+							<?php if ( $popup_title ) : ?>
+								<h2 class="modal-title"><?php echo $popup_title; ?></h5>
+							<?php endif; ?>
+							<?php if ( $popup_sub_title ) : ?>
+								<h3 class="modal-sub-title"><?php echo $popup_sub_title; ?></h3>
+							<?php endif; ?>
+						</div>
+					<?php endif; // endif ( $popup_title || $popup_sub_title ) : ?>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

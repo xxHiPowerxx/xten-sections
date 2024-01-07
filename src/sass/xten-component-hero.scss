@@ -152,7 +152,7 @@
 	/*   /Slide Method   */
 	/*   Slider Navigation   */
 	.slick-arrow {
-		max-width: 3rem;
+		max-width: 3em;
 		@media (min-width: $vp_xs) {
 			max-width: calc( (100% - (540 - 30)px ) / 2 );
 		}
@@ -172,13 +172,6 @@
 			max-width: calc( (100% - 174.8rem + 30px) / 2 );
 		}
 	}
-	.slick-dots {
-		width: auto;
-		left: 50%;
-		transform: translateX(-50%);
-		bottom: 0;
-		margin-bottom: 3rem;
-	}
 	&.slick-dotted {
 		&.slick-slider {
 			margin-bottom: 0;
@@ -186,11 +179,19 @@
 	}
 	&.sizeHero {
 		&:not(.heroSized) {
-			.slick-dots {
-				bottom: initial;
-				margin-bottom: 0;
+			&.dots-outside {
+				&.slick-dotted {
+					margin-top: #{$slick-dots-font-size*2};
+					margin-bottom: 0;
+				}
+				> .slick-dots {
+					top: auto;
+					bottom: 100%;
+				}
+			}
+			> .slick-dots {
+				bottom: auto;
 				top: 0;
-				margin-top: 3rem;
 			}
 		}
 	}

@@ -5,12 +5,13 @@
 		margin-top: 9vh;
 		margin-bottom: 9vh;
 	}
-	.modal-header,
+	.modal-title-wrapper,
 	.modal-body,
 	.modal-footer {
 		padding: 1.5rem 3rem;
 	}
 	.modal-header {
+		padding: 0;
 		text-align: center;
 		.close {
 			padding: 1rem;
@@ -27,4 +28,7 @@
 .modal-title-wrapper,
 .modal-title {
 	flex: 1;
+}
+.modal-sub-title {
+	margin-bottom: 0;
 }

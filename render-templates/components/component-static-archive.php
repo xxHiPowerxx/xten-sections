@@ -21,8 +21,19 @@ function component_static_archive( $args = null ) {
 				global $post;
 				$original_post = $post;
 				foreach( $args['objects'] as $object ) :
-					$post = $object;
-					get_template_part( 'template-parts/content-archive', get_post_type(), $args );
+					// Get the template part file name
+					$template_part_name = 'template-parts/content-archive-' . get_post_type();
+
+					// Check if the specific template part exists
+					$template_part = locate_template( [$template_part_name . '.php'] );
+
+					// If the template part exists, include it; otherwise, include the default
+					if ( $template_part !== '' ) :
+							get_template_part( $template_part_name, get_post_type(), $args );
+					else :
+						// Causing an infinite loop!
+							get_template_part( 'template-parts/content-archive', 'post', $args );
+					endif;
 				endforeach; // endforeach( $args['objects'] as $object ) :
 				$post = $original_post;
 				?>

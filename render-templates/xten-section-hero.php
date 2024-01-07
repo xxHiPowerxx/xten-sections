@@ -16,32 +16,38 @@ if ( $minimum_height ) :
 	$valid_min_height = $args['minimum_height_group']['minimum_height_unit']; // DV = '%'
 endif;
 
-$args['slides'] = get_field( 'slides_repeater' );
+$args['slides'] = array();
+
 $valid_bgs      = array();
 $valid_contents = array();
-foreach( $args['slides'] as $key => $slide ) :
+while( have_rows('slides_repeater' ) ) :
+	$slide = the_row( true );
 	// Only validate bg if there is a min-height set.
 	if ( $valid_min_height ) :
 		$valid_bg = array();
 		// Check for background images.
-		if ( $slide['background_image_group']['background_image'] ) :
-			$valid_image = $slide['background_image_group']['background_image'];
-			$valid_bg[]  = $valid_image;
-			$valid_bgs[] = $valid_image;
+		$background_image_group = get_sub_field( 'background_image_group' );
+		$background_image       = $background_image_group['background_image'];
+		if ( $background_image ) :
+			$valid_bg[]  = $background_image;
+			$valid_bgs[] = $background_image;
 		endif;
 
-		// Check for background videos.
-		if ( ! empty( $slide['background_video_fc'] ) ) :
-			$valid_video = $slide['background_video_fc'][0];
-			$valid_bg[]  = $valid_video;
-			$valid_bgs[] = $valid_video;
+		$background_video_fc = null;
+		// Check for background video.
+		if ( have_rows( 'background_video_fc' ) ) :
+			while ( have_rows( 'background_video_fc' ) ) :
+				$background_video_fc = the_row( true );
+				$valid_bg[]  = $background_video_fc;
+				$valid_bgs[] = $background_video_fc;
+			endwhile;
 		endif;
 	endif; // endif ( $valid_min_height ) :
 
 	// Check for content.
-	if ( $slide['content'] ) :
-		$valid_content    = $slide['content'];
-		$valid_contents[] = $valid_content;
+	$content = get_sub_field( 'content', false );
+	if ( $content ) :
+		$valid_contents[] = $content;
 	endif;
 
 	// For Efficiency's sake, Check Validation for this Slide,
@@ -57,21 +63,26 @@ foreach( $args['slides'] as $key => $slide ) :
 		continue;
 	endif;
 
-	$args['slides'][$key]['background_color']         = $slide['background_color'];
-	$args['slides'][$key]['background_image_group']   = $slide['background_image_group'];
-	$args['slides'][$key]['background_video_fc']      = $slide['background_video_fc'];
-	$args['slides'][$key]['background_overlay_group'] = $slide['background_overlay_group'];
-	$args['slides'][$key]['content']                  = $slide['content'];
-	if ( $args['slides'][$key]['content'] ) :
-		$args['slides'][$key]['content_color']               = $slide['content_color'];
-		$args['slides'][$key]['component_container']         = $slide['component_container']; // DV] true (Fixed Width).
-		$args['slides'][$key]['content_minimum_width_group'] = $slide['content_minimum_width_group'];
-		$args['slides'][$key]['content_maximum_width_group'] = $slide['content_maximum_width_group'];
-		$args['slides'][$key]['content_background_group']    = $slide['content_background_group'];
-		$args['slides'][$key]['content_location_group']      = $slide['content_location_group'];
+	$slide['background_color']         = get_sub_field( 'background_color' );
+	$slide['background_image_group']   = $background_image_group;
+	$slide['background_video_fc']      = $background_video_fc;
+	$slide['background_overlay_group'] = get_sub_field( 'background_overlay_group' );
+	$slide['content']                  = $content;
+
+	if ( $content ) :
+		$slide['content_color']               = get_sub_field( 'content_color' );
+		$slide['component_container']         = get_sub_field( 'component_container' ); // DV true [Fixed Width].
+		$slide['content_minimum_width_group'] = get_sub_field( 'content_minimum_width_group' );
+		$slide['content_maximum_width_group'] = get_sub_field( 'content_maximum_width_group' );
+		$slide['content_background_group']    = get_sub_field( 'content_background_group' );
+		$slide['content_location_group']      = get_sub_field( 'content_location_group' );
 	endif;
 
-endforeach; // endforeach( $args['slides'] as $key => $slide ) :
+	$key = get_row_index() - 1;
+	$args['slides'][$key] = $slide;
+
+endwhile; // endwhile( have_rows('slides_repeater' ) ) :
+
 
 $validations = array(
 	count( $valid_bgs ) > 0,

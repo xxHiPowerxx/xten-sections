@@ -1,17 +1,36 @@
 @import '../import/_variables';
 
-$arrow-width: 10%;
 .slick-slider {
 	&.arrows-outside {
 		.slick-list {
-			margin-left: $arrow-width;
-			margin-right: $arrow-width;
+			margin-left: $slick-arrow-width;
+			margin-right: $slick-arrow-width;
 		}
 	}
+	// This places dots outside but makes them static.
 	&.static-dots {
-		.slick-dots {
+		> .slick-dots {
 			position: static;
 			width: 100%;
+		}
+	}
+	&:not(.static-dots) {
+		> .slick-dots {
+			width: auto;
+			left: 50%;
+			transform: translateX(-50%);
+			bottom: 0;
+		}
+	}
+	// Sometimes Dots need to be outside but remain absolute.
+	// When the slider needs to have a box-shadow.
+	&.dots-outside {
+		&.slick-dotted {
+			margin-bottom: #{$slick-dots-font-size*2};
+		}
+		> .slick-dots {
+			top: 100%;
+			bottom: auto;
 		}
 	}
 	&.arrows-primary {
@@ -36,6 +55,7 @@ $arrow-width: 10%;
 		.slick-arrow {
 			&:before {
 				color: $dark;
+				backdrop-filter: blur(.01em) contrast(200%);
 			}
 		}
 	}
@@ -93,11 +113,11 @@ $arrow-width: 10%;
 }
 
 .slick-arrow {
-	font-size: 3rem;
+	font-size: 3em;
   height: 100%;
-  width: $arrow-width;
+  width: $slick-arrow-width;
 	@media( min-width: $vp_sm ) {
-		min-width: 2rem;
+		min-width: 2em;
 	}
 	z-index: 1;
 	opacity: .75;
@@ -116,17 +136,15 @@ $arrow-width: 10%;
 }
 
 .slick-dots {
-	font-size: 2rem;
+	font-size: $slick-dots-font-size;
 	display: flex;
 	justify-content: center;
 	li {
 		height: auto;
 		width: auto;
-		box-shadow: 0 .05em .075em rgba($black, .5);
-		border-radius: 50%;
-		margin-left: .5em;
-		margin-right: .5em;
+		margin: 0;
 		flex: 0 1 1.5em;
+		padding: .5em;
 		@media (min-width: $vp_xs) {
 			flex-basis: auto;
 		}
@@ -135,23 +153,22 @@ $arrow-width: 10%;
 				opacity: .75;
 			}
 		}
-		button {
-			background-color: $black;
-			border-radius: 50%;
-			padding: 0;
-			height: auto;
-			margin: auto;
-			font-size: inherit;
-			opacity: .25;
-			@include smoothest-transition;
-			width: 100%;
-			@media (min-width: $vp_xs) {
-				width: 1em;
-				font-size: inherit;
-			}
-			#{$active} {
+		#{$active} {
+			button {
 				opacity: 1;
 			}
+		}
+		button {
+			font-size: inherit;
+			width: 1em;
+			height: 1em;
+			background-color: $black;
+			box-shadow: 0 .05em .075em rgba($black, .5);
+			border-radius: 50%;
+			padding: 0;
+			margin: auto;
+			opacity: .25;
+			@include smoothest-transition;
 			&:before {
 				content: '';
 				position: relative;

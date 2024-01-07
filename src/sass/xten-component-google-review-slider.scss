@@ -2,6 +2,11 @@
 
 /*   .component-google-review-slider   */
 .component-google-review-slider {
+	@media( min-width: $vp_lg ) {
+		max-width: 100em;
+	}
+	margin-left: auto;
+	margin-right: auto;
 	.wp-google-list,
 	[class*="rplg-list"] {
 		text-align: center;
@@ -16,11 +21,6 @@
 	.wp-google-reviews,
 	.rplg-reviews {
 		max-width: 100%;
-		@media( min-width: $vp_lg ) {
-			max-width: 50em;
-		}
-		margin-left: auto;
-		margin-right: auto;
 		background-color: $white;
 		margin-top: 1.5em;
 		&.slick-dotted {
@@ -69,7 +69,7 @@
 	}
 	.slick-dots {
 		position: static;
-		margin-top: 1.5em;
+		margin-top: 1em;
 	}
 	.slick-list {
 		margin: 1.5em calc(10% + 1.5em);
@@ -89,7 +89,10 @@
 }
 .wp-google-place .wp-google-name,
 .rplg-businesses .rplg-biz-name {
-	font-size: 1.5em;
+	font-size: 1.25em;
+	@media (min-width: $vp_xs) {
+		font-size: 1.5em;
+	}
 	white-space: nowrap;
 }
 .wp-google-place .wp-google-left,
@@ -131,7 +134,7 @@
 .wp-google-stars {
   margin-left: 0.25em;
 	.wp-star > svg {
-		width: 1.7em;
+		width: 1.5em;
 		height: auto;
 	}
 }
@@ -151,13 +154,13 @@
 .rplg-biz-rating {
 	display: flex;
 	align-items: flex-end;
+	.rplg-stars {
+		margin-bottom: .05em;
+		margin-left: .25em;
+	}
 }
 .rplg-biz-score {
 	line-height: 1;
-}
-.rplg-stars {
-	margin-bottom: .05em;
-	margin-left: .25em;
 }
 .rplg-box-content {
 	margin-top: 0.5em;

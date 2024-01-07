@@ -39,13 +39,14 @@ function component_image_gallery( $args = null ) {
 		"cssEase":"cubic-bezier(0.22, 0.61, 0.36, 1)"
 	' );
 
-	$autoplay             = get_field( 'autoplay' );
-	$autoplay_speed       = get_field( 'autoplay_speed' );
+	$autoplay             = esc_attr( get_field( 'autoplay' ) );
+	$autoplay_speed       = esc_attr( get_field( 'autoplay_speed' ) );
+
 	$autoplay_prop        = $autoplay ?
-		'"autoplay":' . $autoplay . ',' :
+		'"autoplay":' . (bool)$autoplay . ',' :
 		 null;
 	$autoplay_speed_prop  = $autoplay_speed ?
-		'"autoplaySpeed":' . $autoplay_speed . ',' :
+		'"autoplaySpeed":' . (int)$autoplay_speed . ',' :
 		 null;
 	/*   Main Slider Config   */
 	$main_slider_slick_attrs_inner = rtrim( '
@@ -93,12 +94,25 @@ function component_image_gallery( $args = null ) {
 						<?php
 						$nav_images = array();
 						foreach ( $images as $key=>$image ) :
-							$full_image       = wp_get_attachment_image( $image['ID'], array(2560, null) );
-							$full_image_url   = $image['url'];
-							$nav_images[$key] = $full_image;
+							$full_image         = wp_get_attachment_image( $image['ID'], array(2560, null) );
+							$full_image_url     = esc_url( $image['url'] );
+							$image_title        = esc_attr( $image['title'] );
+							$image_caption      = xten_kses_post( $image['caption'] );
+							$full_image_w_title = preg_replace('/(<img\b[^><]*)>/i', "$1 title='$image_title'>", $full_image);
+							$nav_images[$key]   = $full_image_w_title;
+							$image_caption_attr = $image_caption ?
+								"data-caption=\"$image_caption\"" :
+								null;
 							?>
-							<a class="anchor-image-gallery-image" data-fancybox="<?php echo $fancybox_id ?>" data-loop="true" href="<?php echo $full_image_url; ?>" data-width="<?php echo $image['width']; ?>" data-height="<?php echo $image['height']; ?>">
+							<a class="anchor-image-gallery-image" data-fancybox="<?php echo $fancybox_id ?>" data-loop="true" href="<?php echo $full_image_url; ?>" data-width="<?php echo $image['width']; ?>" data-height="<?php echo $image['height']; ?>" <?php echo $image_caption_attr; ?>>
 								<?php echo $full_image; ?>
+								<?php if ( $image_caption ) : ?>
+									<div class="image-gallery-caption-wrapper">
+										<div class="image-gallery-caption">
+											<?php echo $image_caption ?>
+										</div>
+									</div>
+								<?php endif; ?>
 							</a>
 							<?php
 						endforeach;
